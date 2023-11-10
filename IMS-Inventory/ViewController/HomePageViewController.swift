@@ -19,7 +19,13 @@ class HomePageViewController: UIViewController {
 
     let pickerView: UIPickerView = UIPickerView()
 
-    var nameList: [String] = [ "Dawei", "朵朵", "祐紳", "勝淵", "柏勳" ]
+    var nameList: [String] = [
+        "Dawei",
+        "朵朵",
+        "祐紳",
+        "勝淵",
+        "柏勳"
+    ]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -137,6 +143,10 @@ class HomePageViewController: UIViewController {
     }
 
     @objc func goButtonTapped () {
+        let listVC = ListViewController()
+        listVC.modalPresentationStyle = .fullScreen
+        present(listVC, animated: true)
+
         print("goButtonTapped")
     }
 
