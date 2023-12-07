@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D3027AD52AFCB79B00A3BCE3 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3027AD42AFCB79B00A3BCE3 /* ListViewController.swift */; };
+		D3027AD52AFCB79B00A3BCE3 /* ProductListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3027AD42AFCB79B00A3BCE3 /* ProductListViewController.swift */; };
 		D38C9B802AFE7F6C00E05972 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38C9B7F2AFE7F6C00E05972 /* Data.swift */; };
 		D3E2B6822AFB7E9D00C932E7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E2B6812AFB7E9D00C932E7 /* AppDelegate.swift */; };
 		D3E2B6842AFB7E9D00C932E7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E2B6832AFB7E9D00C932E7 /* SceneDelegate.swift */; };
@@ -38,7 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		D3027AD42AFCB79B00A3BCE3 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
+		D3027AD42AFCB79B00A3BCE3 /* ProductListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListViewController.swift; sourceTree = "<group>"; };
 		D38C9B7F2AFE7F6C00E05972 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		D3E2B67E2AFB7E9D00C932E7 /* IMS-Inventory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "IMS-Inventory.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3E2B6812AFB7E9D00C932E7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -152,7 +152,7 @@
 			isa = PBXGroup;
 			children = (
 				D3E2B6B12AFB7F9B00C932E7 /* HomePageViewController.swift */,
-				D3027AD42AFCB79B00A3BCE3 /* ListViewController.swift */,
+				D3027AD42AFCB79B00A3BCE3 /* ProductListViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -291,7 +291,7 @@
 				D3E2B6B22AFB7F9B00C932E7 /* HomePageViewController.swift in Sources */,
 				D38C9B802AFE7F6C00E05972 /* Data.swift in Sources */,
 				D3E2B6822AFB7E9D00C932E7 /* AppDelegate.swift in Sources */,
-				D3027AD52AFCB79B00A3BCE3 /* ListViewController.swift in Sources */,
+				D3027AD52AFCB79B00A3BCE3 /* ProductListViewController.swift in Sources */,
 				D3E2B6842AFB7E9D00C932E7 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
