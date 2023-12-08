@@ -13,8 +13,14 @@ class HomePageViewController: UIViewController {
     let appTitleLabel:  UILabel = UILabel()
     let userTitleLabel: UILabel = UILabel()
 
-    let articleNumberStatusLabel: UILabel = UILabel()
-    let qtyStatusLabel: UILabel                 = UILabel()
+    // titleLabel
+    let articleNumberTitleLabel: UILabel = UILabel()
+    let qtyTitleLabel: UILabel           = UILabel()
+    let dateSelectTitleLabel: UILabel    = UILabel()
+
+    // For status
+    var articleNumberStatusLabel: UILabel = UILabel()
+    var qtyStatusLabel: UILabel                 = UILabel()
 
     // UIButton
     let goButton: UIButton = UIButton(type: .system)
@@ -28,6 +34,9 @@ class HomePageViewController: UIViewController {
 
     // UIPickerView
     let pickerView: UIPickerView = UIPickerView()
+
+    // DatePicker
+    let datePicker: UIDatePicker = UIDatePicker()
 
     // UISegmentedControl
     var segmentedControl: UISegmentedControl = UISegmentedControl()
@@ -43,6 +52,20 @@ class HomePageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        configureUI()
+
+        print("Into HomePageVC")
+
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+
+    // MARK: - Configure UI
+    func configureUI () {
+
         view.backgroundColor = .white
 
         // UILabel
@@ -51,6 +74,10 @@ class HomePageViewController: UIViewController {
 
         configureArticleNumberStautsLabel()
         configureqtyStatusLabel()
+
+        configureQtyTitleLabel()
+        configureArticleNumberTitleLabel()
+        configureDateSelectTitleLabel()
 
         // UIUSegmentedControl
         configureSegmentedControl()
@@ -63,18 +90,13 @@ class HomePageViewController: UIViewController {
         configureQtyTextField()
         configureArticleNameTextField()
 
+        // UIDatePicker
+        configureDatePicker()
+
+        // hideKeyboard
         hideKeyboard()
-
-        print("Into HomePageVC")
-
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-    // MARK: - COnfigure UITextField
+    // MARK: - Configure UITextField
 
     func configureArticleNameTextField () {
         // configure scannerButton
@@ -91,7 +113,7 @@ class HomePageViewController: UIViewController {
         articleNumberTextField.delegate = self
 
         // custom articleNumberTextField
-        articleNumberTextField.frame = CGRect(x: 64, y: 293, width: 140, height: 50)
+        articleNumberTextField.frame = CGRect(x: 64, y: 333, width: 140, height: 50)
         articleNumberTextField.placeholder =
         "請輸入貨號 Please fill the article Number"
         articleNumberTextField.adjustsFontSizeToFitWidth = true
@@ -112,7 +134,7 @@ class HomePageViewController: UIViewController {
         // textField delegate
         qtyTextField.delegate = self
 
-        qtyTextField.frame = CGRect(x: 224, y: 293, width: 140, height: 50)
+        qtyTextField.frame = CGRect(x: 224, y: 333, width: 140, height: 50)
         qtyTextField.placeholder = "請輸入數量"
         qtyTextField.keyboardType = .numberPad
         qtyTextField.font = UIFont.systemFont(ofSize: 15)
@@ -126,7 +148,6 @@ class HomePageViewController: UIViewController {
 //        qtyTextField.widthAnchor.constraint(equalToConstant: 300).isActive = true
 //        qtyTextField.heightAnchor.constraint(equalToConstant: 30).isActive = true
     }
-
 
 
     // MARK: - Configure UISegmented Control
@@ -151,7 +172,7 @@ class HomePageViewController: UIViewController {
         pickerViewTextField.delegate = self
 
         // pickerViewTextField
-        pickerViewTextField.frame = CGRect(x: 64, y: 446, width: 300, height: 50)
+        pickerViewTextField.frame = CGRect(x: 64, y: 470, width: 300, height: 50)
         pickerViewTextField.placeholder = "選填你的名字 Please fill your name"
         pickerViewTextField.font = UIFont.systemFont(ofSize: 15)
 
@@ -184,11 +205,50 @@ class HomePageViewController: UIViewController {
 //        appTitleLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
 
+    func configureQtyTitleLabel () {
+        qtyTitleLabel.frame = CGRect(x: 224, y: 303, width: 300, height: 20)
+        qtyTitleLabel.text = "填入數量:"
+        qtyTitleLabel.font = UIFont.boldSystemFont(ofSize: 15)
+        qtyTitleLabel.textAlignment = .left
+        qtyTitleLabel.textColor = UIColor.darkGray
+        qtyTitleLabel.numberOfLines = 0
+        qtyTitleLabel.adjustsFontSizeToFitWidth = true
+        view.addSubview(qtyTitleLabel)
+
+//        qtyTitleLabel.widthAnchor.constraint(equalToConstant: 300).isActive = true
+//        qtyTitleLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+    }
+
+    func configureArticleNumberTitleLabel () {
+        articleNumberTitleLabel.frame = CGRect(x: 65, y: 303, width: 300, height: 20)
+        articleNumberTitleLabel.text = "填入貨號:"
+        articleNumberTitleLabel.font = UIFont.boldSystemFont(ofSize: 15)
+        articleNumberTitleLabel.textAlignment = .left
+        articleNumberTitleLabel.textColor = UIColor.darkGray
+        articleNumberTitleLabel.numberOfLines = 0
+        articleNumberTitleLabel.adjustsFontSizeToFitWidth = true
+        view.addSubview(articleNumberTitleLabel)
+
+//        articleNumberTitleLabel.widthAnchor.constraint(equalToConstant: 300).isActive = true
+//        articleNumberTitleLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+    }
+
+    func configureDateSelectTitleLabel () {
+        dateSelectTitleLabel.frame = CGRect(x: 65, y: 545, width: 300, height: 20)
+        dateSelectTitleLabel.text = "填入借出日期:"
+        dateSelectTitleLabel.font = UIFont.boldSystemFont(ofSize: 15)
+        dateSelectTitleLabel.textAlignment = .left
+        dateSelectTitleLabel.textColor = UIColor.darkGray
+        dateSelectTitleLabel.numberOfLines = 0
+        dateSelectTitleLabel.adjustsFontSizeToFitWidth = true
+        view.addSubview(dateSelectTitleLabel)
+    }
+
     // userLabel
     func configureUserTitleLabel () {
-        userTitleLabel.frame = CGRect(x: 65, y: 405, width: 300, height: 30)
-        userTitleLabel.text = "填入姓名"
-        userTitleLabel.font = UIFont.boldSystemFont(ofSize: 18)
+        userTitleLabel.frame = CGRect(x: 65, y: 435, width: 300, height: 30)
+        userTitleLabel.text = "填入姓名:"
+        userTitleLabel.font = UIFont.boldSystemFont(ofSize: 15)
         userTitleLabel.textAlignment = .left
         userTitleLabel.textColor = .darkGray
         userTitleLabel.numberOfLines = 0
@@ -199,27 +259,12 @@ class HomePageViewController: UIViewController {
 //        userTitleLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
 
-    // qtyStatusLabel
-    func configureqtyStatusLabel () {
-        qtyStatusLabel.frame = CGRect(x: 65, y: 550, width: 300, height: 20)
-        qtyStatusLabel.text = ""
-        qtyStatusLabel.font = UIFont.boldSystemFont(ofSize: 12)
-        qtyStatusLabel.textAlignment = .left
-        qtyStatusLabel.textColor = UIColor.red
-        qtyStatusLabel.numberOfLines = 0
-        qtyStatusLabel.adjustsFontSizeToFitWidth = true
-        view.addSubview(qtyStatusLabel)
-
-//        qtyStatusLabel.widthAnchor.constraint(equalToConstant: 300).isActive = true
-//        qtyStatusLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
-    }
-
     func configureArticleNumberStautsLabel () {
-        articleNumberStatusLabel.frame = CGRect(x: 65, y: 500, width: 300, height: 20)
-        articleNumberStatusLabel.text = ""
+        articleNumberStatusLabel.frame = CGRect(x: 65, y: 388, width: 300, height: 20)
+        articleNumberStatusLabel.text = "貨號狀態"
         articleNumberStatusLabel.font = UIFont.boldSystemFont(ofSize: 12)
         articleNumberStatusLabel.textAlignment = .left
-        articleNumberStatusLabel.textColor = UIColor.red
+        articleNumberStatusLabel.textColor = UIColor.systemPink
         articleNumberStatusLabel.numberOfLines = 0
         articleNumberStatusLabel.adjustsFontSizeToFitWidth = true
         view.addSubview(articleNumberStatusLabel)
@@ -228,8 +273,22 @@ class HomePageViewController: UIViewController {
 //        articleNumberStatusLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
 
+    // qtyStatusLabel
+    func configureqtyStatusLabel () {
+        qtyStatusLabel.frame = CGRect(x: 224, y: 388, width: 300, height: 20)
+        qtyStatusLabel.text = "數量狀態"
+        qtyStatusLabel.font = UIFont.boldSystemFont(ofSize: 12)
+        qtyStatusLabel.textAlignment = .left
+        qtyStatusLabel.textColor = UIColor.systemPink
+        qtyStatusLabel.numberOfLines = 0
+        qtyStatusLabel.adjustsFontSizeToFitWidth = true
+        view.addSubview(qtyStatusLabel)
 
-    // MARK: - COnfigure UIButton
+//        qtyStatusLabel.widthAnchor.constraint(equalToConstant: 300).isActive = true
+//        qtyStatusLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+    }
+
+    // MARK: - Configure UIButton
     // goButton
     func configureGoButton () {
         let width:  Int = 300
@@ -238,7 +297,7 @@ class HomePageViewController: UIViewController {
         config.image = UIImage(systemName: "paperplane")
         config.background.imageContentMode = .center
         config.imagePlacement = .trailing
-        config.imagePadding = 5
+        config.imagePadding = 10
         config.title = "送出"
 
         goButton.tintColor = .white
@@ -294,11 +353,24 @@ class HomePageViewController: UIViewController {
         pickerViewTextField.inputAccessoryView = toolBar
     }
 
+    // MARK: - DatePicker
+
+    func configureDatePicker () {
+        datePicker.frame = CGRect(x: 64, y: 570, width: 250, height: 60)
+        datePicker.preferredDatePickerStyle = .compact
+        datePicker.datePickerMode = .dateAndTime
+        datePicker.locale = .current
+        datePicker.timeZone = .gmt
+        view.addSubview(datePicker)
+
+//        datePicker.widthAnchor.constraint(equalToConstant: 250).isActive = true
+//        datePicker.heightAnchor.constraint(equalToConstant: 50).isActive = true
+    }
 
     //MARK: - @objc functions.
 
     @objc func scannerButtonTapped () {
-        print("")
+        print("scannerButton tapped")
     }
 
     // UITextField
@@ -336,12 +408,15 @@ class HomePageViewController: UIViewController {
         switch segmentedControl.selectedSegmentIndex {
             case 0:
                 print("Case 0 - 借出")
+                dateSelectTitleLabel.text = "填入借出日期:"
 
             case 1:
                 print("Case 1 - 歸還")
+                dateSelectTitleLabel.text = "填入歸還日期:"
 
             case 2:
                 print("Case 2 - 其他")
+                dateSelectTitleLabel.text = "填入借出日期:"
 
             default:
                 break
