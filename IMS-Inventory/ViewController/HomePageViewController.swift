@@ -55,6 +55,9 @@ class HomePageViewController: UIViewController {
         "柏勳 Bosh"
     ]
 
+    var articleNumberArray: [String] = []
+
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -134,6 +137,7 @@ class HomePageViewController: UIViewController {
 
 //        articleNumberTextField.widthAnchor.constraint(equalToConstant: 300).isActive = true
 //        articleNumberTextField.heightAnchor.constraint(equalToConstant: 30).isActive = true
+//        checkArticleNumberCorrection ()
     }
 
     func configureQtyTextField () {
@@ -153,6 +157,7 @@ class HomePageViewController: UIViewController {
 
 //        qtyTextField.widthAnchor.constraint(equalToConstant: 300).isActive = true
 //        qtyTextField.heightAnchor.constraint(equalToConstant: 30).isActive = true
+
     }
 
 
@@ -267,12 +272,13 @@ class HomePageViewController: UIViewController {
 
     func configureArticleNumberStautsLabel () {
         articleNumberStatusLabel.frame = CGRect(x: 65, y: 388, width: 300, height: 20)
-        articleNumberStatusLabel.text = "貨號狀態"
+        articleNumberStatusLabel.text = "請輸入五位數字"
         articleNumberStatusLabel.font = UIFont.boldSystemFont(ofSize: 12)
         articleNumberStatusLabel.textAlignment = .left
         articleNumberStatusLabel.textColor = UIColor.systemPink
         articleNumberStatusLabel.numberOfLines = 0
         articleNumberStatusLabel.adjustsFontSizeToFitWidth = true
+        articleNumberStatusLabel.isHidden = true
         view.addSubview(articleNumberStatusLabel)
 
 //        articleNumberStatusLabel.widthAnchor.constraint(equalToConstant: 300).isActive = true
@@ -379,7 +385,6 @@ class HomePageViewController: UIViewController {
     }
 
     //MARK: - @objc functions.
-
     @objc func scannerButtonTapped () {
         print("scannerButton tapped")
 
@@ -451,10 +456,32 @@ class HomePageViewController: UIViewController {
         tap.addTarget(self, action: #selector(tapTheView))
         view.addGestureRecognizer(tap)
     }
+
+    func checkArticleNumberCorrection () {
+        let articleNumber = articleNumberTextField.text ?? ""
+        if articleNumber.count == 5 {
+            print("Correct numberCount enter")
+            articleNumberStatusLabel.isHidden = true
+            articleNumberTextField.backgroundColor   = UIColor.systemGray6
+            articleNumberTextField.textColor         = UIColor.darkGray
+            articleNumberTextField.layer.borderColor = .none
+            articleNumberTextField.layer.borderWidth = 0
+        } else {
+            print("Wrong numberCount enter, It needs adjust.")
+            articleNumberStatusLabel.isHidden = false
+            articleNumberStatusLabel.text = "請輸入五位數字"
+            articleNumberTextField.layer.borderColor  = UIColor.systemRed.cgColor
+            articleNumberTextField.layer.borderWidth  = 0.2
+            articleNumberTextField.layer.cornerRadius = 3
+            articleNumberTextField.backgroundColor    = UIColor(red: 252/255, green: 242/255, blue: 244/255, alpha: 1)
+            articleNumberTextField.textColor          = UIColor.systemRed
+        }
+        print("The articleNumber your entered is \(articleNumber)")
+    }
 }
 
 
-// MARK: - Add Protocol
+// MARK: - Extension for UITextField Delegate
 extension HomePageViewController: UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UIToolbarDelegate {
 
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -489,6 +516,7 @@ extension HomePageViewController: UITextFieldDelegate, UIPickerViewDelegate, UIP
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         print("textFieldShouldReturn")
+        checkArticleNumberCorrection()
         return true
     }
 }
