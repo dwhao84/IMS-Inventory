@@ -6,6 +6,9 @@
 //
 
 import UIKit
+import AVFoundation
+import Vision
+import VisionKit
 
 class HomePageViewController: UIViewController {
 
@@ -20,7 +23,7 @@ class HomePageViewController: UIViewController {
 
     // For status
     var articleNumberStatusLabel: UILabel = UILabel()
-    var qtyStatusLabel: UILabel                 = UILabel()
+    var qtyStatusLabel: UILabel           = UILabel()
 
     // UIButton
     let goButton: UIButton = UIButton(type: .system)
@@ -40,6 +43,9 @@ class HomePageViewController: UIViewController {
 
     // UISegmentedControl
     var segmentedControl: UISegmentedControl = UISegmentedControl()
+
+    // UIStackView
+    let stackView: UIStackView = UIStackView()
 
     var nameList: [String] = [
         "大緯 Dawei",
@@ -291,8 +297,8 @@ class HomePageViewController: UIViewController {
     // MARK: - Configure UIButton
     // goButton
     func configureGoButton () {
-        let width:  Int = 300
-        let height: Int = 50
+//        let width:  Int = 300
+//        let height: Int = 50
         var config = UIButton.Configuration.plain()
         config.image = UIImage(systemName: "paperplane")
         config.background.imageContentMode = .center
@@ -302,7 +308,7 @@ class HomePageViewController: UIViewController {
 
         goButton.tintColor = .white
         goButton.configuration = config
-        goButton.frame = CGRect(x: 64, y: 800, width: width, height: height)
+//        goButton.frame = CGRect(x: 64, y: 800, width: width, height: height)
         goButton.backgroundColor = .systemBlue
         goButton.isUserInteractionEnabled = true
         goButton.layer.cornerRadius = 10
@@ -311,8 +317,13 @@ class HomePageViewController: UIViewController {
 
         view.addSubview(goButton)
 
-//        goButton.widthAnchor.constraint(equalToConstant: CGFloat(width)).isActive = true
-//        goButton.heightAnchor.constraint(equalToConstant: CGFloat(height)).isActive = true
+        goButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            goButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -90),
+            goButton.centerXAnchor.constraint(equalTo: view.centerXAnchor), // Use centerXAnchor instead of centerYAnchor
+            goButton.widthAnchor.constraint(equalToConstant: 300), // Set a constant width directly
+            goButton.heightAnchor.constraint(equalToConstant: 50) // Set a constant height directly
+        ])
     }
 
 
@@ -371,6 +382,10 @@ class HomePageViewController: UIViewController {
 
     @objc func scannerButtonTapped () {
         print("scannerButton tapped")
+
+        let documentCameraViewController = VNDocumentCameraViewController()
+        documentCameraViewController.delegate = self
+        present(documentCameraViewController, animated: true)
     }
 
     // UITextField
@@ -436,8 +451,6 @@ class HomePageViewController: UIViewController {
         tap.addTarget(self, action: #selector(tapTheView))
         view.addGestureRecognizer(tap)
     }
-
-
 }
 
 
@@ -477,5 +490,33 @@ extension HomePageViewController: UITextFieldDelegate, UIPickerViewDelegate, UIP
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         print("textFieldShouldReturn")
         return true
+    }
+}
+
+// MARK: - Extension for QRCode scanner.
+extension HomePageViewController: VNDocumentCameraViewControllerDelegate {
+    func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFinishWith scan: VNDocumentCameraScan) {
+            let image = scan.imageOfPage(at: scan.pageCount - 1)
+            processImage(image: image)
+            dismiss(animated: true, completion: nil)
+    }
+
+    func processImage(image: UIImage) {
+            guard let cgImage = image.cgImage else {
+                print("Failed to get cgimage from input image")
+                return
+            }
+            let handler = VNImageRequestHandler(cgImage: cgImage)
+            let request = VNDetectBarcodesRequest { request, error in
+                if let observation = request.results?.first as? VNBarcodeObservation,
+                   observation.symbology == .qr {
+                    print(observation.payloadStringValue ?? "")
+                }
+            }
+            do {
+                try handler.perform([request])
+            } catch {
+                print(error)
+        }
     }
 }
