@@ -44,8 +44,17 @@ class HomePageViewController: UIViewController {
     // UISegmentedControl
     var segmentedControl: UISegmentedControl = UISegmentedControl()
 
-    // UIStackView
-    let stackView: UIStackView = UIStackView()
+    /// UIStackView
+    let overallStackView: UIStackView                    = UIStackView()
+    let appNameAndSegmentedControlStackView: UIStackView = UIStackView()
+
+    // nameTextField & userTitleLabel
+    let fillYourNameStackView:    UIStackView = UIStackView()
+
+    // datePickerLabel & datePicker
+    let datePickerStackView:      UIStackView = UIStackView()
+
+
 
     var nameList: [String] = [
         "大緯 Dawei",
@@ -55,14 +64,10 @@ class HomePageViewController: UIViewController {
         "柏勳 Bosh"
     ]
 
-    var articleNumberArray: [String] = []
-
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
         configureUI()
-
         print("Into HomePageVC")
 
     }
@@ -112,6 +117,7 @@ class HomePageViewController: UIViewController {
         let scannerButton: UIButton = UIButton(type: .system)
         var configuration = UIButton.Configuration.plain()
         configuration.image = UIImage(systemName: "qrcode")
+        configuration.baseForegroundColor = SystemColor.blueColor
         scannerButton.configuration = configuration
         scannerButton.addTarget(self, action: #selector(scannerButtonTapped), for: .touchUpInside)
 
@@ -150,7 +156,6 @@ class HomePageViewController: UIViewController {
         qtyTextField.font = UIFont.systemFont(ofSize: 15)
         qtyTextField.borderStyle = .roundedRect
         qtyTextField.backgroundColor = UIColor.systemGray6
-
         view.addSubview(qtyTextField)
 
         qtyTextField.addTarget(self, action: #selector(qtyTextFieldTapped), for: .touchUpInside)
@@ -296,6 +301,8 @@ class HomePageViewController: UIViewController {
         qtyStatusLabel.adjustsFontSizeToFitWidth = true
         view.addSubview(qtyStatusLabel)
 
+        qtyStatusLabel.isHidden = true
+
 //        qtyStatusLabel.widthAnchor.constraint(equalToConstant: 300).isActive = true
 //        qtyStatusLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
@@ -303,10 +310,8 @@ class HomePageViewController: UIViewController {
     // MARK: - Configure UIButton
     // goButton
     func configureGoButton () {
-//        let width:  Int = 300
-//        let height: Int = 50
         var config = UIButton.Configuration.plain()
-        config.image = UIImage(systemName: "paperplane")
+//        config.image = UIImage(systemName: "paperplane")
         config.background.imageContentMode = .center
         config.imagePlacement = .trailing
         config.imagePadding = 10
@@ -315,9 +320,9 @@ class HomePageViewController: UIViewController {
         goButton.tintColor = .white
         goButton.configuration = config
 //        goButton.frame = CGRect(x: 64, y: 800, width: width, height: height)
-        goButton.backgroundColor = .systemBlue
+        goButton.backgroundColor = SystemColor.blueColor
         goButton.isUserInteractionEnabled = true
-        goButton.layer.cornerRadius = 10
+        goButton.layer.cornerRadius = 25
         goButton.clipsToBounds = true
         goButton.addTarget(self, action: #selector(goButtonTapped), for: .touchUpInside)
 
@@ -325,7 +330,7 @@ class HomePageViewController: UIViewController {
 
         goButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            goButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -90),
+            goButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
             goButton.centerXAnchor.constraint(equalTo: view.centerXAnchor), // Use centerXAnchor instead of centerYAnchor
             goButton.widthAnchor.constraint(equalToConstant: 300), // Set a constant width directly
             goButton.heightAnchor.constraint(equalToConstant: 50) // Set a constant height directly
@@ -387,7 +392,6 @@ class HomePageViewController: UIViewController {
     //MARK: - @objc functions.
     @objc func scannerButtonTapped () {
         print("scannerButton tapped")
-
         let documentCameraViewController = VNDocumentCameraViewController()
         documentCameraViewController.delegate = self
         present(documentCameraViewController, animated: true)
@@ -478,6 +482,27 @@ class HomePageViewController: UIViewController {
         }
         print("The articleNumber your entered is \(articleNumber)")
     }
+
+    func checkQtyCorrection () {
+        qtyStatusLabel.isHidden = true
+        let qtyNumber = qtyTextField.text ?? ""
+        if qtyNumber.count > 0 && Int(qtyNumber) != 0 {
+            print("\(qtyNumber)")
+            qtyStatusLabel.isHidden = true
+            qtyTextField.backgroundColor   = UIColor.systemGray6
+            qtyTextField.textColor         = UIColor.darkGray
+            qtyTextField.layer.borderColor = .none
+            qtyTextField.layer.borderWidth = 0
+        } else {
+            qtyStatusLabel.isHidden = false
+            qtyStatusLabel.text = "請輸入數量"
+            qtyTextField.layer.borderColor  = UIColor.systemRed.cgColor
+            qtyTextField.layer.borderWidth  = 0.2
+            qtyTextField.layer.cornerRadius = 3
+            qtyTextField.backgroundColor    = UIColor(red: 252/255, green: 242/255, blue: 244/255, alpha: 1)
+            qtyTextField.textColor          = UIColor.systemRed
+        }
+    }
 }
 
 
@@ -517,6 +542,7 @@ extension HomePageViewController: UITextFieldDelegate, UIPickerViewDelegate, UIP
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         print("textFieldShouldReturn")
         checkArticleNumberCorrection()
+        checkQtyCorrection          ()
         return true
     }
 }

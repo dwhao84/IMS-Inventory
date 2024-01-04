@@ -14,10 +14,33 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
 
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        let homePageVC = HomePageViewController()
+
         self.window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         self.window?.windowScene = windowScene
-        self.window?.rootViewController = homePageVC
+
+        let tabBarController: UITabBarController = UITabBarController()
+        tabBarController.selectedIndex = 2
+        tabBarController.delegate = self
+
+        tabBarController.tabBar.tintColor = SystemColor.blueColor
+
+        let appearance = tabBarController.tabBarItem.scrollEdgeAppearance
+        tabBarController.tabBarItem.scrollEdgeAppearance = appearance
+
+        let productListVC:  UIViewController = ProductListViewController()
+        let shoppingListVC: UIViewController = ShoppingListViewController()
+        let homePageVC:     UIViewController = HomePageViewController()
+
+        homePageVC.tabBarItem = UITabBarItem(title: "首頁", image: UIImage(systemName: "house", withConfiguration: UIImage.SymbolConfiguration(weight: .medium)), tag: 2)
+
+        productListVC.tabBarItem = UITabBarItem(title: "品項庫存", image: UIImage(systemName: "list.bullet", withConfiguration: UIImage.SymbolConfiguration(weight: .medium)), tag: 0)
+
+        shoppingListVC.tabBarItem = UITabBarItem(title: "預約清單", image: UIImage(systemName: "bag.badge.plus", withConfiguration: UIImage.SymbolConfiguration(weight: .medium)), tag: 1)
+
+
+        tabBarController.setViewControllers([homePageVC, productListVC, shoppingListVC], animated: false)
+
+        window?.rootViewController = tabBarController
         self.window?.makeKeyAndVisible()
     }
 
@@ -52,3 +75,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 }
 
+extension SceneDelegate: UITabBarControllerDelegate {
+
+}

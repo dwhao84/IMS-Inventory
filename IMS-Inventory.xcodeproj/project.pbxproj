@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		D3027AD52AFCB79B00A3BCE3 /* ProductListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3027AD42AFCB79B00A3BCE3 /* ProductListViewController.swift */; };
+		D30C9DF72B4531FF00041F02 /* ShoppingListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30C9DF62B4531FF00041F02 /* ShoppingListViewController.swift */; };
+		D30C9E012B453D4200041F02 /* ProductListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30C9DFF2B453D4200041F02 /* ProductListTableViewCell.swift */; };
+		D30C9E022B453D4200041F02 /* ProductListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D30C9E002B453D4200041F02 /* ProductListTableViewCell.xib */; };
+		D30C9E062B453E3300041F02 /* ColorSelection+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30C9E052B453E3300041F02 /* ColorSelection+Ext.swift */; };
 		D38C9B802AFE7F6C00E05972 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38C9B7F2AFE7F6C00E05972 /* Data.swift */; };
 		D3E2B6822AFB7E9D00C932E7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E2B6812AFB7E9D00C932E7 /* AppDelegate.swift */; };
 		D3E2B6842AFB7E9D00C932E7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E2B6832AFB7E9D00C932E7 /* SceneDelegate.swift */; };
@@ -39,6 +43,10 @@
 
 /* Begin PBXFileReference section */
 		D3027AD42AFCB79B00A3BCE3 /* ProductListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListViewController.swift; sourceTree = "<group>"; };
+		D30C9DF62B4531FF00041F02 /* ShoppingListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListViewController.swift; sourceTree = "<group>"; };
+		D30C9DFF2B453D4200041F02 /* ProductListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListTableViewCell.swift; sourceTree = "<group>"; };
+		D30C9E002B453D4200041F02 /* ProductListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProductListTableViewCell.xib; sourceTree = "<group>"; };
+		D30C9E052B453E3300041F02 /* ColorSelection+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ColorSelection+Ext.swift"; sourceTree = "<group>"; };
 		D38C9B7F2AFE7F6C00E05972 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		D3E2B67E2AFB7E9D00C932E7 /* IMS-Inventory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "IMS-Inventory.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3E2B6812AFB7E9D00C932E7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -80,6 +88,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D30C9E032B453D4A00041F02 /* ProductListTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				D30C9DFF2B453D4200041F02 /* ProductListTableViewCell.swift */,
+				D30C9E002B453D4200041F02 /* ProductListTableViewCell.xib */,
+			);
+			path = ProductListTableViewCell;
+			sourceTree = "<group>";
+		};
+		D30C9E072B453E4400041F02 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				D30C9E052B453E3300041F02 /* ColorSelection+Ext.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		D38C9B812AFE7F7A00E05972 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -111,10 +136,13 @@
 		D3E2B6802AFB7E9D00C932E7 /* IMS-Inventory */ = {
 			isa = PBXGroup;
 			children = (
+				D3027AD42AFCB79B00A3BCE3 /* ProductListViewController.swift */,
+				D30C9E032B453D4A00041F02 /* ProductListTableViewCell */,
+				D3E2B68F2AFB7E9F00C932E7 /* Info.plist */,
+				D30C9E072B453E4400041F02 /* Extension */,
 				D38C9B812AFE7F7A00E05972 /* Model */,
 				D3E2B6B32AFB841F00C932E7 /* Supporting */,
 				D3E2B6B42AFB843600C932E7 /* ViewController */,
-				D3E2B68F2AFB7E9F00C932E7 /* Info.plist */,
 			);
 			path = "IMS-Inventory";
 			sourceTree = "<group>";
@@ -152,7 +180,7 @@
 			isa = PBXGroup;
 			children = (
 				D3E2B6B12AFB7F9B00C932E7 /* HomePageViewController.swift */,
-				D3027AD42AFCB79B00A3BCE3 /* ProductListViewController.swift */,
+				D30C9DF62B4531FF00041F02 /* ShoppingListViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -221,7 +249,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1430;
-				LastUpgradeCheck = 1430;
+				LastUpgradeCheck = 1510;
 				TargetAttributes = {
 					D3E2B67D2AFB7E9D00C932E7 = {
 						CreatedOnToolsVersion = 14.3.1;
@@ -262,6 +290,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D3E2B68E2AFB7E9F00C932E7 /* LaunchScreen.storyboard in Resources */,
+				D30C9E022B453D4200041F02 /* ProductListTableViewCell.xib in Resources */,
 				D3E2B68B2AFB7E9F00C932E7 /* Assets.xcassets in Resources */,
 				D3E2B6892AFB7E9D00C932E7 /* Main.storyboard in Resources */,
 			);
@@ -289,7 +318,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				D3E2B6B22AFB7F9B00C932E7 /* HomePageViewController.swift in Sources */,
+				D30C9E012B453D4200041F02 /* ProductListTableViewCell.swift in Sources */,
 				D38C9B802AFE7F6C00E05972 /* Data.swift in Sources */,
+				D30C9DF72B4531FF00041F02 /* ShoppingListViewController.swift in Sources */,
+				D30C9E062B453E3300041F02 /* ColorSelection+Ext.swift in Sources */,
 				D3E2B6822AFB7E9D00C932E7 /* AppDelegate.swift in Sources */,
 				D3027AD52AFCB79B00A3BCE3 /* ProductListViewController.swift in Sources */,
 				D3E2B6842AFB7E9D00C932E7 /* SceneDelegate.swift in Sources */,
@@ -352,6 +384,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -384,6 +417,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -398,7 +432,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -412,6 +446,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -444,6 +479,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -452,7 +488,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
