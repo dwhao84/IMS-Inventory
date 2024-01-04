@@ -208,9 +208,9 @@ class HomePageViewController: UIViewController {
 
     // appTitleLabel
     func configureAppTitleLabel () {
-        appTitleLabel.frame = CGRect(x: 64, y: 150, width: 300, height: 50)
+        appTitleLabel.frame = CGRect(x: 84, y: 150, width: 260, height: 60)
         appTitleLabel.text = "IMS Inventory"
-        appTitleLabel.font = UIFont.boldSystemFont(ofSize: 35)
+        appTitleLabel.font = UIFont(name: "Noto IKEA Traditional Chinese", size: 39)
         appTitleLabel.textColor = .darkGray
         appTitleLabel.numberOfLines = 0
         appTitleLabel.adjustsFontSizeToFitWidth = true

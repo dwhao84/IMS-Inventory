@@ -12,6 +12,13 @@
 		D30C9E012B453D4200041F02 /* ProductListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30C9DFF2B453D4200041F02 /* ProductListTableViewCell.swift */; };
 		D30C9E022B453D4200041F02 /* ProductListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D30C9E002B453D4200041F02 /* ProductListTableViewCell.xib */; };
 		D30C9E062B453E3300041F02 /* ColorSelection+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30C9E052B453E3300041F02 /* ColorSelection+Ext.swift */; };
+		D340863C2B4656C000F6C6E4 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = D34086392B4656BF00F6C6E4 /* LICENSE.txt */; };
+		D340863D2B4656C000F6C6E4 /* NotoIKEATraditionalChinese_Latin-Bold.woff2 in Resources */ = {isa = PBXBuildFile; fileRef = D340863A2B4656BF00F6C6E4 /* NotoIKEATraditionalChinese_Latin-Bold.woff2 */; };
+		D340863E2B4656C000F6C6E4 /* NotoIKEATraditionalChinese_Latin-Regular.woff2 in Resources */ = {isa = PBXBuildFile; fileRef = D340863B2B4656C000F6C6E4 /* NotoIKEATraditionalChinese_Latin-Regular.woff2 */; };
+		D34086422B4656CC00F6C6E4 /* NotoIKEATraditionalChinese_Latin-Bold.woff in Resources */ = {isa = PBXBuildFile; fileRef = D340863F2B4656CC00F6C6E4 /* NotoIKEATraditionalChinese_Latin-Bold.woff */; };
+		D34086442B4656CC00F6C6E4 /* NotoIKEATraditionalChinese_Latin-Regular.woff in Resources */ = {isa = PBXBuildFile; fileRef = D34086412B4656CC00F6C6E4 /* NotoIKEATraditionalChinese_Latin-Regular.woff */; };
+		D34086492B4656DF00F6C6E4 /* NotoIKEATraditionalChinese_Latin-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D34086462B4656DE00F6C6E4 /* NotoIKEATraditionalChinese_Latin-Bold.ttf */; };
+		D340864A2B4656DF00F6C6E4 /* NotoIKEATraditionalChinese_Latin-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D34086472B4656DF00F6C6E4 /* NotoIKEATraditionalChinese_Latin-Regular.ttf */; };
 		D38C9B802AFE7F6C00E05972 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38C9B7F2AFE7F6C00E05972 /* Data.swift */; };
 		D3E2B6822AFB7E9D00C932E7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E2B6812AFB7E9D00C932E7 /* AppDelegate.swift */; };
 		D3E2B6842AFB7E9D00C932E7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E2B6832AFB7E9D00C932E7 /* SceneDelegate.swift */; };
@@ -47,6 +54,13 @@
 		D30C9DFF2B453D4200041F02 /* ProductListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListTableViewCell.swift; sourceTree = "<group>"; };
 		D30C9E002B453D4200041F02 /* ProductListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProductListTableViewCell.xib; sourceTree = "<group>"; };
 		D30C9E052B453E3300041F02 /* ColorSelection+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ColorSelection+Ext.swift"; sourceTree = "<group>"; };
+		D34086392B4656BF00F6C6E4 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		D340863A2B4656BF00F6C6E4 /* NotoIKEATraditionalChinese_Latin-Bold.woff2 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoIKEATraditionalChinese_Latin-Bold.woff2"; sourceTree = "<group>"; };
+		D340863B2B4656C000F6C6E4 /* NotoIKEATraditionalChinese_Latin-Regular.woff2 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoIKEATraditionalChinese_Latin-Regular.woff2"; sourceTree = "<group>"; };
+		D340863F2B4656CC00F6C6E4 /* NotoIKEATraditionalChinese_Latin-Bold.woff */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoIKEATraditionalChinese_Latin-Bold.woff"; sourceTree = "<group>"; };
+		D34086412B4656CC00F6C6E4 /* NotoIKEATraditionalChinese_Latin-Regular.woff */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoIKEATraditionalChinese_Latin-Regular.woff"; sourceTree = "<group>"; };
+		D34086462B4656DE00F6C6E4 /* NotoIKEATraditionalChinese_Latin-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoIKEATraditionalChinese_Latin-Bold.ttf"; sourceTree = "<group>"; };
+		D34086472B4656DF00F6C6E4 /* NotoIKEATraditionalChinese_Latin-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoIKEATraditionalChinese_Latin-Regular.ttf"; sourceTree = "<group>"; };
 		D38C9B7F2AFE7F6C00E05972 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		D3E2B67E2AFB7E9D00C932E7 /* IMS-Inventory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "IMS-Inventory.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3E2B6812AFB7E9D00C932E7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -105,6 +119,20 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+		D34086382B46569100F6C6E4 /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				D34086392B4656BF00F6C6E4 /* LICENSE.txt */,
+				D34086462B4656DE00F6C6E4 /* NotoIKEATraditionalChinese_Latin-Bold.ttf */,
+				D34086472B4656DF00F6C6E4 /* NotoIKEATraditionalChinese_Latin-Regular.ttf */,
+				D340863A2B4656BF00F6C6E4 /* NotoIKEATraditionalChinese_Latin-Bold.woff2 */,
+				D340863B2B4656C000F6C6E4 /* NotoIKEATraditionalChinese_Latin-Regular.woff2 */,
+				D340863F2B4656CC00F6C6E4 /* NotoIKEATraditionalChinese_Latin-Bold.woff */,
+				D34086412B4656CC00F6C6E4 /* NotoIKEATraditionalChinese_Latin-Regular.woff */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
 		D38C9B812AFE7F7A00E05972 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -117,6 +145,7 @@
 			isa = PBXGroup;
 			children = (
 				D3E2B6802AFB7E9D00C932E7 /* IMS-Inventory */,
+				D34086382B46569100F6C6E4 /* Font */,
 				D3E2B6972AFB7E9F00C932E7 /* IMS-InventoryTests */,
 				D3E2B6A12AFB7E9F00C932E7 /* IMS-InventoryUITests */,
 				D3E2B67F2AFB7E9D00C932E7 /* Products */,
@@ -289,10 +318,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D340864A2B4656DF00F6C6E4 /* NotoIKEATraditionalChinese_Latin-Regular.ttf in Resources */,
+				D340863D2B4656C000F6C6E4 /* NotoIKEATraditionalChinese_Latin-Bold.woff2 in Resources */,
+				D34086492B4656DF00F6C6E4 /* NotoIKEATraditionalChinese_Latin-Bold.ttf in Resources */,
+				D34086442B4656CC00F6C6E4 /* NotoIKEATraditionalChinese_Latin-Regular.woff in Resources */,
 				D3E2B68E2AFB7E9F00C932E7 /* LaunchScreen.storyboard in Resources */,
 				D30C9E022B453D4200041F02 /* ProductListTableViewCell.xib in Resources */,
+				D34086422B4656CC00F6C6E4 /* NotoIKEATraditionalChinese_Latin-Bold.woff in Resources */,
 				D3E2B68B2AFB7E9F00C932E7 /* Assets.xcassets in Resources */,
+				D340863C2B4656C000F6C6E4 /* LICENSE.txt in Resources */,
 				D3E2B6892AFB7E9D00C932E7 /* Main.storyboard in Resources */,
+				D340863E2B4656C000F6C6E4 /* NotoIKEATraditionalChinese_Latin-Regular.woff2 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

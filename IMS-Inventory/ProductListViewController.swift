@@ -9,19 +9,15 @@ import UIKit
 
 class ProductListViewController: UIViewController {
 
-    let userTitleLabel: UILabel = UILabel()
-
-    let searchController = UISearchController()
-
-    let tableView : UITableView = UITableView()
-
-    var productListArray: [String] = []
+    let userTitleLabel: UILabel              = UILabel()
+    let searchController: UISearchController = UISearchController()
+    let tableView : UITableView              = UITableView()
+    var productListArray: [String]           = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = .white
-        configureUI()
         configureUI()
     }
 
