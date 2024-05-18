@@ -6,22 +6,31 @@
 //
 
 import UIKit
+import Kingfisher
 
 class ProductListViewController: UIViewController {
 
     let userTitleLabel: UILabel              = UILabel()
     let searchController: UISearchController = UISearchController()
-    let tableView : UITableView              = UITableView()
-    var productListArray: [String]           = []
 
+    let baseUrl: String = "https://api.airtable.com/v0/app7877pVxbaMubQP/Table%201"
+    
+    let collectionView :UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        layout.scrollDirection = .vertical
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.backgroundColor = .clear
+        return collectionView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = .white
-        configureUI()
+        setupUI()
+        
     }
-
-
 
     // Sent to the view controller when the app receives a memory warning.
     override func didReceiveMemoryWarning() {
@@ -31,20 +40,20 @@ class ProductListViewController: UIViewController {
     }
 
 
-    func configureUI () {
+    func setupUI () {
 
-//        let rowHeight: Int = 100
-
-        // tableView
-//        tableView.dataSource = self
-//        tableView.delegate = self
-////        tableView.frame = self.view.bounds
-//        self.tableView.rowHeight = CGFloat(rowHeight)
-//        self.view.addSubview(tableView)
-//        self.tableView.register(UITableView.self, forCellReuseIdentifier: "Cells")
-//
-//        configureSearchController()
-
+        addConstraints()
+    }
+    
+    func addConstraints () {
+        self.view.addSubview(collectionView)
+        
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
 
 //    func configureSearchController () {
@@ -113,3 +122,8 @@ class ProductListViewController: UIViewController {
 //    }
 //
 //}
+
+
+#Preview {
+    UINavigationController(rootViewController: ProductListViewController())
+}
