@@ -9,10 +9,10 @@ import UIKit
 import Kingfisher
 
 class ProductListViewController: UIViewController {
-
+    
     let userTitleLabel: UILabel              = UILabel()
     let searchController: UISearchController = UISearchController()
-
+    
     let baseUrl: String = "https://api.airtable.com/v0/app7877pVxbaMubQP/Table%201"
     
     let collectionView :UICollectionView = {
@@ -24,30 +24,65 @@ class ProductListViewController: UIViewController {
         return collectionView
     }()
     
+    var productData: [Product] = []
+    
+    enum NetworkError: Error {
+        case invaildURL
+        case requestFailed
+        case decodingError
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        view.backgroundColor = .white
-        setupUI()
         
+        view.backgroundColor = Colors.white
+        
+        Task {
+            await loadViews()
+        }
+        
+        setupUI()
+        addDelegateAndDataSource ()
     }
-
+    
     // Sent to the view controller when the app receives a memory warning.
     override func didReceiveMemoryWarning() {
-          super.didReceiveMemoryWarning()
-          // Dispose of any resources that can be recreated.
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
         print("didReceiveMemoryWarning")
     }
-
-
+    
+    func loadViews() async {
+        do {
+            let productsData = try await fetchImsData()
+            print(productsData)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    
+    
+    func addDelegateAndDataSource  () {
+        collectionView.delegate   = self
+        collectionView.dataSource = self
+        
+        collectionView.register(
+            ProductCollectionViewCell.self
+            ,
+            forCellWithReuseIdentifier: ProductCollectionViewCell.identifier
+        )
+    }
+    
+    
     func setupUI () {
-
+        
         addConstraints()
     }
     
     func addConstraints () {
         self.view.addSubview(collectionView)
-        
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -55,74 +90,49 @@ class ProductListViewController: UIViewController {
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-
-//    func configureSearchController () {
-//        // searchController
-//        searchController.searchResultsUpdater = self
-//        searchController.automaticallyShowsCancelButton = true
-//        searchController.searchBar.placeholder = "Search the article"
-//        searchController.isActive = true
-//
-//        navigationItem.searchController = searchController
-//        navigationItem.hidesSearchBarWhenScrolling = false
-//        definesPresentationContext = true
-//    }
-
-
-    func fetchData () {
-//        let productURL = " https://api.airtable.com/v0/app7877pVxbaMubQP/Table%201 \"
-
-
+    
+    
+    func fetchImsData () async throws -> [Product] {
+        guard let url = URL(string: baseUrl) else {
+            throw NetworkError.invaildURL
+        }
+        
+        do {
+            let (data, response) = try await URLSession.shared.data(from: url)
+            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                throw NetworkError.requestFailed
+            }
+            let decoder = JSONDecoder()
+            let productData = try decoder.decode([Product].self, from: data)
+            print(productData)
+            self.productData = productData
+            return productData
+            
+        } catch let decodingError as DecodingError {
+            print("Decoding error: \(decodingError)")
+            throw NetworkError.decodingError
+            
+        } catch {
+            print("Networking error: \(error)")
+            throw error
+        }
     }
-
-
 }
 
-//// tableView
-//extension ProductListViewController: UITableViewDelegate, UITableViewDataSource {
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return 1
-//    }
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-//        cell.textLabel?.text = "Row \(indexPath.row)"
-//        return cell
-//    }
-//
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        print("didSelectRowAt")
-//    }
-//
-//    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-//        print("shouldHighlightRowAt")
-//        return true
-//    }
-//
-//    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-//        let deleteAction = UIContextualAction(
-//            style: .destructive, title: "Delete") { (action, view, completionHandler) in
-//            // Perform your deletion logic here
-//
-//            // Call completion handler to dismiss the action button
-//            completionHandler(true)
-//        }
-//        // Optionally, you can customize the appearance of the deleteAction here
-//        // Return the configured UISwipeActionsConfiguration
-//        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
-//        return configuration
-//    }
-//}
-//
-//// UISearchBar
-//extension ProductListViewController: UISearchResultsUpdating {
-//
-//    func updateSearchResults(for searchController: UISearchController) {
-//
-//    }
-//
-//}
-
+extension ProductListViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductCollectionViewCell.identifier, for: indexPath) as! ProductCollectionViewCell
+        
+        return cell
+    }
+    
+    
+}
 
 #Preview {
     UINavigationController(rootViewController: ProductListViewController())
