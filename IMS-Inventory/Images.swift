@@ -5,4 +5,8 @@
 //  Created by Dawei Hao on 2024/5/19.
 //
 
-import Foundation
+import UIKit
+
+struct Images {
+    static let image = UIImage(systemName: "photo.fill")!
+}
