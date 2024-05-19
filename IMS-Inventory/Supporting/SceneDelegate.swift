@@ -19,29 +19,32 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window?.windowScene = windowScene
 
         let tabBarController: UITabBarController = UITabBarController()
-        tabBarController.selectedIndex = 2
-        tabBarController.delegate = self
-
-        tabBarController.tabBar.tintColor = SystemColor.blueColor
-
-        let appearance = tabBarController.tabBarItem.scrollEdgeAppearance
-        tabBarController.tabBarItem.scrollEdgeAppearance = appearance
-
-        let productListVC:  UIViewController = ProductListViewController()
-        let shoppingListVC: UIViewController = ShoppingListViewController()
-        let homePageVC:     UIViewController = HomePageViewController()
-
-        homePageVC.tabBarItem = UITabBarItem(title: "首頁", image: UIImage(systemName: "house", withConfiguration: UIImage.SymbolConfiguration(weight: .medium)), tag: 2)
-
-        productListVC.tabBarItem = UITabBarItem(title: "品項庫存", image: UIImage(systemName: "list.bullet", withConfiguration: UIImage.SymbolConfiguration(weight: .medium)), tag: 0)
-
-        shoppingListVC.tabBarItem = UITabBarItem(title: "預約清單", image: UIImage(systemName: "bag.badge.plus", withConfiguration: UIImage.SymbolConfiguration(weight: .medium)), tag: 1)
-
-
-        tabBarController.setViewControllers([homePageVC, productListVC, shoppingListVC], animated: false)
-
+        tabBarController.setViewControllers(
+            [
+                createHomePageNC(),
+                createProductListNC()
+            ],
+            animated: true
+        )
         window?.rootViewController = tabBarController
+        tabBarController.selectedIndex = 1
         self.window?.makeKeyAndVisible()
+    }
+    
+    func createProductListNC () -> UINavigationController {
+        let productListVC: UIViewController = ProductListViewController()
+        let productListNC: UINavigationController = UINavigationController(rootViewController: productListVC)
+        productListNC.tabBarItem.image = UIImage(systemName: "list.bullet")
+        productListNC.tabBarItem.title = "品項庫存"
+        return productListNC
+    }
+    
+    func createHomePageNC () -> UINavigationController {
+        let homePageVC: UIViewController = HomePageViewController()
+        let homePageNC: UINavigationController = UINavigationController(rootViewController: homePageVC)
+        homePageNC.tabBarItem.image = UIImage(systemName: "house")
+        homePageNC.tabBarItem.title = "首頁"
+        return homePageNC
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
