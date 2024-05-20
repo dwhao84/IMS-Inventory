@@ -11,6 +11,13 @@ class ProductCollectionViewCell: UICollectionViewCell {
     
     static let identifier: String = "ProductCollectionViewCell"
     
+    static func scriptFont(size: CGFloat) -> UIFont {
+      guard let customFont = UIFont(name: "NotoIKEATraditionalChinese-Bold", size: size) else {
+        return UIFont.systemFont(ofSize: size)
+      }
+      return customFont
+    }
+    
     var productImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "photo.fill")
@@ -28,8 +35,7 @@ class ProductCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.text = " No.10150 "
         label.textColor = Colors.white // 使用系統顏色代替自定義顏色
-//        label.font = UIFont(name: "NotoIKEATraditionalChinese_Latin-Bold.ttf", size: 26)
-        label.font = UIFont.boldSystemFont(ofSize: 14)
+        label.font = scriptFont(size: 15)
         label.backgroundColor = Colors.black
         label.layer.cornerRadius = 2
         label.clipsToBounds = true
@@ -42,8 +48,8 @@ class ProductCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.text = "Wooden Shelf"
         label.textColor = Colors.darkGray // 使用系統顏色代替自定義顏色
-//        label.font = UIFont(name: Fonts.NotoIKEA_TC_Bold, size: 20)
-        label.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
+        label.font = scriptFont(size: 13)
+        label.textAlignment = .left
         label.numberOfLines = 2
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -53,7 +59,8 @@ class ProductCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.text = "木層板"
         label.textColor = Colors.lightGray
-        label.font = UIFont.boldSystemFont(ofSize: 10)
+        label.font = scriptFont(size: 10)
+        label.textAlignment = .left
         label.numberOfLines = 2
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -63,7 +70,8 @@ class ProductCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.text = "庫存數"
         label.textColor = Colors.black // 使用系統顏色代替自定義顏色
-        label.font = UIFont.systemFont(ofSize: 15)
+        label.textAlignment = .left
+        label.font = scriptFont(size: 13)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -91,6 +99,11 @@ class ProductCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
+        
+        for family in UIFont.familyNames.sorted() {
+          let names = UIFont.fontNames(forFamilyName: family)
+          print("Family: \(family) Font names: \(names)")
+        }
     }
     
     override func prepareForReuse() {
