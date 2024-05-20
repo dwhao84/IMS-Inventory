@@ -19,6 +19,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window?.windowScene = windowScene
 
         let tabBarController: UITabBarController = UITabBarController()
+        tabBarController.tabBar.backgroundColor = Colors.CustomBackgroundColor
+        tabBarController.tabBar.tintColor       = Colors.IKEA_Blue
         tabBarController.setViewControllers(
             [
                 createHomePageNC(),
