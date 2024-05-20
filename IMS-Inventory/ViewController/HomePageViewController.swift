@@ -117,7 +117,7 @@ class HomePageViewController: UIViewController {
         let scannerButton: UIButton = UIButton(type: .system)
         var configuration = UIButton.Configuration.plain()
         configuration.image = UIImage(systemName: "qrcode")
-        configuration.baseForegroundColor = SystemColor.blueColor
+        configuration.baseForegroundColor = Colors.IKEA_Blue
         scannerButton.configuration = configuration
         scannerButton.addTarget(self, action: #selector(scannerButtonTapped), for: .touchUpInside)
 
@@ -320,7 +320,7 @@ class HomePageViewController: UIViewController {
         goButton.tintColor = .white
         goButton.configuration = config
 //        goButton.frame = CGRect(x: 64, y: 800, width: width, height: height)
-        goButton.backgroundColor = SystemColor.blueColor
+        goButton.backgroundColor = Colors.IKEA_Blue
         goButton.isUserInteractionEnabled = true
         goButton.layer.cornerRadius = 25
         goButton.clipsToBounds = true
@@ -573,4 +573,8 @@ extension HomePageViewController: VNDocumentCameraViewControllerDelegate {
                 print(error)
         }
     }
+}
+
+#Preview {
+    UINavigationController(rootViewController: HomePageViewController())
 }
