@@ -11,10 +11,11 @@
 		D340863C2B4656C000F6C6E4 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = D34086392B4656BF00F6C6E4 /* LICENSE.txt */; };
 		D34086492B4656DF00F6C6E4 /* NotoIKEATraditionalChinese_Latin-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D34086462B4656DE00F6C6E4 /* NotoIKEATraditionalChinese_Latin-Bold.ttf */; };
 		D340864A2B4656DF00F6C6E4 /* NotoIKEATraditionalChinese_Latin-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D34086472B4656DF00F6C6E4 /* NotoIKEATraditionalChinese_Latin-Regular.ttf */; };
+		D399A8252CC568430074738D /* PrivateData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D399A8242CC568430074738D /* PrivateData.swift */; };
+		D399A8282CC569FF0074738D /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = D399A8272CC569FF0074738D /* Lottie */; };
 		D399C3AE2BFA257600DBBC78 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = D399C3AD2BFA257600DBBC78 /* Images.swift */; };
 		D3E2B6822AFB7E9D00C932E7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E2B6812AFB7E9D00C932E7 /* AppDelegate.swift */; };
 		D3E2B6842AFB7E9D00C932E7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E2B6832AFB7E9D00C932E7 /* SceneDelegate.swift */; };
-		D3E2B6892AFB7E9D00C932E7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3E2B6872AFB7E9D00C932E7 /* Main.storyboard */; };
 		D3E2B68B2AFB7E9F00C932E7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3E2B68A2AFB7E9F00C932E7 /* Assets.xcassets */; };
 		D3E2B68E2AFB7E9F00C932E7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3E2B68C2AFB7E9F00C932E7 /* LaunchScreen.storyboard */; };
 		D3E2B6992AFB7E9F00C932E7 /* IMS_InventoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E2B6982AFB7E9F00C932E7 /* IMS_InventoryTests.swift */; };
@@ -54,11 +55,11 @@
 		D34086392B4656BF00F6C6E4 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		D34086462B4656DE00F6C6E4 /* NotoIKEATraditionalChinese_Latin-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoIKEATraditionalChinese_Latin-Bold.ttf"; sourceTree = "<group>"; };
 		D34086472B4656DF00F6C6E4 /* NotoIKEATraditionalChinese_Latin-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoIKEATraditionalChinese_Latin-Regular.ttf"; sourceTree = "<group>"; };
+		D399A8242CC568430074738D /* PrivateData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateData.swift; sourceTree = "<group>"; };
 		D399C3AD2BFA257600DBBC78 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
 		D3E2B67E2AFB7E9D00C932E7 /* IMS-Inventory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "IMS-Inventory.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3E2B6812AFB7E9D00C932E7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D3E2B6832AFB7E9D00C932E7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		D3E2B6882AFB7E9D00C932E7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D3E2B68A2AFB7E9F00C932E7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D3E2B68D2AFB7E9F00C932E7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D3E2B68F2AFB7E9F00C932E7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -80,6 +81,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D3FADE272BF8478F00185477 /* Kingfisher in Frameworks */,
+				D399A8282CC569FF0074738D /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,6 +120,14 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		D399A8232CC568200074738D /* Private Data */ = {
+			isa = PBXGroup;
+			children = (
+				D399A8242CC568430074738D /* PrivateData.swift */,
+			);
+			path = "Private Data";
+			sourceTree = "<group>";
+		};
 		D399C3AF2BFA475700DBBC78 /* Instants */ = {
 			isa = PBXGroup;
 			children = (
@@ -152,6 +162,7 @@
 		D3E2B6802AFB7E9D00C932E7 /* IMS-Inventory */ = {
 			isa = PBXGroup;
 			children = (
+				D399A8232CC568200074738D /* Private Data */,
 				D3E2B6B32AFB841F00C932E7 /* Supporting */,
 				D3FADE282BF84CDC00185477 /* ProductCollectionViewCell.swift */,
 				D3E2B68F2AFB7E9F00C932E7 /* Info.plist */,
@@ -182,11 +193,10 @@
 		D3E2B6B32AFB841F00C932E7 /* Supporting */ = {
 			isa = PBXGroup;
 			children = (
-				D3E2B6872AFB7E9D00C932E7 /* Main.storyboard */,
 				D3E2B6812AFB7E9D00C932E7 /* AppDelegate.swift */,
 				D3E2B6832AFB7E9D00C932E7 /* SceneDelegate.swift */,
-				D3E2B68A2AFB7E9F00C932E7 /* Assets.xcassets */,
 				D3E2B68C2AFB7E9F00C932E7 /* LaunchScreen.storyboard */,
+				D3E2B68A2AFB7E9F00C932E7 /* Assets.xcassets */,
 			);
 			path = Supporting;
 			sourceTree = "<group>";
@@ -218,6 +228,7 @@
 			name = "IMS-Inventory";
 			packageProductDependencies = (
 				D3FADE262BF8478F00185477 /* Kingfisher */,
+				D399A8272CC569FF0074738D /* Lottie */,
 			);
 			productName = "IMS-Inventory";
 			productReference = D3E2B67E2AFB7E9D00C932E7 /* IMS-Inventory.app */;
@@ -293,6 +304,7 @@
 			mainGroup = D3E2B6752AFB7E9D00C932E7;
 			packageReferences = (
 				D3FADE252BF8478F00185477 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				D399A8262CC569FF0074738D /* XCRemoteSwiftPackageReference "lottie-ios" */,
 			);
 			productRefGroup = D3E2B67F2AFB7E9D00C932E7 /* Products */;
 			projectDirPath = "";
@@ -315,7 +327,6 @@
 				D3E2B68E2AFB7E9F00C932E7 /* LaunchScreen.storyboard in Resources */,
 				D3E2B68B2AFB7E9F00C932E7 /* Assets.xcassets in Resources */,
 				D340863C2B4656C000F6C6E4 /* LICENSE.txt in Resources */,
-				D3E2B6892AFB7E9D00C932E7 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -349,6 +360,7 @@
 				D3E2B6822AFB7E9D00C932E7 /* AppDelegate.swift in Sources */,
 				D3FADE2B2BF8596C00185477 /* Colors.swift in Sources */,
 				D399C3AE2BFA257600DBBC78 /* Images.swift in Sources */,
+				D399A8252CC568430074738D /* PrivateData.swift in Sources */,
 				D3FADE2F2BF90C7100185477 /* Fonts.swift in Sources */,
 				D3027AD52AFCB79B00A3BCE3 /* ProductListViewController.swift in Sources */,
 				D3E2B6842AFB7E9D00C932E7 /* SceneDelegate.swift in Sources */,
@@ -389,14 +401,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		D3E2B6872AFB7E9D00C932E7 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				D3E2B6882AFB7E9D00C932E7 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		D3E2B68C2AFB7E9F00C932E7 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -704,6 +708,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		D399A8262CC569FF0074738D /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.5.0;
+			};
+		};
 		D3FADE252BF8478F00185477 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/onevcat/Kingfisher";
@@ -715,6 +727,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		D399A8272CC569FF0074738D /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D399A8262CC569FF0074738D /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
+		};
 		D3FADE262BF8478F00185477 /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D3FADE252BF8478F00185477 /* XCRemoteSwiftPackageReference "Kingfisher" */;

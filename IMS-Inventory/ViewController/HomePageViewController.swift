@@ -230,9 +230,6 @@ class HomePageViewController: UIViewController {
         qtyTitleLabel.numberOfLines = 0
         qtyTitleLabel.adjustsFontSizeToFitWidth = true
         view.addSubview(qtyTitleLabel)
-
-//        qtyTitleLabel.widthAnchor.constraint(equalToConstant: 300).isActive = true
-//        qtyTitleLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
 
     func configureArticleNumberTitleLabel () {
