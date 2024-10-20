@@ -9,11 +9,8 @@ import UIKit
 import Kingfisher
 
 class ProductListViewController: UIViewController {
-    
-    let baseUrl: String = "https://api.airtable.com/v0/app7877pVxbaMubQP/Table%201"
     var productData: Product?
-    
-    private let apiKey: String = "pat1LqVaDimhjw3Zf.b43913585307f91de54e59d08120eb228c2d09c777a0c10250ba3a5aab67bcf4"
+
     
     // MARK: - Checking Networking:
     enum NetworkError: Error {
@@ -26,8 +23,8 @@ class ProductListViewController: UIViewController {
     
     // MARK: - CollectionView:
     let collectionView: UICollectionView = {
-        let itemSpace:   CGFloat = 5
-        let columnCount: CGFloat = 2
+        let itemSpace:   CGFloat = 1
+        let columnCount: CGFloat = 1
         // 計算每個 item 的寬度，確保圖片適配不同設備
         let width = floor((UIScreen.main.bounds.width - itemSpace * (columnCount - 1)) / columnCount)
 
@@ -40,8 +37,6 @@ class ProductListViewController: UIViewController {
         
         flowLayout.collectionView?.layer.cornerRadius = 20
         flowLayout.collectionView?.clipsToBounds = true
-//        flowLayout.collectionView?.layer.borderColor = Colors.darkGray.cgColor
-//        flowLayout.collectionView?.layer.borderWidth = 2
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         collectionView.backgroundColor = Colors.CustomBackgroundColor
@@ -104,7 +99,6 @@ class ProductListViewController: UIViewController {
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.largeTitleDisplayMode = .always
-        
         self.navigationItem.searchController = searchController
         
         addDelegateAndDataSource()
@@ -141,7 +135,7 @@ class ProductListViewController: UIViewController {
     }
     
     func fetchData () {
-        guard let url = URL(string: baseUrl) else {
+        guard let url = URL(string: API.baseUrl) else {
             return
         }
         
@@ -151,7 +145,7 @@ class ProductListViewController: UIViewController {
         }
               
         var request = URLRequest(url: url)
-        request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(API.apiKey)", forHTTPHeaderField: "Authorization")
         
         URLSession.shared.dataTask(with: request) { data, response, error in
             
@@ -197,10 +191,10 @@ class ProductListViewController: UIViewController {
     // MARK: - Handle device rotation
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-
+        
         coordinator.animate(alongsideTransition: { _ in
-            let itemSpace: CGFloat = 5
-            let columnCount: CGFloat = 2
+            let itemSpace: CGFloat = 1
+            let columnCount: CGFloat = 1
             let width = floor((size.width - itemSpace * (columnCount - 1)) / columnCount)
             if let flowLayout = self.collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
                 flowLayout.itemSize = CGSize(width: width, height: width)
@@ -210,7 +204,8 @@ class ProductListViewController: UIViewController {
     }
 }
 
-extension ProductListViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension ProductListViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return productData?.records.count ?? 2
     }
@@ -219,11 +214,9 @@ extension ProductListViewController: UICollectionViewDataSource, UICollectionVie
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductCollectionViewCell.identifier, for: indexPath) as! ProductCollectionViewCell
         
         let product = productData?.records[indexPath.row]
-        
-        cell.articleNumberLabel.text = " \(product?.fields.articleNumber ?? "Loading...") "
-        cell.productENNameLabel.text = " \(product?.fields.articleName ?? "Loading...") "
-        cell.productTCNameLabel.text = " \(product?.fields.articleNameInChinese ?? "Loading...") "
-        
+        cell.articleNumberTextView.text = "\(product?.fields.articleNumber ?? "Loading...") "
+        cell.productENNameLabel.text = "\(product?.fields.articleName ?? "Loading...") "
+        cell.productTCNameLabel.text = "\(product?.fields.articleNameInChinese ?? "Loading...") "
         // 假設Product有一個name屬性
         // 使用 Kingfisher 加載圖片
         if let imageUrlString = productData?.records[indexPath.row].fields.image.last?.url, let url = URL(string: imageUrlString) {
@@ -237,6 +230,36 @@ extension ProductListViewController: UICollectionViewDataSource, UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("\(indexPath.row)")
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let itemSpace: CGFloat = 1
+        let columnCount: CGFloat = 1
+        let width = floor((collectionView.bounds.width - itemSpace * (columnCount - 1)) / columnCount)
+        
+        // 假設最小高度為圖片高度加上一些額外空間
+        let minHeight: CGFloat = 170 // 150 (圖片高度) + 20 (上下間距)
+        
+        // 計算文字內容的高度
+        let product = productData?.records[indexPath.row]
+        let tcNameHeight = heightForLabel(text: product?.fields.articleNameInChinese ?? "", font: ProductCollectionViewCell.scriptFont(size: 15), width: width - 190)
+        let enNameHeight = heightForLabel(text: product?.fields.articleName ?? "", font: ProductCollectionViewCell.scriptFont(size: 13), width: width - 190)
+        let articleNumberHeight = heightForLabel(text: product?.fields.articleNumber ?? "", font: ProductCollectionViewCell.scriptFont(size: 15), width: width - 190)
+        
+        // 計算總高度
+        let totalHeight = max(minHeight, tcNameHeight + enNameHeight + articleNumberHeight + 60) // 60 為額外間距
+        
+        return CGSize(width: width, height: totalHeight)
+    }
+    
+    private func heightForLabel(text: String, font: UIFont, width: CGFloat) -> CGFloat {
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: width, height: .greatestFiniteMagnitude))
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
+        label.font = font
+        label.text = text
+        label.sizeToFit()
+        return label.frame.height
     }
 }
 
