@@ -7,10 +7,10 @@
 
 import UIKit
 import Kingfisher
+import UIView_Shimmer
 
 class ProductListViewController: UIViewController {
     var productData: Product?
-
     
     // MARK: - Checking Networking:
     enum NetworkError: Error {
@@ -59,7 +59,6 @@ class ProductListViewController: UIViewController {
         controller.obscuresBackgroundDuringPresentation = true         // 新增當點選searchBar時，背景會產生半透明的效果。
         return controller
     } ()
-    
     
     // MARK: - Life Cycle:
     override func viewDidLoad() {
@@ -191,12 +190,10 @@ class ProductListViewController: UIViewController {
         refreshControl.endRefreshing()
         print("refreshControlValueChanged")
     }
-
     
     // MARK: - Handle device rotation
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        
         coordinator.animate(alongsideTransition: { _ in
             let itemSpace: CGFloat = 1
             let columnCount: CGFloat = 1
