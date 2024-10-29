@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import UIView_Shimmer
 
-class ProductCollectionViewCell: UICollectionViewCell {
+class ProductCollectionViewCell: UICollectionViewCell, ShimmeringViewProtocol {
     
     static let identifier: String = "ProductCollectionViewCell"
     
@@ -21,6 +22,7 @@ class ProductCollectionViewCell: UICollectionViewCell {
     let productImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "photo.fill")
+        imageView.backgroundColor = Colors.white
         imageView.tintColor = Colors.IKEA_Blue
         imageView.layer.cornerRadius = 10
         imageView.clipsToBounds = true
@@ -35,6 +37,7 @@ class ProductCollectionViewCell: UICollectionViewCell {
         textView.textColor = Colors.white // 使用系統顏色代替自定義顏色
         textView.font = scriptFont(size: 15)
         textView.backgroundColor = Colors.black
+        textView.textColor = Colors.white
         textView.layer.cornerRadius = 2
         textView.textContainerInset = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
         textView.clipsToBounds = true
@@ -44,32 +47,32 @@ class ProductCollectionViewCell: UICollectionViewCell {
     
     let productTCNameLabel: UILabel = {
         let label = UILabel()
-        label.text = "木層板"
-        label.textColor = Colors.darkGray
-        label.font = scriptFont(size: 15)
+        label.text = "Loading..."
+        label.textColor = Colors.CustomTitleColor
+        label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         label.textAlignment = .left
-        label.numberOfLines = 2
+        label.numberOfLines = 3
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     let productENNameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Wooden Shelf"
+        label.text = "Loading..."
         label.textColor = Colors.lightGray // 使用系統顏色代替自定義顏色
-        label.font = scriptFont(size: 13)
+        label.font = UIFont.systemFont(ofSize: 13)
         label.textAlignment = .left
-        label.numberOfLines = 2
+        label.numberOfLines = 3
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     let qtyLabel: UILabel = {
         let label = UILabel()
-        label.text = "庫存數"
-        label.textColor = Colors.lightGray // 使用系統顏色代替自定義顏色
+        label.text = "庫存數: "
+        label.textColor = Colors.CustomTitleColor // 使用系統顏色代替自定義顏色
         label.textAlignment = .left
-        label.font = scriptFont(size: 13)
+        label.font = UIFont.systemFont(ofSize: 13)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -78,21 +81,25 @@ class ProductCollectionViewCell: UICollectionViewCell {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .leading
-        stackView.spacing = 2
+        stackView.spacing = 5
         stackView.distribution = .fill
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
+    var shimmeringAnimatedItems: [UIView] {
+        [
+            productImageView,
+            articleNumberTextView,
+            productENNameLabel,
+            productTCNameLabel
+        ]
+    }
+    
     // MARK: - Override init
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
-        
-        for family in UIFont.familyNames.sorted() {
-          let names = UIFont.fontNames(forFamilyName: family)
-          print("Family: \(family) Font names: \(names)")
-        }
     }
     
     // MARK: - prepareForReuse
@@ -131,7 +138,7 @@ class ProductCollectionViewCell: UICollectionViewCell {
             
             labelStackView.leadingAnchor.constraint(equalTo: productImageView.trailingAnchor, constant: 20),
             labelStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
-            labelStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            labelStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             labelStackView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -30)
         ])
     }

@@ -64,7 +64,7 @@ class ProductListViewController: UIViewController {
     // MARK: - Life Cycle:
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = Colors.white
+        self.view.backgroundColor = Colors.CustomBackgroundColor
         
         activityIndicator = UIActivityIndicatorView(style: .large)
         activityIndicator.center = self.view.center
@@ -73,7 +73,7 @@ class ProductListViewController: UIViewController {
         setupUI()
         fetchData()
         
-        refreshControl.addTarget(self, action: #selector(refreshControlValueChanged), for: .valueChanged)
+        collectionView.refreshControl = refreshControl
     }
     
     // MARK: - Sent to the view controller when the app receives a memory warning.
@@ -101,6 +101,7 @@ class ProductListViewController: UIViewController {
         self.navigationItem.largeTitleDisplayMode = .always
         self.navigationItem.searchController = searchController
         
+        addTargets()
         addDelegateAndDataSource()
         addConstraints()
     }
@@ -111,6 +112,10 @@ class ProductListViewController: UIViewController {
         return UIFont.systemFont(ofSize: size)
       }
       return customFont
+    }
+    
+    func addTargets() {
+        refreshControl.addTarget(self, action: #selector(refreshControlValueChanged), for: .valueChanged)
     }
     
     func addDelegateAndDataSource() {
