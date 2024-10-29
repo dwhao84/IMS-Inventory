@@ -8,6 +8,13 @@
 import UIKit
 
 class SettingViewController: UIViewController {
+    
+    
+    let tableView: UITableView = {
+        let tableView: UITableView = UITableView(frame: .zero, style: .insetGrouped)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    } ()
 
     override func viewDidLoad() {
         super.viewDidLoad()
