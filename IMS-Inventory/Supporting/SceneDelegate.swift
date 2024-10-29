@@ -23,8 +23,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         tabBarController.tabBar.tintColor       = Colors.IKEA_Blue
         tabBarController.setViewControllers(
             [
-                createHomePageNC(),
-                createProductListNC()
+                createProductListNC(),
+                createSettingNC()
             ],
             animated: true
         )
@@ -36,19 +36,27 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func createProductListNC () -> UINavigationController {
         let productListVC: UIViewController = ProductListViewController()
         let productListNC: UINavigationController = UINavigationController(rootViewController: productListVC)
-        productListNC.tabBarItem.image = UIImage(systemName: "list.bullet")
-        productListNC.tabBarItem.title = "品項庫存"
+        productListNC.tabBarItem.image = Images.list_bullet
+        productListNC.tabBarItem.title = "Racking Status"
         return productListNC
     }
     
-    func createHomePageNC () -> UINavigationController {
-        let homePageVC: UIViewController = HomePageViewController()
-        let homePageNC: UINavigationController = UINavigationController(rootViewController: homePageVC)
-        homePageNC.tabBarItem.image = UIImage(systemName: "house")
-        homePageNC.tabBarItem.title = "首頁"
-        return homePageNC
+    func createCalculationNC () -> UINavigationController {
+        let settingVC: UIViewController = SettingViewController()
+        let settingNC: UINavigationController = UINavigationController(rootViewController: settingVC)
+        settingNC.tabBarItem.image = Images.gear
+        settingNC.tabBarItem.title = "Settings"
+        return settingNC
     }
-
+    
+    func createSettingNC () -> UINavigationController {
+        let settingVC: UIViewController = SettingViewController()
+        let settingNC: UINavigationController = UINavigationController(rootViewController: settingVC)
+        settingNC.tabBarItem.image = Images.gear
+        settingNC.tabBarItem.title = "Settings"
+        return settingNC
+    }
+    
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
         // This occurs shortly after the scene enters the background, or when its session is discarded.
