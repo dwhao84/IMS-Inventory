@@ -2,6 +2,8 @@ import UIKit
 
 class SettingViewController: UIViewController {
     
+    let largeTitle: String = "Settings"
+    
     // MARK: - Properties
     private let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
@@ -36,15 +38,13 @@ class SettingViewController: UIViewController {
     
     // MARK: - Setup
     private func setupUI() {
-        view.backgroundColor = .systemBackground
         setupTableView()
-        setupNavigationBar()
+        setNavigationView()
     }
     
     private func setupTableView() {
         self.view.addSubview(tableView)
         
-        // Setup constraints
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -52,30 +52,36 @@ class SettingViewController: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
         
-        // Setup delegate and data source
+        // 設置 contentInset
+        tableView.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
         tableView.delegate = self
         tableView.dataSource = self
-        
-        // Register cell
         tableView.register(SettingTableViewCell.self, forCellReuseIdentifier: SettingTableViewCell.identifier)
     }
     
-    private func setupNavigationBar() {
-        let titleLabel = UILabel()
-        titleLabel.font = .boldSystemFont(ofSize: 20)
-        titleLabel.textColor = Colors.darkGray
-        titleLabel.text = "設定"
-        titleLabel.minimumScaleFactor = 0.3
-        titleLabel.adjustsFontSizeToFitWidth = true
-        navigationItem.titleView = titleLabel
+    func setNavigationView() {
+        // 設置基本屬性
+        navigationController?.navigationBar.prefersLargeTitles = true
+        self.navigationItem.largeTitleDisplayMode = .always
+        navigationItem.title = largeTitle
         
+        // 創建並配置 NavigationBar 外觀
         let appearance = UINavigationBarAppearance()
-        appearance.configureWithDefaultBackground()
+        appearance.configureWithOpaqueBackground()  // 使用不透明背景
         
-        navigationController?.navigationBar.overrideUserInterfaceStyle = .light
+        // 設置背景顏色
+        appearance.backgroundColor = .systemBackground
+        
+        // 設置標題顏色
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.label]
+        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.label]
+        
+        // 重要：同時設置這三種外觀狀態
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        navigationController?.navigationBar.isTranslucent = true
+        
+        // 確保即時更新外觀
+        navigationController?.navigationBar.tintColor = .label
     }
 }
 
@@ -97,11 +103,11 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         let service = sections[indexPath.section].items[indexPath.row]
         var content = cell.defaultContentConfiguration()
         
-        // Configure content
         content.text = service.title
         content.image = service.image
         content.imageProperties.tintColor = service.color
-        content.textProperties.color = Colors.darkGray
+        // 使用 label 顏色而不是固定的深灰色
+        content.textProperties.color = .label
         content.imageProperties.maximumSize = CGSize(width: 50, height: 50)
         
         cell.contentConfiguration = content
