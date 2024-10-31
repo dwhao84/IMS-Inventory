@@ -12,50 +12,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-
         guard let windowScene = (scene as? UIWindowScene) else { return }
-
-        self.window = UIWindow(frame: windowScene.coordinateSpace.bounds)
-        self.window?.windowScene = windowScene
-
-        let tabBarController: UITabBarController = UITabBarController()
-        tabBarController.tabBar.backgroundColor = Colors.CustomBackgroundColor
-        tabBarController.tabBar.tintColor       = Colors.IKEA_Blue
-        tabBarController.setViewControllers(
-            [
-                createProductListNC(),
-                createSettingNC()
-            ],
-            animated: true
-        )
-        window?.rootViewController = tabBarController
-        tabBarController.selectedIndex = 1
+        
+        // 使用 MainTabBarViewController 創建並設置 window
+        self.window = MainTabBarViewController.createMainTabBar(for: windowScene)
         self.window?.makeKeyAndVisible()
     }
     
-    func createProductListNC () -> UINavigationController {
-        let productListVC: UIViewController = ProductListViewController()
-        let productListNC: UINavigationController = UINavigationController(rootViewController: productListVC)
-        productListNC.tabBarItem.image = Images.list_bullet
-        productListNC.tabBarItem.title = "Racking Status"
-        return productListNC
-    }
-    
-    func createCalculationNC () -> UINavigationController {
-        let settingVC: UIViewController = SettingViewController()
-        let settingNC: UINavigationController = UINavigationController(rootViewController: settingVC)
-        settingNC.tabBarItem.image = Images.gear
-        settingNC.tabBarItem.title = "Settings"
-        return settingNC
-    }
-    
-    func createSettingNC () -> UINavigationController {
-        let settingVC: UIViewController = SettingViewController()
-        let settingNC: UINavigationController = UINavigationController(rootViewController: settingVC)
-        settingNC.tabBarItem.image = Images.gear
-        settingNC.tabBarItem.title = "Settings"
-        return settingNC
-    }
     
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
