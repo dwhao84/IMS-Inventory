@@ -233,12 +233,12 @@
 		D3E2B6B42AFB843600C932E7 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				D30A6BB72CD34CC5003AC00A /* MainTabBarViewController.swift */,
 				D30A6BBC2CD36E12003AC00A /* LaunchSceenViewController.swift */,
+				D30A6BB72CD34CC5003AC00A /* MainTabBarViewController.swift */,
 				D3027AD42AFCB79B00A3BCE3 /* ProductListViewController.swift */,
 				D30A6BB12CD32339003AC00A /* ProductDetailViewController.swift */,
-				D30A6BAD2CD1208E003AC00A /* SettingViewController.swift */,
 				D30A6BAF2CD130EC003AC00A /* CalculationViewController.swift */,
+				D30A6BAD2CD1208E003AC00A /* SettingViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
