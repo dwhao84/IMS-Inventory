@@ -8,13 +8,28 @@
 import UIKit
 
 class ConfirmButton: UIButton {
-
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        commonInit()
     }
-    */
-
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        commonInit()
+    }
+    
+    private func commonInit() {
+        var config = UIButton.Configuration.filled()
+        config.baseBackgroundColor = Colors.IKEA_Blue
+        config.baseForegroundColor = Colors.white
+        config.title = "送出訂單"
+        config.cornerStyle = .large
+        self.configuration = config
+        self.translatesAutoresizingMaskIntoConstraints = false
+        configurationUpdateHandler = { btn in
+            btn.alpha = btn.isHighlighted ? 0.5 : 1
+            btn.configuration = config
+        }
+    }
 }
