@@ -121,9 +121,6 @@ class ProductCollectionViewCell: UICollectionViewCell, ShimmeringViewProtocol {
     }
     
     func addConstraints() {
-        // 計算主要內容的高度（圖片和文字堆疊）
-        let mainContentHeight: CGFloat = 120 // 圖片高度
-        
         NSLayoutConstraint.activate([
             // 圖片約束 - 垂直置中
             productImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
