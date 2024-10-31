@@ -96,7 +96,7 @@ class ProductDetailViewController: UIViewController {
     
     func setupUI() {
         configBackgroundColor()
-        configNavigationTitle()
+        setNavigationView()
         addConstraints()
     }
     
@@ -104,20 +104,22 @@ class ProductDetailViewController: UIViewController {
         self.view.backgroundColor = Colors.white
     }
     
-    func configNavigationTitle () {
-        let navigationTitle = UILabel()
-        navigationTitle.font = UIFont.boldSystemFont(ofSize: 20)
-        navigationTitle.textColor = Colors.darkGray // 顏色可再改。
-        navigationTitle.text = "Product Name"
-        navigationTitle.minimumScaleFactor = 0.3
-        navigationTitle.adjustsFontSizeToFitWidth = true
-        navigationItem.titleView = navigationTitle
+    func setNavigationView () {
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.navigationItem.largeTitleDisplayMode = .always
+        self.navigationItem.title = "Product Name"
         
-        self.navigationController?.navigationBar.overrideUserInterfaceStyle = .light
-        self.navigationController?.navigationBar.isTranslucent = true
+        // Add appearance
         let appearance = UINavigationBarAppearance()
-        self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        self.navigationController?.navigationBar.standardAppearance   = appearance
+        appearance.configureWithTransparentBackground()
+        appearance.backgroundColor = Colors.clear
+        
+        let scrollingAppearance = UINavigationBarAppearance()
+        scrollingAppearance.configureWithTransparentBackground()
+        scrollingAppearance.backgroundColor = Colors.clear
+        
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
     }
     
     func addConstraints() {
