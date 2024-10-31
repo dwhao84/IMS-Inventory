@@ -28,6 +28,7 @@ struct Images {
     static let wrench = UIImage(systemName: "wrench.fill")!
     static let slider = UIImage(systemName: "slider.horizontal.3")!
     static let toggle = UIImage(systemName: "toggle.power")!
+    static let keyboard = UIImage(systemName: "keyboard")!
     
     // MARK: - Documents & Text
     static let bookPages = UIImage(systemName: "book.pages")!
