@@ -223,12 +223,14 @@ extension ProductListViewController: UICollectionViewDataSource, UICollectionVie
         } else {
             cell.productImageView.image = Images.image
         }
-        
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("\(indexPath.row)")
+        
+        let productDetailVC = ProductDetailViewController()
+        self.navigationController?.pushViewController(productDetailVC, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
