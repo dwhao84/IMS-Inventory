@@ -8,6 +8,13 @@
 import UIKit
 
 class CalculationViewController: UIViewController {
+    
+    let segmentControl: UISegmentedControl = {
+        let segmentControl: UISegmentedControl = UISegmentedControl()
+        segmentControl.selectedSegmentIndex = 0
+        segmentControl.translatesAutoresizingMaskIntoConstraints = false
+        return segmentControl
+    } ()
 
     override func viewDidLoad() {
         super.viewDidLoad()

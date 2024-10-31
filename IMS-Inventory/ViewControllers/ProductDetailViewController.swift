@@ -8,22 +8,132 @@
 import UIKit
 
 class ProductDetailViewController: UIViewController {
-
+    
+    let productImageView: UIImageView = {
+        let imageView: UIImageView = UIImageView()
+        imageView.image = Images.photoLibrary
+        imageView.contentMode = .scaleAspectFit
+        imageView.layer.cornerRadius = 10
+        imageView.clipsToBounds = true
+        imageView.layer.borderColor = UIColor.systemBlue.cgColor
+        imageView.layer.borderWidth = 2
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    } ()
+    
+//    let productTitleLabel: UILabel = {
+//        let label: UILabel = UILabel()
+//        label.text = ""
+//        label.textColor = Colors.darkGray
+//        label.font = UIFont.boldSystemFont(ofSize: 18)
+//        label.textAlignment = .left
+//        label.numberOfLines = 0
+//        label.translatesAutoresizingMaskIntoConstraints = false
+//        return label
+//    } ()
+    
+    let productDetailInfoLabel: UILabel = {
+        let label: UILabel = UILabel()
+        label.text = ""
+        label.textColor = Colors.darkGray
+        label.font = UIFont.systemFont(ofSize: 15)
+        label.textAlignment = .left
+        label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    } ()
+    
+    let technicalSpecsLabel: UILabel = {
+        let label: UILabel = UILabel()
+        label.text = ""
+        label.textColor = Colors.darkGray
+        label.font = UIFont.systemFont(ofSize: 15)
+        label.textAlignment = .left
+        label.numberOfLines = 3
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    } ()
+    
+    let articleNumberLabel: PaddingLabel = {
+        let label = PaddingLabel()
+        label.text = "No.10150"
+        label.textColor = Colors.white
+        label.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
+        label.backgroundColor = Colors.black
+        label.textAlignment = .center
+        label.layer.cornerRadius = 2
+        label.clipsToBounds = true
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    } ()
+    
+    let confirmBtn: ConfirmButton = {
+        let btn: ConfirmButton = ConfirmButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        return btn
+    } ()
+    
+    let lineView: UIView = {
+        let view: UIView = UIView()
+        view.backgroundColor = Colors.darkGray
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    } ()
+    
+    let scrollView: UIScrollView = {
+        let scrollView: UIScrollView = UIScrollView()
+        scrollView.isScrollEnabled = true
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    } ()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
+        
+        setupUI()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func setupUI() {
+        configBackgroundColor()
+        configNavigationTitle()
+        addConstraints()
     }
-    */
+    
+    func configBackgroundColor () {
+        self.view.backgroundColor = Colors.white
+    }
+    
+    func configNavigationTitle () {
+        let navigationTitle = UILabel()
+        navigationTitle.font = UIFont.boldSystemFont(ofSize: 20)
+        navigationTitle.textColor = Colors.darkGray // 顏色可再改。
+        navigationTitle.text = "Product Name"
+        navigationTitle.minimumScaleFactor = 0.3
+        navigationTitle.adjustsFontSizeToFitWidth = true
+        navigationItem.titleView = navigationTitle
+        
+        self.navigationController?.navigationBar.overrideUserInterfaceStyle = .light
+        self.navigationController?.navigationBar.isTranslucent = true
+        let appearance = UINavigationBarAppearance()
+        self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        self.navigationController?.navigationBar.standardAppearance   = appearance
+    }
+    
+    func addConstraints() {
+        self.view.addSubview(productImageView)
+        self.view.addSubview(articleNumberLabel)
+        NSLayoutConstraint.activate([
+            productImageView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            productImageView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
+            productImageView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
+            productImageView.heightAnchor.constraint(equalTo: productImageView.widthAnchor, multiplier: 0.7),
+            articleNumberLabel.topAnchor.constraint(equalTo: productImageView.bottomAnchor, constant: 20),
+            articleNumberLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20)
+        ])
+    }
+}
 
+#Preview {
+    UINavigationController(rootViewController: ProductDetailViewController())
 }

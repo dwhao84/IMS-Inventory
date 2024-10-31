@@ -8,6 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		D3027AD52AFCB79B00A3BCE3 /* ProductListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3027AD42AFCB79B00A3BCE3 /* ProductListViewController.swift */; };
+		D30A6BAC2CD11F76003AC00A /* UIView-Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = D30A6BAB2CD11F76003AC00A /* UIView-Shimmer */; };
+		D30A6BAE2CD1208E003AC00A /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30A6BAD2CD1208E003AC00A /* SettingViewController.swift */; };
+		D30A6BB02CD130EC003AC00A /* CalculationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30A6BAF2CD130EC003AC00A /* CalculationViewController.swift */; };
+		D30A6BB22CD32339003AC00A /* ProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30A6BB12CD32339003AC00A /* ProductDetailViewController.swift */; };
+		D30A6BB42CD32AAC003AC00A /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30A6BB32CD32AAC003AC00A /* SettingTableViewCell.swift */; };
+		D30A6BB62CD346F8003AC00A /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30A6BB52CD346F8003AC00A /* PaddingLabel.swift */; };
+		D30A6BB82CD34CC5003AC00A /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30A6BB72CD34CC5003AC00A /* MainTabBarViewController.swift */; };
+		D30A6BBB2CD34F95003AC00A /* ESTabBarController in Frameworks */ = {isa = PBXBuildFile; productRef = D30A6BBA2CD34F95003AC00A /* ESTabBarController */; };
+		D30A6BBD2CD36E12003AC00A /* LaunchSceenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30A6BBC2CD36E12003AC00A /* LaunchSceenViewController.swift */; };
+		D30A6BBF2CD36F13003AC00A /* ConfirmButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30A6BBE2CD36F13003AC00A /* ConfirmButton.swift */; };
 		D340863C2B4656C000F6C6E4 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = D34086392B4656BF00F6C6E4 /* LICENSE.txt */; };
 		D34086492B4656DF00F6C6E4 /* NotoIKEATraditionalChinese_Latin-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D34086462B4656DE00F6C6E4 /* NotoIKEATraditionalChinese_Latin-Bold.ttf */; };
 		D340864A2B4656DF00F6C6E4 /* NotoIKEATraditionalChinese_Latin-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D34086472B4656DF00F6C6E4 /* NotoIKEATraditionalChinese_Latin-Regular.ttf */; };
@@ -21,7 +31,6 @@
 		D3E2B6992AFB7E9F00C932E7 /* IMS_InventoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E2B6982AFB7E9F00C932E7 /* IMS_InventoryTests.swift */; };
 		D3E2B6A32AFB7E9F00C932E7 /* IMS_InventoryUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E2B6A22AFB7E9F00C932E7 /* IMS_InventoryUITests.swift */; };
 		D3E2B6A52AFB7E9F00C932E7 /* IMS_InventoryUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E2B6A42AFB7E9F00C932E7 /* IMS_InventoryUITestsLaunchTests.swift */; };
-		D3E2B6B22AFB7F9B00C932E7 /* HomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E2B6B12AFB7F9B00C932E7 /* HomePageViewController.swift */; };
 		D3FADE272BF8478F00185477 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = D3FADE262BF8478F00185477 /* Kingfisher */; };
 		D3FADE292BF84CDC00185477 /* ProductCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FADE282BF84CDC00185477 /* ProductCollectionViewCell.swift */; };
 		D3FADE2B2BF8596C00185477 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FADE2A2BF8596C00185477 /* Colors.swift */; };
@@ -52,6 +61,14 @@
 
 /* Begin PBXFileReference section */
 		D3027AD42AFCB79B00A3BCE3 /* ProductListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListViewController.swift; sourceTree = "<group>"; };
+		D30A6BAD2CD1208E003AC00A /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		D30A6BAF2CD130EC003AC00A /* CalculationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculationViewController.swift; sourceTree = "<group>"; };
+		D30A6BB12CD32339003AC00A /* ProductDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailViewController.swift; sourceTree = "<group>"; };
+		D30A6BB32CD32AAC003AC00A /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
+		D30A6BB52CD346F8003AC00A /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
+		D30A6BB72CD34CC5003AC00A /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
+		D30A6BBC2CD36E12003AC00A /* LaunchSceenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchSceenViewController.swift; sourceTree = "<group>"; };
+		D30A6BBE2CD36F13003AC00A /* ConfirmButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmButton.swift; sourceTree = "<group>"; };
 		D34086392B4656BF00F6C6E4 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		D34086462B4656DE00F6C6E4 /* NotoIKEATraditionalChinese_Latin-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoIKEATraditionalChinese_Latin-Bold.ttf"; sourceTree = "<group>"; };
 		D34086472B4656DF00F6C6E4 /* NotoIKEATraditionalChinese_Latin-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoIKEATraditionalChinese_Latin-Regular.ttf"; sourceTree = "<group>"; };
@@ -68,7 +85,6 @@
 		D3E2B69E2AFB7E9F00C932E7 /* IMS-InventoryUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "IMS-InventoryUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3E2B6A22AFB7E9F00C932E7 /* IMS_InventoryUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IMS_InventoryUITests.swift; sourceTree = "<group>"; };
 		D3E2B6A42AFB7E9F00C932E7 /* IMS_InventoryUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IMS_InventoryUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		D3E2B6B12AFB7F9B00C932E7 /* HomePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageViewController.swift; sourceTree = "<group>"; };
 		D3FADE282BF84CDC00185477 /* ProductCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCollectionViewCell.swift; sourceTree = "<group>"; };
 		D3FADE2A2BF8596C00185477 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		D3FADE2C2BF85D5D00185477 /* ProductModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductModel.swift; sourceTree = "<group>"; };
@@ -81,6 +97,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D3FADE272BF8478F00185477 /* Kingfisher in Frameworks */,
+				D30A6BAC2CD11F76003AC00A /* UIView-Shimmer in Frameworks */,
+				D30A6BBB2CD34F95003AC00A /* ESTabBarController in Frameworks */,
 				D399A8282CC569FF0074738D /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -102,6 +120,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D30A6BA92CD11CB6003AC00A /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				D3FADE282BF84CDC00185477 /* ProductCollectionViewCell.swift */,
+				D30A6BB32CD32AAC003AC00A /* SettingTableViewCell.swift */,
+				D30A6BB52CD346F8003AC00A /* PaddingLabel.swift */,
+				D30A6BBE2CD36F13003AC00A /* ConfirmButton.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		D34086382B46569100F6C6E4 /* Font */ = {
 			isa = PBXGroup;
 			children = (
@@ -164,11 +193,11 @@
 			children = (
 				D399A8232CC568200074738D /* Private Data */,
 				D3E2B6B32AFB841F00C932E7 /* Supporting */,
-				D3FADE282BF84CDC00185477 /* ProductCollectionViewCell.swift */,
-				D3E2B68F2AFB7E9F00C932E7 /* Info.plist */,
+				D30A6BA92CD11CB6003AC00A /* Components */,
+				D3E2B6B42AFB843600C932E7 /* ViewControllers */,
 				D38C9B812AFE7F7A00E05972 /* Model */,
-				D3E2B6B42AFB843600C932E7 /* ViewController */,
 				D399C3AF2BFA475700DBBC78 /* Instants */,
+				D3E2B68F2AFB7E9F00C932E7 /* Info.plist */,
 			);
 			path = "IMS-Inventory";
 			sourceTree = "<group>";
@@ -201,13 +230,17 @@
 			path = Supporting;
 			sourceTree = "<group>";
 		};
-		D3E2B6B42AFB843600C932E7 /* ViewController */ = {
+		D3E2B6B42AFB843600C932E7 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				D3E2B6B12AFB7F9B00C932E7 /* HomePageViewController.swift */,
+				D30A6BB72CD34CC5003AC00A /* MainTabBarViewController.swift */,
+				D30A6BBC2CD36E12003AC00A /* LaunchSceenViewController.swift */,
 				D3027AD42AFCB79B00A3BCE3 /* ProductListViewController.swift */,
+				D30A6BB12CD32339003AC00A /* ProductDetailViewController.swift */,
+				D30A6BAD2CD1208E003AC00A /* SettingViewController.swift */,
+				D30A6BAF2CD130EC003AC00A /* CalculationViewController.swift */,
 			);
-			path = ViewController;
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -229,6 +262,8 @@
 			packageProductDependencies = (
 				D3FADE262BF8478F00185477 /* Kingfisher */,
 				D399A8272CC569FF0074738D /* Lottie */,
+				D30A6BAB2CD11F76003AC00A /* UIView-Shimmer */,
+				D30A6BBA2CD34F95003AC00A /* ESTabBarController */,
 			);
 			productName = "IMS-Inventory";
 			productReference = D3E2B67E2AFB7E9D00C932E7 /* IMS-Inventory.app */;
@@ -305,6 +340,8 @@
 			packageReferences = (
 				D3FADE252BF8478F00185477 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				D399A8262CC569FF0074738D /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				D30A6BAA2CD11F76003AC00A /* XCRemoteSwiftPackageReference "UIView-Shimmer" */,
+				D30A6BB92CD34F95003AC00A /* XCRemoteSwiftPackageReference "ESTabBarController" */,
 			);
 			productRefGroup = D3E2B67F2AFB7E9D00C932E7 /* Products */;
 			projectDirPath = "";
@@ -355,12 +392,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D3E2B6B22AFB7F9B00C932E7 /* HomePageViewController.swift in Sources */,
+				D30A6BB82CD34CC5003AC00A /* MainTabBarViewController.swift in Sources */,
 				D3FADE292BF84CDC00185477 /* ProductCollectionViewCell.swift in Sources */,
+				D30A6BBD2CD36E12003AC00A /* LaunchSceenViewController.swift in Sources */,
+				D30A6BB02CD130EC003AC00A /* CalculationViewController.swift in Sources */,
 				D3E2B6822AFB7E9D00C932E7 /* AppDelegate.swift in Sources */,
+				D30A6BBF2CD36F13003AC00A /* ConfirmButton.swift in Sources */,
 				D3FADE2B2BF8596C00185477 /* Colors.swift in Sources */,
 				D399C3AE2BFA257600DBBC78 /* Images.swift in Sources */,
+				D30A6BB22CD32339003AC00A /* ProductDetailViewController.swift in Sources */,
 				D399A8252CC568430074738D /* PrivateData.swift in Sources */,
+				D30A6BAE2CD1208E003AC00A /* SettingViewController.swift in Sources */,
+				D30A6BB62CD346F8003AC00A /* PaddingLabel.swift in Sources */,
+				D30A6BB42CD32AAC003AC00A /* SettingTableViewCell.swift in Sources */,
 				D3FADE2F2BF90C7100185477 /* Fonts.swift in Sources */,
 				D3027AD52AFCB79B00A3BCE3 /* ProductListViewController.swift in Sources */,
 				D3E2B6842AFB7E9D00C932E7 /* SceneDelegate.swift in Sources */,
@@ -544,7 +588,6 @@
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -574,7 +617,6 @@
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -708,6 +750,22 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		D30A6BAA2CD11F76003AC00A /* XCRemoteSwiftPackageReference "UIView-Shimmer" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/omerfarukozturk/UIView-Shimmer.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.4;
+			};
+		};
+		D30A6BB92CD34F95003AC00A /* XCRemoteSwiftPackageReference "ESTabBarController" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/eggswift/ESTabBarController.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.9.0;
+			};
+		};
 		D399A8262CC569FF0074738D /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/airbnb/lottie-ios";
@@ -727,6 +785,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		D30A6BAB2CD11F76003AC00A /* UIView-Shimmer */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D30A6BAA2CD11F76003AC00A /* XCRemoteSwiftPackageReference "UIView-Shimmer" */;
+			productName = "UIView-Shimmer";
+		};
+		D30A6BBA2CD34F95003AC00A /* ESTabBarController */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D30A6BB92CD34F95003AC00A /* XCRemoteSwiftPackageReference "ESTabBarController" */;
+			productName = ESTabBarController;
+		};
 		D399A8272CC569FF0074738D /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D399A8262CC569FF0074738D /* XCRemoteSwiftPackageReference "lottie-ios" */;
