@@ -1,10 +1,3 @@
-//
-//  ProductCollectionViewCell.swift
-//  IMS-Inventory
-//
-//  Created by Dawei Hao on 2024/5/18.
-//
-
 import UIKit
 import UIView_Shimmer
 
@@ -31,27 +24,28 @@ class ProductCollectionViewCell: UICollectionViewCell, ShimmeringViewProtocol {
         return imageView
     }()
     
-    let articleNumberTextView: UITextView = {
-        let textView = UITextView()
-        textView.text = "No.10150"
-        textView.textColor = Colors.white // 使用系統顏色代替自定義顏色
-        textView.font = scriptFont(size: 15)
-        textView.backgroundColor = Colors.black
-        textView.textColor = Colors.white
-        textView.layer.cornerRadius = 2
-        textView.textContainerInset = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
-        textView.clipsToBounds = true
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        return textView
+    let articleNumberLabel: PaddingLabel = {
+        let label = PaddingLabel()
+        label.text = "No.10150"
+        label.textColor = Colors.white
+        label.font = UIFont.boldSystemFont(ofSize: 13)
+        label.backgroundColor = Colors.black
+        label.textAlignment = .center
+        label.layer.cornerRadius = 2
+        label.clipsToBounds = true
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
     
     let productTCNameLabel: UILabel = {
         let label = UILabel()
         label.text = "Loading..."
-        label.textColor = Colors.CustomTitleColor
-        label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        label.textColor = Colors.darkGray
+        label.font = UIFont.boldSystemFont(ofSize: 15)
         label.textAlignment = .left
-        label.numberOfLines = 3
+        label.numberOfLines = 2  // 限制最多2行
+        label.adjustsFontSizeToFitWidth = true  // 允許字體縮小以適應寬度
+        label.minimumScaleFactor = 0.8  // 最小可縮小到原始大小的80%
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -59,10 +53,13 @@ class ProductCollectionViewCell: UICollectionViewCell, ShimmeringViewProtocol {
     let productENNameLabel: UILabel = {
         let label = UILabel()
         label.text = "Loading..."
-        label.textColor = Colors.lightGray // 使用系統顏色代替自定義顏色
+        label.textColor = Colors.lightGray
         label.font = UIFont.systemFont(ofSize: 13)
         label.textAlignment = .left
-        label.numberOfLines = 3
+        label.numberOfLines = 3  // 允許3行顯示
+        label.lineBreakMode = .byTruncatingTail  // 超出時在尾部顯示省略號
+        label.adjustsFontSizeToFitWidth = true  // 允許字體縮小以適應寬度
+        label.minimumScaleFactor = 0.8  // 最小可縮小到原始大小的80%
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -70,7 +67,7 @@ class ProductCollectionViewCell: UICollectionViewCell, ShimmeringViewProtocol {
     let qtyLabel: UILabel = {
         let label = UILabel()
         label.text = "庫存數: "
-        label.textColor = Colors.CustomTitleColor // 使用系統顏色代替自定義顏色
+        label.textColor = Colors.darkGray
         label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 13)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -81,39 +78,34 @@ class ProductCollectionViewCell: UICollectionViewCell, ShimmeringViewProtocol {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .leading
-        stackView.spacing = 5
+        stackView.spacing = 8  // 增加間距讓文字更好閱讀
         stackView.distribution = .fill
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
-    var shimmeringAnimatedItems: [UIView] {
-        [
-            productImageView,
-            articleNumberTextView,
-            productENNameLabel,
-            productTCNameLabel
-        ]
-    }
-    
-    // MARK: - Override init
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
+        // 添加陰影效果使 cell 更有層次感
+        self.contentView.layer.cornerRadius = 12
+        self.contentView.layer.masksToBounds = true
+        self.contentView.backgroundColor = Colors.white
     }
     
-    // MARK: - prepareForReuse
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        print("prepareForReuse")
-    }
-    
-    // MARK: - required init
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Set up UI:
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        productImageView.image = UIImage(systemName: "photo.fill")
+        productTCNameLabel.text = "Loading..."
+        productENNameLabel.text = "Loading..."
+        articleNumberLabel.text = "Loading..."
+        qtyLabel.text = "庫存數: "
+    }
+    
     func setupUI() {
         contentView.addSubview(productImageView)
         contentView.addSubview(labelStackView)
@@ -124,23 +116,41 @@ class ProductCollectionViewCell: UICollectionViewCell, ShimmeringViewProtocol {
     func configLabelsStackView() {
         labelStackView.addArrangedSubview(productTCNameLabel)
         labelStackView.addArrangedSubview(productENNameLabel)
-        labelStackView.addArrangedSubview(articleNumberTextView)
+        labelStackView.addArrangedSubview(articleNumberLabel)
         labelStackView.addArrangedSubview(qtyLabel)
     }
     
     func addConstraints() {
+        // 計算主要內容的高度（圖片和文字堆疊）
+        let mainContentHeight: CGFloat = 120 // 圖片高度
+        
         NSLayoutConstraint.activate([
-            productImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            productImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            productImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
-            productImageView.widthAnchor.constraint(equalToConstant: 150),
-            productImageView.heightAnchor.constraint(equalToConstant: 150),
+            // 圖片約束 - 垂直置中
+            productImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            productImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            productImageView.widthAnchor.constraint(equalToConstant: 120),
+            productImageView.heightAnchor.constraint(equalToConstant: 120),
             
-            labelStackView.leadingAnchor.constraint(equalTo: productImageView.trailingAnchor, constant: 20),
-            labelStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
-            labelStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            labelStackView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -30)
+            // Stack view 約束 - 垂直置中對齊圖片
+            labelStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            labelStackView.leadingAnchor.constraint(equalTo: productImageView.trailingAnchor, constant: 16),
+            labelStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            
+            // 確保整體高度適中
+            labelStackView.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor, constant: 16),
+            labelStackView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -16),
+            
+            // 確保 articleNumberLabel 不會太寬
+            articleNumberLabel.widthAnchor.constraint(lessThanOrEqualTo: labelStackView.widthAnchor, multiplier: 0.8),
+            
+            // 確保 TC 和 EN 名稱標籤寬度相同
+            productTCNameLabel.widthAnchor.constraint(equalTo: labelStackView.widthAnchor),
+            productENNameLabel.widthAnchor.constraint(equalTo: labelStackView.widthAnchor)
         ])
+        
+        // 確保圖片不會超出 cell 邊界
+        productImageView.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor, constant: 16).isActive = true
+        productImageView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -16).isActive = true
     }
 }
 

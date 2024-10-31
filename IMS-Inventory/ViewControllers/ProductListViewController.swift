@@ -39,12 +39,12 @@ class ProductListViewController: UIViewController {
         flowLayout.collectionView?.clipsToBounds = true
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
-        collectionView.backgroundColor = Colors.CustomBackgroundColor
+        collectionView.backgroundColor = Colors.white
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
     
-    var refreshControl: UIRefreshControl = {
+    let refreshControl: UIRefreshControl = {
         let refreshControl: UIRefreshControl = UIRefreshControl()
         refreshControl.tintColor = Colors.IKEA_Blue
         return refreshControl
@@ -63,7 +63,7 @@ class ProductListViewController: UIViewController {
     // MARK: - Life Cycle:
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = Colors.CustomBackgroundColor
+        self.view.backgroundColor = Colors.white
         
         activityIndicator = UIActivityIndicatorView(style: .large)
         activityIndicator.center = self.view.center
@@ -84,11 +84,9 @@ class ProductListViewController: UIViewController {
     
     func setupUI() {
         let standardAppearance = UINavigationBarAppearance()
-        standardAppearance.backgroundColor = Colors.CustomBackgroundColor
         self.navigationController?.navigationBar.standardAppearance = standardAppearance
         
         let scrollAppearance = UINavigationBarAppearance()
-        scrollAppearance.backgroundColor = Colors.CustomBackgroundColor
         self.navigationController?.navigationBar.scrollEdgeAppearance = scrollAppearance
 
         let textAttributes = [NSAttributedString.Key.foregroundColor: Colors.darkGray]
@@ -97,7 +95,6 @@ class ProductListViewController: UIViewController {
         self.navigationItem.title = "IMS Stock Qty"
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationItem.largeTitleDisplayMode = .always
         self.navigationItem.searchController = searchController
         
         addTargets()
@@ -152,7 +149,7 @@ class ProductListViewController: UIViewController {
         request.setValue("Bearer \(API.apiKey)", forHTTPHeaderField: "Authorization")
         
         URLSession.shared.dataTask(with: request) { data, response, error in
-            
+
             DispatchQueue.main.async {
                  self.activityIndicator.stopAnimating()
                  self.view.isUserInteractionEnabled = true // 恢復用戶交互
@@ -216,9 +213,9 @@ extension ProductListViewController: UICollectionViewDataSource, UICollectionVie
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductCollectionViewCell.identifier, for: indexPath) as! ProductCollectionViewCell
         
         let product = productData?.records[indexPath.row]
-        cell.articleNumberTextView.text = "\(product?.fields.articleNumber ?? "Loading...") "
-        cell.productENNameLabel.text = "\(product?.fields.articleName ?? "Loading...") "
+        cell.articleNumberLabel.text = "\(product?.fields.articleNumber ?? "Loading...") "
         cell.productTCNameLabel.text = "\(product?.fields.articleNameInChinese ?? "Loading...") "
+        cell.productENNameLabel.text = "\(product?.fields.articleName ?? "Loading...") "
         // 假設Product有一個name屬性
         // 使用 Kingfisher 加載圖片
         if let imageUrlString = productData?.records[indexPath.row].fields.image.last?.url, let url = URL(string: imageUrlString) {
