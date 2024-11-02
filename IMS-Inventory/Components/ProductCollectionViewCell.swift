@@ -16,7 +16,7 @@ class ProductCollectionViewCell: UICollectionViewCell, ShimmeringViewProtocol {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "photo.fill")
         imageView.backgroundColor = Colors.white
-        imageView.tintColor = Colors.IKEA_Blue
+        imageView.tintColor = Colors.black
         imageView.layer.cornerRadius = 10
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFit
@@ -26,7 +26,7 @@ class ProductCollectionViewCell: UICollectionViewCell, ShimmeringViewProtocol {
     
     let articleNumberLabel: PaddingLabel = {
         let label = PaddingLabel()
-        label.text = "No.10150"
+        label.text = "Loading..."
         label.textColor = Colors.white
         label.font = UIFont.boldSystemFont(ofSize: 13)
         label.backgroundColor = Colors.black
@@ -66,7 +66,7 @@ class ProductCollectionViewCell: UICollectionViewCell, ShimmeringViewProtocol {
     
     let qtyLabel: UILabel = {
         let label = UILabel()
-        label.text = "庫存數: "
+        label.text = "庫存數: Loading..."
         label.textColor = Colors.darkGray
         label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 13)
