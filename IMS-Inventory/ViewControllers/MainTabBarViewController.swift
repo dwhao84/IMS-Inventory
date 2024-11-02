@@ -100,8 +100,8 @@ class CustomAnimatedTabBarContentView: ESTabBarItemContentView {
         iconColor = .systemGray2
         
         // 選中狀態的顏色
-        highlightTextColor = Colors.IKEA_Blue
-        highlightIconColor = Colors.IKEA_Blue
+        highlightTextColor = Colors.black
+        highlightIconColor = Colors.black
         
         // 背景顏色設為透明
         backgroundColor = .clear
