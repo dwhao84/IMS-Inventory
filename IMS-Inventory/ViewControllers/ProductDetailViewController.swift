@@ -15,22 +15,12 @@ class ProductDetailViewController: UIViewController {
         imageView.contentMode = .scaleAspectFit
         imageView.layer.cornerRadius = 10
         imageView.clipsToBounds = true
-        imageView.layer.borderColor = UIColor.systemBlue.cgColor
+        imageView.layer.borderColor = UIColor.black.cgColor
+        imageView.tintColor = Colors.black
         imageView.layer.borderWidth = 2
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     } ()
-    
-//    let productTitleLabel: UILabel = {
-//        let label: UILabel = UILabel()
-//        label.text = ""
-//        label.textColor = Colors.darkGray
-//        label.font = UIFont.boldSystemFont(ofSize: 18)
-//        label.textAlignment = .left
-//        label.numberOfLines = 0
-//        label.translatesAutoresizingMaskIntoConstraints = false
-//        return label
-//    } ()
     
     let productDetailInfoLabel: UILabel = {
         let label: UILabel = UILabel()
@@ -39,6 +29,30 @@ class ProductDetailViewController: UIViewController {
         label.font = UIFont.systemFont(ofSize: 15)
         label.textAlignment = .left
         label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    } ()
+        
+    let articleNumberLabel: PaddingLabel = {
+        let label = PaddingLabel()
+        label.text = "No.10150"
+        label.textColor = Colors.white
+        label.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
+        label.backgroundColor = Colors.black
+        label.textAlignment = .center
+        label.layer.cornerRadius = 2
+        label.clipsToBounds = true
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    } ()
+    
+    let supplierLabel: UILabel = {
+        let label: UILabel = UILabel()
+        label.text = "Which Supplier"
+        label.textColor = Colors.darkGray
+        label.font = UIFont.systemFont(ofSize: 15)
+        label.textAlignment = .left
+        label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     } ()
@@ -54,30 +68,28 @@ class ProductDetailViewController: UIViewController {
         return label
     } ()
     
-    let articleNumberLabel: PaddingLabel = {
-        let label = PaddingLabel()
-        label.text = "No.10150"
-        label.textColor = Colors.white
-        label.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
-        label.backgroundColor = Colors.black
-        label.textAlignment = .center
-        label.layer.cornerRadius = 2
-        label.clipsToBounds = true
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    } ()
-    
     let confirmBtn: ConfirmButton = {
         let btn: ConfirmButton = ConfirmButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     } ()
     
-    let lineView: UIView = {
-        let view: UIView = UIView()
-        view.backgroundColor = Colors.darkGray
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
+    let stepper: UIStepper = {
+        let stepper: UIStepper = UIStepper()
+        stepper.value = 1
+        stepper.autorepeat = true
+        stepper.isContinuous = true
+        stepper.translatesAutoresizingMaskIntoConstraints = false
+        return stepper
+    } ()
+    
+    let labelsStackView: UIStackView = {
+        let stackView: UIStackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .fill
+        stackView.alignment = .center
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
     } ()
     
     let scrollView: UIScrollView = {
@@ -87,10 +99,11 @@ class ProductDetailViewController: UIViewController {
         return scrollView
     } ()
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
         setupUI()
     }
     
@@ -132,6 +145,14 @@ class ProductDetailViewController: UIViewController {
             productImageView.heightAnchor.constraint(equalTo: productImageView.widthAnchor, multiplier: 0.7),
             articleNumberLabel.topAnchor.constraint(equalTo: productImageView.bottomAnchor, constant: 20),
             articleNumberLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20)
+        ])
+        
+        self.view.addSubview(confirmBtn)
+        NSLayoutConstraint.activate([
+            confirmBtn.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
+            confirmBtn.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 30),
+            confirmBtn.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30),
+            confirmBtn.heightAnchor.constraint(equalToConstant: 60)
         ])
     }
 }
