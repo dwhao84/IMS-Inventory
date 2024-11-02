@@ -24,7 +24,7 @@ class ConfirmButton: UIButton {
         config.baseBackgroundColor = Colors.black
         config.baseForegroundColor = Colors.white
         config.title = "送出訂單"
-        config.cornerStyle = .large
+        config.cornerStyle = .capsule
         self.configuration = config
         self.translatesAutoresizingMaskIntoConstraints = false
         configurationUpdateHandler = { btn in
