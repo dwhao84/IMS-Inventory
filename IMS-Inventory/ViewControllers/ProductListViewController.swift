@@ -47,7 +47,7 @@ class ProductListViewController: UIViewController {
     
     let refreshControl: UIRefreshControl = {
         let refreshControl: UIRefreshControl = UIRefreshControl()
-        refreshControl.tintColor = Colors.IKEA_Blue
+        refreshControl.tintColor = Colors.black
         return refreshControl
     } ()
 
