@@ -21,7 +21,7 @@ class ConfirmButton: UIButton {
     
     private func commonInit() {
         var config = UIButton.Configuration.filled()
-        config.baseBackgroundColor = Colors.IKEA_Blue
+        config.baseBackgroundColor = Colors.black
         config.baseForegroundColor = Colors.white
         config.title = "送出訂單"
         config.cornerStyle = .large
