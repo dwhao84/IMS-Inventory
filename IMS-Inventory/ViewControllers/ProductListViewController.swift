@@ -10,7 +10,8 @@ import Kingfisher
 import UIView_Shimmer
 
 class ProductListViewController: UIViewController {
-    var productData: Product?
+    private var productData: Product?
+    lazy var filteredRecords:[Record] = []
     
     // MARK: - Checking Networking:
     enum NetworkError: Error {
@@ -53,9 +54,12 @@ class ProductListViewController: UIViewController {
     // MARK: - SearchController:
     let searchController: UISearchController = {
         let controller: UISearchController = UISearchController()
+        controller.searchBar.sizeToFit()
         controller.automaticallyShowsCancelButton = true
         controller.searchBar.placeholder = "Item, Article No, Description"
         controller.isActive = true
+        controller.searchBar.searchTextField.returnKeyType = .search
+        controller.hidesNavigationBarDuringPresentation = false
         controller.obscuresBackgroundDuringPresentation = true         // 新增當點選searchBar時，背景會產生半透明的效果。
         return controller
     } ()
@@ -83,6 +87,16 @@ class ProductListViewController: UIViewController {
     }
     
     func setupUI() {
+        setNavigationView()
+        addSearchControllerDelegates()
+        addTargets()
+        addDelegateAndDataSource()
+        addConstraints()
+        
+        filteredRecords = productData?.records ?? []
+    }
+    
+    func setNavigationView () {
         let standardAppearance = UINavigationBarAppearance()
         self.navigationController?.navigationBar.standardAppearance = standardAppearance
         
@@ -96,18 +110,6 @@ class ProductListViewController: UIViewController {
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.searchController = searchController
-        
-        addTargets()
-        addDelegateAndDataSource()
-        addConstraints()
-    }
-    
-    // 定義一個自訂的字型，如果不行 回傳systemFont
-    static func scriptFont(size: CGFloat) -> UIFont {
-      guard let customFont = UIFont(name: "NotoIKEATraditionalChinese-Bold", size: size) else {
-        return UIFont.systemFont(ofSize: size)
-      }
-      return customFont
     }
     
     func addTargets() {
@@ -135,6 +137,10 @@ class ProductListViewController: UIViewController {
         ])
     }
     
+    func addSearchControllerDelegates () {
+        searchController.searchBar.delegate = self
+    }
+    
     func fetchData () {
         guard let url = URL(string: API.baseUrl) else {
             return
@@ -142,14 +148,12 @@ class ProductListViewController: UIViewController {
         
         DispatchQueue.main.async {
             self.activityIndicator.startAnimating()
-            self.view.isUserInteractionEnabled = false // 禁用用戶交互
         }
               
         var request = URLRequest(url: url)
         request.setValue("Bearer \(API.apiKey)", forHTTPHeaderField: "Authorization")
         
         URLSession.shared.dataTask(with: request) { data, response, error in
-
             DispatchQueue.main.async {
                  self.activityIndicator.stopAnimating()
                  self.view.isUserInteractionEnabled = true // 恢復用戶交互
@@ -159,16 +163,12 @@ class ProductListViewController: UIViewController {
                 print("DEBUG PRINT: Request error: \(error.localizedDescription)")
                 return
             }
-
-            guard let data = data else {
-                print("DEBUG PRINT: No data received")
-                return
-            }
+            guard let data = data else { print("DEBUG PRINT: No data received"); return }
+            
             do {
                 let decoder = JSONDecoder()
                 let jsonData = try decoder.decode(Product.self, from: data)
-                
-                DispatchQueue.main.async {
+                DispatchQueue.main.async { [self] in
                     self.productData = jsonData
                     self.collectionView.reloadData()  // Ensure UI updates happen on the main thread
                     print("Fetch Data already")
@@ -188,6 +188,18 @@ class ProductListViewController: UIViewController {
         print("refreshControlValueChanged")
     }
     
+    private func performSearch(with searchText: String) {
+         guard let records = productData?.records else { return }
+         
+         filteredRecords = records.filter { record in
+             record.fields.articleName.lowercased().contains(searchText.lowercased()) ||
+             record.fields.articleNameInChinese.contains(searchText) ||
+             record.fields.articleNumber.lowercased().contains(searchText.lowercased())
+         }
+         
+         collectionView.reloadData()
+     }
+    
     // MARK: - Handle device rotation
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
@@ -205,27 +217,45 @@ class ProductListViewController: UIViewController {
 
 extension ProductListViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
+    // MARK: - numberOfItemsInSection
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return productData?.records.count ?? 2
+        if searchController.isActive {
+            return filteredRecords.count
+        } else {
+            return productData?.records.count ?? 0
+        }
     }
     
+    // MARK: - cellForItemAt
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductCollectionViewCell.identifier, for: indexPath) as! ProductCollectionViewCell
         
-        let product = productData?.records[indexPath.row]
-        cell.articleNumberLabel.text = "\(product?.fields.articleNumber ?? "Loading...") "
-        cell.productTCNameLabel.text = "\(product?.fields.articleNameInChinese ?? "Loading...") "
-        cell.productENNameLabel.text = "\(product?.fields.articleName ?? "Loading...") "
-        // 假設Product有一個name屬性
-        // 使用 Kingfisher 加載圖片
-        if let imageUrlString = productData?.records[indexPath.row].fields.image.last?.url, let url = URL(string: imageUrlString) {
-            cell.productImageView.kf.setImage(with: url)
+        // 取得正確的資料來源
+        let product = (searchController.isActive) ? filteredRecords[indexPath.row] : productData?.records[indexPath.row]
+        
+        // 設定文字
+        cell.articleNumberLabel.text = product?.fields.articleNumber ?? "Loading..."
+        cell.productTCNameLabel.text = product?.fields.articleNameInChinese ?? "Loading..."
+        cell.productENNameLabel.text = product?.fields.articleName ?? "Loading..."
+        
+        // 設定圖片
+        if let imageUrlString = product?.fields.image.last?.url,
+           let url = URL(string: imageUrlString) {
+            cell.productImageView.kf.setImage(
+                with: url,
+                placeholder: Images.image, // 載入中顯示的預設圖片
+                options: [
+                    .transition(.fade(0.2)), // 淡入淡出效果
+                    .cacheOriginalImage // 快取原始圖片
+                ])
         } else {
             cell.productImageView.image = Images.image
         }
+        
         return cell
     }
     
+    // MARK: - didSelectItemAt
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("\(indexPath.row)")
         
@@ -233,6 +263,7 @@ extension ProductListViewController: UICollectionViewDataSource, UICollectionVie
         self.navigationController?.pushViewController(productDetailVC, animated: true)
     }
     
+    // MARK: - sizeForItemAt
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let itemSpace: CGFloat = 1
         let columnCount: CGFloat = 1
@@ -249,9 +280,9 @@ extension ProductListViewController: UICollectionViewDataSource, UICollectionVie
         
         // 計算總高度
         let totalHeight = max(minHeight, tcNameHeight + enNameHeight + articleNumberHeight + 60) // 60 為額外間距
-        
         return CGSize(width: width, height: totalHeight)
     }
+    
     
     private func heightForLabel(text: String, font: UIFont, width: CGFloat) -> CGFloat {
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: width, height: .greatestFiniteMagnitude))
@@ -261,6 +292,28 @@ extension ProductListViewController: UICollectionViewDataSource, UICollectionVie
         label.text = text
         label.sizeToFit()
         return label.frame.height
+    }
+}
+
+// MARK: - UISearchBarDelegate
+extension ProductListViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let searchText = searchBar.text?.lowercased(),
+              let records = productData?.records else { return }
+        
+        filteredRecords = records.filter { record in
+            record.fields.articleName.lowercased().contains(searchText) ||
+            record.fields.articleNameInChinese.contains(searchText) ||
+            record.fields.articleNumber.lowercased().contains(searchText)
+        }
+        
+        collectionView.reloadData()
+        searchBar.resignFirstResponder()
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        filteredRecords = productData?.records ?? []
+        collectionView.reloadData()
     }
 }
 
