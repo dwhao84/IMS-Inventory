@@ -53,8 +53,8 @@ class MainTabBarViewController: ESTabBarController {
         calculationNC.tabBarItem = ESTabBarItem.init(
             CustomAnimatedTabBarContentView(),
             title: "Calculation",
-            image: Images.keyboard,
-            selectedImage: Images.keyboard
+            image: Images.calculation,
+            selectedImage: Images.calculation
         )
         
         settingNC.tabBarItem = ESTabBarItem.init(
