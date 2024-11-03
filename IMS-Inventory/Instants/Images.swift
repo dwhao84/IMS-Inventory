@@ -78,4 +78,7 @@ struct Images {
     static let timer = UIImage(systemName: "timer")!
     static let alarm = UIImage(systemName: "alarm.fill")!
     static let hourglass = UIImage(systemName: "hourglass")!
+    
+    // MARK:
+    static let calculation = UIImage(systemName: "plus.forwardslash.minus")!
 }
