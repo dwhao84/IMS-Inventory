@@ -1,16 +1,18 @@
-//
-//  ProductDetailViewController.swift
-//  IMS-Inventory
-//
-//  Created by Dawei Hao on 2024/10/31.
-//
-
 import UIKit
 
 class ProductDetailViewController: UIViewController {
     
-    let productImageView: UIImageView = {
-        let imageView: UIImageView = UIImageView()
+    // MARK: - UI Components
+    private let tableView: UITableView = {
+        let table = UITableView(frame: .zero, style: .insetGrouped)
+        table.backgroundColor = UIColor.systemGray6
+        table.translatesAutoresizingMaskIntoConstraints = false
+        table.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        return table
+    }()
+    
+    private let productImageView: UIImageView = {
+        let imageView = UIImageView()
         imageView.image = Images.photoLibrary
         imageView.contentMode = .scaleAspectFit
         imageView.layer.cornerRadius = 10
@@ -20,298 +22,187 @@ class ProductDetailViewController: UIViewController {
         imageView.layer.borderWidth = 2
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
-    } ()
+    }()
     
-    let articleNumberLabel: PaddingLabel = {
-        let label = PaddingLabel()
-        label.text = "No.10150"
-        label.textColor = Colors.white
-        label.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
-        label.backgroundColor = Colors.black
-        label.textAlignment = .center
-        label.layer.cornerRadius = 2
-        label.clipsToBounds = true
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    } ()
-    
-    let productDetailInfoLabel: UILabel = {
-        let label: UILabel = UILabel()
-        label.text = "貨架重量: kg"
-        label.textColor = Colors.darkGray
-        label.font = UIFont.systemFont(ofSize: 20)
-        label.textAlignment = .left
-        label.numberOfLines = 0
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    } ()
-    
-    let stockValueLabel: UILabel = {
-        let label: UILabel = UILabel()
-        label.text = "庫存數:"
-        label.textColor = Colors.darkGray
-        label.font = UIFont.systemFont(ofSize: 20)
-        label.textAlignment = .left
-        label.numberOfLines = 3
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    } ()
-    
-    let confirmBtn: ConfirmButton = {
-        let btn: ConfirmButton = ConfirmButton()
+    private let confirmBtn: ConfirmButton = {
+        let btn = ConfirmButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
-    } ()
+    }()
     
-    let stepper: UIStepper = {
-        let stepper: UIStepper = UIStepper()
-        stepper.value = 1
-        stepper.autorepeat = true
-        stepper.isContinuous = true
-        stepper.translatesAutoresizingMaskIntoConstraints = false
-        return stepper
-    } ()
+    // MARK: - Properties
+    private enum Section: Int, CaseIterable {
+        case image
+        case basicInfo
+        case details
+        case quantity
+    }
     
-    let qtyLabel: UILabel = {
-        let label: UILabel = UILabel()
-        label.text = "1"
-        label.textColor = Colors.darkGray
-        label.textAlignment = .left
-        label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 20)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    } ()
+    private var selectedDate: Date?
+    private var selectedStatus: String?
+    private var quantity: Int = 1
     
-    let stepperStackView: UIStackView = {
-        let stackView: UIStackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.distribution = .fill
-        stackView.alignment = .center
-        stackView.spacing = 20
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    } ()
-    
-    let statusLabel: UILabel = {
-        let label: UILabel = UILabel()
-        label.text = "狀態選擇"
-        label.textColor = Colors.darkGray
-        label.textAlignment = .left
-        label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 20)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    } ()
-    
-    let statusTextField: UITextField = {
-        let tf: UITextField = UITextField()
-        tf.text = "請選擇狀態"
-        tf.borderStyle = .roundedRect
-        tf.textColor = Colors.darkGray
-        tf.font = UIFont.systemFont(ofSize: 20)
-        tf.clearButtonMode = .whileEditing
-        tf.translatesAutoresizingMaskIntoConstraints = false
-        return tf
-    } ()
-    
-    let statusStackView: UIStackView = {
-        let stackView: UIStackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.distribution = .fill
-        stackView.alignment = .center
-        stackView.spacing = 20
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    } ()
-    
-    let dateLabel: UILabel = {
-        let label: UILabel = UILabel()
-        label.text = "使用日期"
-        label.textColor = Colors.darkGray
-        label.textAlignment = .left
-        label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 20)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    } ()
-    
-    let dateSelectTextField: UITextField = {
-        let tf: UITextField = UITextField()
-        tf.text = "請選擇日期"
-        tf.textColor = Colors.darkGray
-        tf.borderStyle = .roundedRect
-        tf.font = UIFont.systemFont(ofSize: 20)
-        tf.clearButtonMode = .whileEditing
-        tf.translatesAutoresizingMaskIntoConstraints = false
-        return tf
-    } ()
-    
-    let dateStackView: UIStackView = {
-        let stackView: UIStackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.distribution = .fill
-        stackView.alignment = .center
-        stackView.spacing = 20
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    } ()
-    
-    let mainStackView: UIStackView = {
-        let stackView: UIStackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.distribution = .fill
-        stackView.alignment = .leading
-        stackView.spacing = 30
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    } ()
-    
-    let scrollView: UIScrollView = {
-        let scrollView: UIScrollView = UIScrollView()
-        scrollView.isScrollEnabled = true
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        return scrollView
-    } ()
-    
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         setupUI()
+        setupTableView()
         addTargets()
     }
     
-    // MARK: - setupUI
-    func setupUI() {
-        setBackgroundColor()
+    // MARK: - Setup
+    private func setupUI() {
         setNavigationView()
-        configStackViews()
-        addConstraints()
-    }
-    
-    // MARK: - set BackgroundColor
-    func setBackgroundColor () {
-        self.view.backgroundColor = Colors.white
-    }
-    
-    // MARK: - set NavigationView
-    func setNavigationView () {
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationItem.largeTitleDisplayMode = .always
-        self.navigationItem.title = "Product Name"
+        self.view.backgroundColor = UIColor.systemGray6
+        self.view.addSubview(tableView)
+        self.view.addSubview(confirmBtn)
         
-        // Add appearance
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: confirmBtn.topAnchor, constant: -20),
+            
+            confirmBtn.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            confirmBtn.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            confirmBtn.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+            confirmBtn.heightAnchor.constraint(equalToConstant: 60)
+        ])
+    }
+    
+    private func setupTableView() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(ProductImageCell.self, forCellReuseIdentifier: "ProductImageCell")
+        tableView.register(ProductInfoCell.self, forCellReuseIdentifier: "ProductInfoCell")
+        tableView.register(ProductQuantityCell.self, forCellReuseIdentifier: "ProductQuantityCell")
+    }
+    
+    private func setNavigationView() {
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.largeTitleDisplayMode = .always
+        navigationItem.title = "Product Name"
+        
         let appearance = UINavigationBarAppearance()
         appearance.configureWithTransparentBackground()
-        appearance.backgroundColor = Colors.clear
-        
-        let scrollingAppearance = UINavigationBarAppearance()
-        scrollingAppearance.configureWithTransparentBackground()
-        scrollingAppearance.backgroundColor = Colors.clear
+        appearance.backgroundColor = Colors.white
         
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
     }
     
-    // MARK: - add Constraints
-    func addConstraints() {
-        // 1. Add subviews
-        view.addSubview(scrollView)
-        scrollView.addSubview(mainStackView)
-        
-        [dateSelectTextField, statusTextField].forEach {
-            $0.heightAnchor.constraint(equalToConstant: 50).isActive = true
-            $0.widthAnchor.constraint(equalToConstant: 150).isActive = true
-        }
-        
-        NSLayoutConstraint.activate([
-            // ScrollView constraints
-            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            
-            // MainStackView constraints
-            mainStackView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: 30),
-            mainStackView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor, constant: 20),
-            mainStackView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor, constant: -20),
-            mainStackView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -30),
-            // Make stack view width equal to scroll view width minus padding
-            mainStackView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor, constant: -40),
-            
-            // ProductImageView constraints
-            productImageView.heightAnchor.constraint(equalTo: productImageView.widthAnchor, multiplier: 0.7),
-            productImageView.widthAnchor.constraint(equalToConstant: 300),
-            productImageView.leadingAnchor.constraint(equalTo: mainStackView.leadingAnchor),
-            productImageView.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor),
-            
-            // ConfirmButton constraints
-            confirmBtn.leadingAnchor.constraint(equalTo: mainStackView.leadingAnchor, constant: 10),
-            confirmBtn.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor, constant: -10),
-            confirmBtn.heightAnchor.constraint(equalToConstant: 60),
-            confirmBtn.bottomAnchor.constraint(equalTo: mainStackView.bottomAnchor, constant: -20)
-        ])
-    }
-    
-    func configStackViews () {
-        // 使用時間
-        dateStackView.addArrangedSubview(dateLabel)
-        dateStackView.addArrangedSubview(dateSelectTextField)
-        
-        // 選擇狀態
-        statusStackView.addArrangedSubview(statusLabel)
-        statusStackView.addArrangedSubview(statusTextField)
-        
-        stepperStackView.addArrangedSubview(stepper)
-        stepperStackView.addArrangedSubview(qtyLabel)
-        
-        mainStackView.addArrangedSubview(productImageView)
-        mainStackView.addArrangedSubview(articleNumberLabel)
-        mainStackView.addArrangedSubview(dateStackView)
-        mainStackView.addArrangedSubview(statusStackView)
-        mainStackView.addArrangedSubview(productDetailInfoLabel)
-        mainStackView.addArrangedSubview(stockValueLabel)
-        mainStackView.addArrangedSubview(stepperStackView)
-        mainStackView.addArrangedSubview(confirmBtn)
-    }
-    
-    // MARK: - add Targets
-    func addTargets () {
-        confirmBtn.addTarget(self, action: #selector(confirmBtnTapped), for: .touchUpInside)
-        stepper.addTarget(self, action: #selector(stepperTapped), for: .touchUpInside)
-    }
-    
     // MARK: - Actions
-    @objc func confirmBtnTapped (_ sender: UIButton) {
-        print("confirmBtnTapped")
+    private func addTargets() {
+        confirmBtn.addTarget(self, action: #selector(confirmBtnTapped), for: .touchUpInside)
+    }
+    
+    @objc private func confirmBtnTapped(_ sender: UIButton) {
         let shoppingCartVC = ShoppingCartViewController()
         shoppingCartVC.modalPresentationStyle = .overFullScreen
-        self.navigationController?.pushViewController(shoppingCartVC, animated: true)
+        navigationController?.pushViewController(shoppingCartVC, animated: true)
     }
     
-    @objc func stepperTapped(_ sender: UIStepper) {
-        print("Stepper Tapped")
-        qtyLabel.text = "\(Int(stepper.value))"
-        print(qtyLabel.text!)
+    @objc private func stepperValueChanged(_ stepper: UIStepper) {
+        quantity = Int(stepper.value)
+        tableView.reloadSections(IndexSet(integer: Section.quantity.rawValue), with: .none)
     }
-    
 }
 
-extension ProductDetailViewController: UITextFieldDelegate {
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        print("textField Did Begin Editing")
-        textField.becomeFirstResponder()
+// MARK: - UITableViewDataSource
+extension ProductDetailViewController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return Section.allCases.count
     }
     
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        print("textField Did End Editing")
-        textField.resignFirstResponder()
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard let section = Section(rawValue: section) else { return 0 }
+        switch section {
+        case .image:
+            return 1
+        case .basicInfo:
+            return 1
+        case .details:
+            return 2  // 日期和狀態
+        case .quantity:
+            return 2  // 庫存和數量選擇
+        }
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        print("textField Should Return")
-        return true
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let section = Section(rawValue: indexPath.section) else {
+            return UITableViewCell()
+        }
+        
+        switch section {
+        case .image:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ProductImageCell", for: indexPath) as! ProductImageCell
+            cell.configure(with: productImageView.image)
+            return cell
+            
+        case .basicInfo:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ProductInfoCell", for: indexPath) as! ProductInfoCell
+            cell.configure(articleNumber: "No.10150")
+            return cell
+            
+        case .details:
+            let cell = UITableViewCell(style: .value1, reuseIdentifier: "cell")
+            switch indexPath.row {
+            case 0:
+                cell.textLabel?.text = "使用日期"
+                cell.detailTextLabel?.text = "請選擇日期"
+            case 1:
+                cell.textLabel?.text = "狀態選擇"
+                cell.detailTextLabel?.text = "請選擇狀態"
+            default:
+                break
+            }
+            cell.accessoryType = .disclosureIndicator
+            return cell
+            
+        case .quantity:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ProductQuantityCell", for: indexPath) as! ProductQuantityCell
+            if indexPath.row == 0 {
+                cell.configure(title: "庫存數:", value: "100")
+            } else {
+                cell.configureWithStepper(title: "數量:", value: quantity) { [weak self] stepper in
+                    self?.stepperValueChanged(stepper)
+                }
+            }
+            return cell
+        }
+    }
+}
+
+// MARK: - UITableViewDelegate
+extension ProductDetailViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        guard let section = Section(rawValue: indexPath.section) else { return UITableView.automaticDimension }
+        
+        switch section {
+        case .image:
+            return 250
+        default:
+            return UITableView.automaticDimension
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        guard let section = Section(rawValue: indexPath.section) else { return }
+        switch section {
+        case .details:
+            // Handle date and status selection
+            if indexPath.row == 0 {
+                // Show date picker
+                print("Show date picker")
+            } else {
+                // Show status picker
+                print("Show status picker")
+            }
+        default:
+            break
+        }
     }
 }
 
