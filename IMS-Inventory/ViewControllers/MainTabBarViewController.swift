@@ -46,8 +46,8 @@ class MainTabBarViewController: ESTabBarController {
         productListNC.tabBarItem = ESTabBarItem.init(
             CustomAnimatedTabBarContentView(),
             title: "Racking Status",
-            image: Images.list_bullet,
-            selectedImage: Images.list_bullet
+            image: Images.server,
+            selectedImage: Images.server
         )
         
         calculationNC.tabBarItem = ESTabBarItem.init(

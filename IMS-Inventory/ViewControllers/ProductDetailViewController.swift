@@ -177,7 +177,6 @@ extension ProductDetailViewController: UITableViewDataSource {
 extension ProductDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         guard let section = Section(rawValue: indexPath.section) else { return UITableView.automaticDimension }
-        
         switch section {
         case .image:
             return 250

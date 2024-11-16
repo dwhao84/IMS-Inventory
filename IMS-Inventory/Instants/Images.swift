@@ -81,4 +81,5 @@ struct Images {
     
     // MARK:
     static let calculation = UIImage(systemName: "plus.forwardslash.minus")!
+    static let server = UIImage(systemName: "server.rack")!
 }
