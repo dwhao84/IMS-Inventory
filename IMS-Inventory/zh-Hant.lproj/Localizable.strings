@@ -1,0 +1,19 @@
+/* 
+  Localizable.strings
+  IMS-Inventory
+
+  Created by Dawei Hao on 2024/11/27.
+  
+*/
+
+// MARK: - TabBar Items
+"Racking Status" = "貨架庫存數";
+"Calculation"    = "貨架計算";
+"Settings"       = "設定頁面";
+
+
+// MARK: - Cells
+"Loading..." = "等待中";
+"Sent" = "送出";
+"Send" = "已送出";
+"Stock Qty" = "庫存數";
