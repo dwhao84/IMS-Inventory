@@ -78,3 +78,8 @@ class ProductQuantityCell: UITableViewCell {
         stepperAction?(sender)
     }
 }
+
+#Preview(traits: .fixedLayout(width: 420, height: 170), body: {
+    let productQuantityCell = ProductQuantityCell()
+    return productQuantityCell
+})
