@@ -7,8 +7,8 @@
 
 import UIKit
 
-class API {
+struct API {
     private init() {}
-    static let baseUrl: String = "https://api.airtable.com/v0/app7877pVxbaMubQP/Table%201"
-    static let apiKey: String = "pat1LqVaDimhjw3Zf.b43913585307f91de54e59d08120eb228c2d09c777a0c10250ba3a5aab67bcf4"
+    static let baseUrl = URL(string: "https://api.airtable.com/v0/app7877pVxbaMubQP/Racking_Qty?maxRecords=1000&view=Grid%20view")!
+    static let apiKey = "pat1LqVaDimhjw3Zf.b43913585307f91de54e59d08120eb228c2d09c777a0c10250ba3a5aab67bcf4"
 }
