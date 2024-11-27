@@ -9,6 +9,8 @@ import UIKit
 
 class LoginViewController: UIViewController {
     
+    
+    
     private let acccoutTf: UITextField = {
         let tf: UITextField = UITextField()
         tf.borderStyle = .roundedRect
@@ -21,9 +23,21 @@ class LoginViewController: UIViewController {
         let tf: UITextField = UITextField()
         tf.borderStyle = .roundedRect
         tf.text = "Enter your password"
+        tf.rightViewMode = .whileEditing
         tf.translatesAutoresizingMaskIntoConstraints = false
         return tf
     } ()
+    
+    // stackView
+     private let stackView: UIStackView = {
+         let stackView: UIStackView = UIStackView()
+         stackView.axis             = .vertical
+         stackView.alignment        = .center
+         stackView.spacing          = 25
+         stackView.distribution     = .fill
+         stackView.translatesAutoresizingMaskIntoConstraints = false
+         return stackView
+     } ()
 
     override func viewDidLoad() {
         super.viewDidLoad()
