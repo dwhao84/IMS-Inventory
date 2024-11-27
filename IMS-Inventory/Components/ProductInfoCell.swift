@@ -43,3 +43,8 @@ class ProductInfoCell: UITableViewCell {
         articleNumberLabel.text = articleNumber
     }
 }
+
+#Preview(traits: .fixedLayout(width: 420, height: 170), body: {
+    let productInfoCell = ProductInfoCell()
+    return productInfoCell
+})

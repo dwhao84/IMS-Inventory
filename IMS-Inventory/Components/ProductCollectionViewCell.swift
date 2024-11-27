@@ -66,7 +66,7 @@ class ProductCollectionViewCell: UICollectionViewCell, ShimmeringViewProtocol {
     
     let qtyLabel: UILabel = {
         let label = UILabel()
-        label.text = "庫存數: Loading..."
+        label.text = "Stock Qty: Loading..."
         label.textColor = Colors.darkGray
         label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 13)
@@ -103,7 +103,7 @@ class ProductCollectionViewCell: UICollectionViewCell, ShimmeringViewProtocol {
         productTCNameLabel.text = "Loading..."
         productENNameLabel.text = "Loading..."
         articleNumberLabel.text = "Loading..."
-        qtyLabel.text = "庫存數: "
+        qtyLabel.text = "Stock Qty: "
     }
     
     func setupUI() {

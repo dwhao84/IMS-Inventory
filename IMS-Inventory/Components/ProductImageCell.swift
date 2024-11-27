@@ -40,3 +40,8 @@ class ProductImageCell: UITableViewCell {
         productImageView.image = image
     }
 }
+
+#Preview(traits: .fixedLayout(width: 420, height: 170), body: {
+    let productImageCell = ProductImageCell()
+    return productImageCell
+})
