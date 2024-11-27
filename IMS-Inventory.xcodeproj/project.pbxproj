@@ -28,6 +28,8 @@
 		D3A1F8332CD7D3660035AF93 /* ProductImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A1F8322CD7D3660035AF93 /* ProductImageCell.swift */; };
 		D3A1F8352CD7D8DB0035AF93 /* ProductQuantityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A1F8342CD7D8DB0035AF93 /* ProductQuantityCell.swift */; };
 		D3B30BD32CE859FB001F2484 /* ProductInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3B30BD22CE859FB001F2484 /* ProductInfoCell.swift */; };
+		D3D6CB8F2CF76EA80019CBA5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D3D6CB912CF76EA80019CBA5 /* Localizable.strings */; };
+		D3D6CB942CF772130019CBA5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D6CB932CF772130019CBA5 /* LoginViewController.swift */; };
 		D3E2B6822AFB7E9D00C932E7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E2B6812AFB7E9D00C932E7 /* AppDelegate.swift */; };
 		D3E2B6842AFB7E9D00C932E7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E2B6832AFB7E9D00C932E7 /* SceneDelegate.swift */; };
 		D3E2B68B2AFB7E9F00C932E7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3E2B68A2AFB7E9F00C932E7 /* Assets.xcassets */; };
@@ -82,6 +84,10 @@
 		D3A1F8322CD7D3660035AF93 /* ProductImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductImageCell.swift; sourceTree = "<group>"; };
 		D3A1F8342CD7D8DB0035AF93 /* ProductQuantityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductQuantityCell.swift; sourceTree = "<group>"; };
 		D3B30BD22CE859FB001F2484 /* ProductInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductInfoCell.swift; sourceTree = "<group>"; };
+		D3D6CB862CF76D2D0019CBA5 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		D3D6CB902CF76EA80019CBA5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D3D6CB922CF76EAA0019CBA5 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		D3D6CB932CF772130019CBA5 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		D3E2B67E2AFB7E9D00C932E7 /* IMS-Inventory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "IMS-Inventory.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3E2B6812AFB7E9D00C932E7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D3E2B6832AFB7E9D00C932E7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -136,8 +142,8 @@
 				D30A6BB52CD346F8003AC00A /* PaddingLabel.swift */,
 				D3A1F8322CD7D3660035AF93 /* ProductImageCell.swift */,
 				D3A1F8342CD7D8DB0035AF93 /* ProductQuantityCell.swift */,
-				D30A6BBE2CD36F13003AC00A /* ConfirmButton.swift */,
 				D3B30BD22CE859FB001F2484 /* ProductInfoCell.swift */,
+				D30A6BBE2CD36F13003AC00A /* ConfirmButton.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -178,6 +184,14 @@
 			path = Instants;
 			sourceTree = "<group>";
 		};
+		D3D6CB952CF773FA0019CBA5 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				D3D6CB932CF772130019CBA5 /* LoginViewController.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
 		D3E2B6752AFB7E9D00C932E7 = {
 			isa = PBXGroup;
 			children = (
@@ -202,6 +216,7 @@
 		D3E2B6802AFB7E9D00C932E7 /* IMS-Inventory */ = {
 			isa = PBXGroup;
 			children = (
+				D3D6CB912CF76EA80019CBA5 /* Localizable.strings */,
 				D399A8232CC568200074738D /* Private Data */,
 				D3E2B6B32AFB841F00C932E7 /* Supporting */,
 				D30A6BA92CD11CB6003AC00A /* Components */,
@@ -245,6 +260,7 @@
 			isa = PBXGroup;
 			children = (
 				D30A6BBC2CD36E12003AC00A /* LaunchSceenViewController.swift */,
+				D3D6CB952CF773FA0019CBA5 /* Login */,
 				D30A6BB72CD34CC5003AC00A /* MainTabBarViewController.swift */,
 				D3027AD42AFCB79B00A3BCE3 /* ProductListViewController.swift */,
 				D30A6BB12CD32339003AC00A /* ProductDetailViewController.swift */,
@@ -347,6 +363,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hant",
 			);
 			mainGroup = D3E2B6752AFB7E9D00C932E7;
 			packageReferences = (
@@ -354,6 +371,7 @@
 				D399A8262CC569FF0074738D /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				D30A6BAA2CD11F76003AC00A /* XCRemoteSwiftPackageReference "UIView-Shimmer" */,
 				D30A6BB92CD34F95003AC00A /* XCRemoteSwiftPackageReference "ESTabBarController" */,
+				D3D6CB7F2CF747C80019CBA5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = D3E2B67F2AFB7E9D00C932E7 /* Products */;
 			projectDirPath = "";
@@ -372,6 +390,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D340864A2B4656DF00F6C6E4 /* NotoIKEATraditionalChinese_Latin-Regular.ttf in Resources */,
+				D3D6CB8F2CF76EA80019CBA5 /* Localizable.strings in Resources */,
 				D34086492B4656DF00F6C6E4 /* NotoIKEATraditionalChinese_Latin-Bold.ttf in Resources */,
 				D3E2B68E2AFB7E9F00C932E7 /* LaunchScreen.storyboard in Resources */,
 				D3E2B68B2AFB7E9F00C932E7 /* Assets.xcassets in Resources */,
@@ -414,6 +433,7 @@
 				D3FADE2B2BF8596C00185477 /* Colors.swift in Sources */,
 				D399C3AE2BFA257600DBBC78 /* Images.swift in Sources */,
 				D30A6BB22CD32339003AC00A /* ProductDetailViewController.swift in Sources */,
+				D3D6CB942CF772130019CBA5 /* LoginViewController.swift in Sources */,
 				D399A8252CC568430074738D /* PrivateData.swift in Sources */,
 				D30A6BAE2CD1208E003AC00A /* SettingViewController.swift in Sources */,
 				D30A6BB62CD346F8003AC00A /* PaddingLabel.swift in Sources */,
@@ -461,10 +481,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		D3D6CB912CF76EA80019CBA5 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D3D6CB902CF76EA80019CBA5 /* en */,
+				D3D6CB922CF76EAA0019CBA5 /* zh-Hant */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		D3E2B68C2AFB7E9F00C932E7 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				D3E2B68D2AFB7E9F00C932E7 /* Base */,
+				D3D6CB862CF76D2D0019CBA5 /* zh-Hant */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -477,6 +507,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -539,6 +570,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -788,6 +820,14 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 4.5.0;
+			};
+		};
+		D3D6CB7F2CF747C80019CBA5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.5.0;
 			};
 		};
 		D3FADE252BF8478F00185477 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {

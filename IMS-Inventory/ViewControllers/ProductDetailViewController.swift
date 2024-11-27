@@ -42,6 +42,8 @@ class ProductDetailViewController: UIViewController {
     private var selectedStatus: String?
     private var quantity: Int = 1
     
+    
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()

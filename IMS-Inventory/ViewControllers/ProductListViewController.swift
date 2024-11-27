@@ -64,6 +64,15 @@ class ProductListViewController: UIViewController {
         return controller
     } ()
     
+    // 添加 segmentedControl 屬性
+    let segmentedControl: UISegmentedControl = {
+        let control = UISegmentedControl(items: ["Merchandising & display", "Lighting", "Building components", "Communication", "Desks & counters", "IKEA FOOD equipment",  "Product/area specific", "Shopping experience", "Trade dress"])
+       control.selectedSegmentIndex = 0
+       control.translatesAutoresizingMaskIntoConstraints = false
+       return control
+    }()
+
+    
     // MARK: - Life Cycle:
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -141,51 +150,100 @@ class ProductListViewController: UIViewController {
         searchController.searchBar.delegate = self
     }
     
-    func fetchData () {
-        guard let url = URL(string: API.baseUrl) else {
-            return
+    // 新增 setupSegmentedControl 方法
+    func setupSegmentedControl() {
+       view.addSubview(segmentedControl)
+       segmentedControl.addTarget(self, action: #selector(segmentChanged), for: .valueChanged)
+       
+       NSLayoutConstraint.activate([
+           segmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
+           segmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+           segmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
+       ])
+       
+       // 調整 collectionView 的 top constraint
+       collectionView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 8).isActive = true
+    }
+    
+    func fetchData() {
+        // 使用之前定義的 URL 常量
+        let url = API.baseUrl
+        
+        // UI 更新前先禁用交互
+        DispatchQueue.main.async { [weak self] in
+            self?.view.isUserInteractionEnabled = false
+            self?.activityIndicator.startAnimating()
         }
         
-        DispatchQueue.main.async {
-            self.activityIndicator.startAnimating()
-        }
-              
         var request = URLRequest(url: url)
         request.setValue("Bearer \(API.apiKey)", forHTTPHeaderField: "Authorization")
         
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            DispatchQueue.main.async {
-                 self.activityIndicator.stopAnimating()
-                 self.view.isUserInteractionEnabled = true // 恢復用戶交互
-             }
+        let task = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
+            // 確保 UI 操作在主線程
+            defer {
+                DispatchQueue.main.async {
+                    self?.activityIndicator.stopAnimating()
+                    self?.view.isUserInteractionEnabled = true
+                }
+            }
             
+            // 處理錯誤
             if let error = error {
-                print("DEBUG PRINT: Request error: \(error.localizedDescription)")
+                print("Network error: \(error.localizedDescription)")
                 return
             }
-            guard let data = data else { print("DEBUG PRINT: No data received"); return }
             
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200...299).contains(httpResponse.statusCode) else {
+                print("Invalid response")
+                return
+            }
+            
+            guard let data = data else {
+                print("No data received")
+                return
+            }
+            
+            // 解碼數據
             do {
                 let decoder = JSONDecoder()
                 let jsonData = try decoder.decode(Product.self, from: data)
-                DispatchQueue.main.async { [self] in
-                    self.productData = jsonData
-                    self.collectionView.reloadData()  // Ensure UI updates happen on the main thread
-                    print("Fetch Data already")
-                    print(jsonData)
+                DispatchQueue.main.async { [weak self] in
+                    self?.productData = jsonData
+                    self?.collectionView.reloadData()
+                    print("Data fetched successfully")
                 }
             } catch {
-                print("Decode error: \(error.localizedDescription)")
-                if let rawJSONString = String(data: data, encoding: .utf8) {
-                    print("DEBUG PRINT: Received JSON - \(rawJSONString)")
+                print("Decoding error: \(error)")
+                if let rawJSON = String(data: data, encoding: .utf8) {
+                    print("Raw JSON: \(rawJSON)")
                 }
             }
-        }.resume()
+        }
+        
+        task.resume()
     }
     
     @objc func refreshControlValueChanged (_ sender: Any) {
         refreshControl.endRefreshing()
         print("refreshControlValueChanged")
+    }
+    
+    @objc func segmentChanged(_ sender: UISegmentedControl) {
+//       guard let records = productData?.records else { return }
+//       
+//       switch sender.selectedSegmentIndex {
+//       case 0: // 全部
+//           filteredRecords = records
+//       case 1: // 低庫存
+//           filteredRecords = records.filter { $0.fields.stockQty < 10 && $0.fields.stockQty > 0 }
+//       case 2: // 無庫存
+//           filteredRecords = records.filter { $0.fields.stockQty == 0 }
+//       default:
+//           break
+//       }
+       
+       collectionView.reloadData()
     }
     
     private func performSearch(with searchText: String) {
