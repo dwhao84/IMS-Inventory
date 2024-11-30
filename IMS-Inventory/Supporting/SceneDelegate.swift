@@ -13,12 +13,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        
-        // 使用 MainTabBarViewController 創建並設置 window
-        self.window = MainTabBarViewController.createMainTabBar(for: windowScene)
-        self.window?.makeKeyAndVisible()
+                
+        window = UIWindow(frame: windowScene.coordinateSpace.bounds)
+        window?.windowScene = windowScene
+        window?.overrideUserInterfaceStyle = .light  // 移到這裡
+        window?.rootViewController = LoginViewController()
+        window?.makeKeyAndVisible()
     }
-    
     
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
