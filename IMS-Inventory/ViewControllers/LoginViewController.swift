@@ -6,8 +6,17 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseAuth
+
+// MARK: - LoginViewControllerDelegate Protocol
+protocol LoginViewControllerDelegate: AnyObject {
+    func loginDidComplete()
+}
 
 class LoginViewController: UIViewController {
+    
+    weak var delegate: LoginViewControllerDelegate?
     
     let imageView = AnimatedGearView()
     
@@ -165,16 +174,50 @@ class LoginViewController: UIViewController {
     }
     
     // MARK: - Buttons
-    @objc func loginBtnTapped (_ sender: UIButton) {
+    @objc func loginBtnTapped(_ sender: UIButton) {
         print("=== login Btn Tapped ===")
-        let productListVC = ProductListViewController()
-        self.navigationController?.pushViewController(productListVC, animated: true)
+        let mailText = acccoutTf.text ?? ""
+        let passwordText = passwordTf.text ?? ""
+        
+        // Show loading indicator
+        loginBtn.configuration?.showsActivityIndicator = true
+        
+        if Auth.auth().isSignIn(withEmailLink: mailText) {
+            print("=== 使用者正在用電子郵件登入 ===")
+            // Handle email link sign in case
+        } else {
+            Auth.auth().signIn(withEmail: mailText, password: passwordText) { [weak self] authResult, error in
+                guard let self = self else { return }
+                
+                // Always hide loading indicator in main thread
+                DispatchQueue.main.async {
+                    self.loginBtn.configuration?.showsActivityIndicator = false
+                }
+                
+                // Handle error cases
+                if let error = error {
+                    AlertManager.showButtonAlert(
+                        on: self,
+                        title: "Login Failed",
+                        message: error.localizedDescription
+                    )
+                    return
+                }
+                
+                // Success case - present product list
+                DispatchQueue.main.async {
+                    let productListVC = ProductListViewController()
+                    productListVC.modalPresentationStyle = .overFullScreen
+                    self.navigationController?.pushViewController(productListVC, animated: true)
+                }
+            }
+        }
     }
     
     @objc func registerBtnTapped (_ sender: UIButton) {
         print("=== register Btn Tapped ===")
         let registerVC = RegisterViewController()
-        self.navigationController?.pushViewController(registerVC, animated: true)
+        self.navigationController?.present(registerVC, animated: true)
     }
     
 }
