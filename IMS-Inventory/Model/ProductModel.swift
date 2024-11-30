@@ -3,55 +3,61 @@
 //  IMS-Inventory
 //
 //  Created by Dawei Hao on 2024/5/18.
-//
 
-// MARK: - Ims
-struct Product: Codable {
+// MARK: - RackingData
+struct RackingData: Codable {
     let records: [Record]
     let offset: String
 }
 
-// MARK: - Record
 struct Record: Codable {
     let id: String
-    let createdTime: CreatedTime
+    let createdTime: String
     let fields: Fields
 }
 
-enum CreatedTime: String, Codable {
-    case the20231110T074642000Z = "2023-11-10T07:46:42.000Z"
-    case the20231110T074940000Z = "2023-11-10T07:49:40.000Z"
-    case the20231110T075736000Z = "2023-11-10T07:57:36.000Z"
-}
-
-// MARK: - Fields
 struct Fields: Codable {
     let image: [Image]
-    let articleName, articleNameInChinese, articleNumber: String
+    let articleName: String
+    let articleNumber: String
+    let category: Category?
+    let Qty: Int  // Changed from qty to Qty to match API response case
 }
 
-// MARK: - Image
+enum Category: String, Codable {
+    case communication = "communication"
+    case desksCounters = "desks_counters"
+    case ikeaFOODEquipment = "ikea_FOOD_equipment"
+    case lighting = "lighting"
+    case merchandisingDisplay = "merchandising_display"
+    case productAreaSpecific = "product_area_specific"
+    case shoppingExperience = "shopping_experience"
+    case tradeDress = "trade_dress"
+}
+
 struct Image: Codable {
     let id: String
-    let width, height: Int
+    let width: Int
+    let height: Int
     let url: String
     let filename: String
     let size: Int
-    let type: TypeEnum
+    let type: ImageType
     let thumbnails: Thumbnails
 }
 
-// MARK: - Thumbnails
 struct Thumbnails: Codable {
-    let small, large, full: Full
+    let small: ImageSize
+    let large: ImageSize
+    let full: ImageSize
 }
 
-// MARK: - Full
-struct Full: Codable {
+struct ImageSize: Codable {
     let url: String
-    let width, height: Int
+    let width: Int
+    let height: Int
 }
 
-enum TypeEnum: String, Codable {
-    case imageJPEG = "image/jpeg"
+enum ImageType: String, Codable {
+    case jpeg = "image/jpeg"
 }
