@@ -111,8 +111,8 @@ class RegisterViewController: UIViewController {
             // Hosting Controller Constraints
             hostingController.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 120),
             hostingController.view.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            hostingController.view.widthAnchor.constraint(equalToConstant: 150),
-            hostingController.view.heightAnchor.constraint(equalToConstant: 150),
+            hostingController.view.widthAnchor.constraint(equalToConstant: 180),
+            hostingController.view.heightAnchor.constraint(equalToConstant: 180),
             
             // Stack View Constraints
             stackView.topAnchor.constraint(equalTo: hostingController.view.bottomAnchor, constant: 40),
@@ -185,8 +185,8 @@ class RegisterViewController: UIViewController {
             // Success case
             AlertManager.showButtonAlert(
                 on: self,
-                title: "註冊成功",
-                message: "帳號已成功建立"
+                title: "Reigster Success",
+                message: "Account has been successfully created"
             )
             
             // Clear text fields
