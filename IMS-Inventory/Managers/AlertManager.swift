@@ -18,7 +18,6 @@ class AlertManager {
     }
 }
 
-
 // MARK: - Button Alerts
 extension AlertManager {
     static func showButtonAlert(on vc: UIViewController, title: String, message: String) {
