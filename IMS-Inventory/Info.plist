@@ -3,10 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>UIAppFonts</key>
-	<array>
-		<string>NotoIKEATraditionalChinese_Latin-Regular.tff</string>
-		<string>NotoIKEATraditionalChinese_Latin-Bold.tff</string>
-	</array>
+	<array/>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

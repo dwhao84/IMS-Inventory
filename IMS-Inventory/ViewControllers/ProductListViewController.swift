@@ -1,97 +1,62 @@
-//
-//  ItemTableViewController.swift
-//  IMS-Inventory
-//
-//  Created by Dawei Hao on 2023/11/9.
-//
-
 import UIKit
 import Kingfisher
 import UIView_Shimmer
 
 class ProductListViewController: UIViewController {
-    private var productData: Product?
-    lazy var filteredRecords:[Record] = []
-    
-    // MARK: - Checking Networking:
-    enum NetworkError: Error {
-        case invalidURL
-        case requestFailed
-        case decodingError
+    private var records: [Record] = [] {
+        didSet {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
     }
-    
+    lazy var filteredRecords:[Record] = []
     var activityIndicator: UIActivityIndicatorView!
     
-    // MARK: - CollectionView:
-    let collectionView: UICollectionView = {
-        let itemSpace:   CGFloat = 1
-        let columnCount: CGFloat = 1
-        // 計算每個 item 的寬度，確保圖片適配不同設備
-        let width = floor((UIScreen.main.bounds.width - itemSpace * (columnCount - 1)) / columnCount)
-
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.scrollDirection = .vertical
-        flowLayout.itemSize = CGSize(width: width, height: width * 1.4)
-        flowLayout.estimatedItemSize = .zero
-        flowLayout.minimumLineSpacing = itemSpace
-        flowLayout.minimumInteritemSpacing = itemSpace
-        
-        flowLayout.collectionView?.layer.cornerRadius = 20
-        flowLayout.collectionView?.clipsToBounds = true
-        
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
-        collectionView.backgroundColor = Colors.white
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        return collectionView
+    // MARK: - TableView
+    let tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.backgroundColor = Colors.white
+        tableView.separatorStyle = .singleLine
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
     }()
     
     let refreshControl: UIRefreshControl = {
-        let refreshControl: UIRefreshControl = UIRefreshControl()
+        let refreshControl = UIRefreshControl()
         refreshControl.tintColor = Colors.black
         return refreshControl
-    } ()
+    }()
 
-    // MARK: - SearchController:
+    // MARK: - SearchController
     let searchController: UISearchController = {
-        let controller: UISearchController = UISearchController()
+        let controller = UISearchController()
         controller.searchBar.sizeToFit()
         controller.automaticallyShowsCancelButton = true
         controller.searchBar.placeholder = "Item, Article No, Description"
         controller.isActive = true
         controller.searchBar.searchTextField.returnKeyType = .search
         controller.hidesNavigationBarDuringPresentation = false
-        controller.obscuresBackgroundDuringPresentation = true         // 新增當點選searchBar時，背景會產生半透明的效果。
+        controller.obscuresBackgroundDuringPresentation = true
         return controller
-    } ()
-    
-    // 添加 segmentedControl 屬性
-    let segmentedControl: UISegmentedControl = {
-        let control = UISegmentedControl(items: ["Merchandising & display", "Lighting", "Building components", "Communication", "Desks & counters", "IKEA FOOD equipment",  "Product/area specific", "Shopping experience", "Trade dress"])
-       control.selectedSegmentIndex = 0
-       control.translatesAutoresizingMaskIntoConstraints = false
-       return control
     }()
-
     
-    // MARK: - Life Cycle:
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = Colors.white
+        view.overrideUserInterfaceStyle = .light
         
         activityIndicator = UIActivityIndicatorView(style: .large)
         activityIndicator.center = self.view.center
         self.view.addSubview(activityIndicator)
         
         setupUI()
+        tableView.refreshControl = refreshControl
         fetchData()
-        
-        collectionView.refreshControl = refreshControl
     }
     
-    // MARK: - Sent to the view controller when the app receives a memory warning.
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
         print("didReceiveMemoryWarning")
     }
     
@@ -101,11 +66,9 @@ class ProductListViewController: UIViewController {
         addTargets()
         addDelegateAndDataSource()
         addConstraints()
-        
-        filteredRecords = productData?.records ?? []
     }
     
-    func setNavigationView () {
+    func setNavigationView() {
         let standardAppearance = UINavigationBarAppearance()
         self.navigationController?.navigationBar.standardAppearance = standardAppearance
         
@@ -126,255 +89,116 @@ class ProductListViewController: UIViewController {
     }
     
     func addDelegateAndDataSource() {
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.register(
-            ProductCollectionViewCell.self,
-            forCellWithReuseIdentifier: ProductCollectionViewCell.identifier
-        )
-        collectionView.allowsSelection = true
-        collectionView.refreshControl = refreshControl
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(ProductTableViewCell.self, forCellReuseIdentifier: ProductTableViewCell.identifier)
+        tableView.refreshControl = refreshControl
     }
     
     func addConstraints() {
-        self.view.addSubview(collectionView)
+        view.addSubview(tableView)
+        
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 16),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
     
-    func addSearchControllerDelegates () {
+    func addSearchControllerDelegates() {
         searchController.searchBar.delegate = self
     }
-    
-    // 新增 setupSegmentedControl 方法
-    func setupSegmentedControl() {
-       view.addSubview(segmentedControl)
-       segmentedControl.addTarget(self, action: #selector(segmentChanged), for: .valueChanged)
-       
-       NSLayoutConstraint.activate([
-           segmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
-           segmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-           segmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
-       ])
-       
-       // 調整 collectionView 的 top constraint
-       collectionView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 8).isActive = true
-    }
-    
-    func fetchData() {
-        // 使用之前定義的 URL 常量
-        let url = API.baseUrl
-        
-        // UI 更新前先禁用交互
-        DispatchQueue.main.async { [weak self] in
-            self?.view.isUserInteractionEnabled = false
-            self?.activityIndicator.startAnimating()
-        }
-        
-        var request = URLRequest(url: url)
-        request.setValue("Bearer \(API.apiKey)", forHTTPHeaderField: "Authorization")
-        
-        let task = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
-            // 確保 UI 操作在主線程
-            defer {
-                DispatchQueue.main.async {
-                    self?.activityIndicator.stopAnimating()
-                    self?.view.isUserInteractionEnabled = true
-                }
-            }
-            
-            // 處理錯誤
-            if let error = error {
-                print("Network error: \(error.localizedDescription)")
-                return
-            }
-            
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode) else {
-                print("Invalid response")
-                return
-            }
-            
-            guard let data = data else {
-                print("No data received")
-                return
-            }
-            
-            // 解碼數據
-            do {
-                let decoder = JSONDecoder()
-                let jsonData = try decoder.decode(Product.self, from: data)
-                DispatchQueue.main.async { [weak self] in
-                    self?.productData = jsonData
-                    self?.collectionView.reloadData()
-                    print("Data fetched successfully")
-                }
-            } catch {
-                print("Decoding error: \(error)")
-                if let rawJSON = String(data: data, encoding: .utf8) {
-                    print("Raw JSON: \(rawJSON)")
-                }
-            }
-        }
-        
-        task.resume()
-    }
-    
-    @objc func refreshControlValueChanged (_ sender: Any) {
+
+    @objc func refreshControlValueChanged(_ sender: Any) {
+        fetchData()
         refreshControl.endRefreshing()
-        print("refreshControlValueChanged")
     }
     
-    @objc func segmentChanged(_ sender: UISegmentedControl) {
-//       guard let records = productData?.records else { return }
-//       
-//       switch sender.selectedSegmentIndex {
-//       case 0: // 全部
-//           filteredRecords = records
-//       case 1: // 低庫存
-//           filteredRecords = records.filter { $0.fields.stockQty < 10 && $0.fields.stockQty > 0 }
-//       case 2: // 無庫存
-//           filteredRecords = records.filter { $0.fields.stockQty == 0 }
-//       default:
-//           break
-//       }
-       
-       collectionView.reloadData()
+    private func fetchData() {
+        activityIndicator.startAnimating()
+        
+        NetworkManager.shared.getProductData { [weak self] result in
+            guard let self = self else { return }
+            
+            DispatchQueue.main.async {
+                self.activityIndicator.stopAnimating()
+                
+                switch result {
+                case .success(let records):
+                    self.records = records
+                    self.filteredRecords = records
+                case .failure(let error):
+                    print("Error fetching data: \(error)")
+                    // Show alert here if needed
+                }
+            }
+        }
     }
     
     private func performSearch(with searchText: String) {
-         guard let records = productData?.records else { return }
-         
-         filteredRecords = records.filter { record in
-             record.fields.articleName.lowercased().contains(searchText.lowercased()) ||
-             record.fields.articleNameInChinese.contains(searchText) ||
-             record.fields.articleNumber.lowercased().contains(searchText.lowercased())
-         }
-         
-         collectionView.reloadData()
-     }
-    
-    // MARK: - Handle device rotation
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        coordinator.animate(alongsideTransition: { _ in
-            let itemSpace: CGFloat = 1
-            let columnCount: CGFloat = 1
-            let width = floor((size.width - itemSpace * (columnCount - 1)) / columnCount)
-            if let flowLayout = self.collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-                flowLayout.itemSize = CGSize(width: width, height: width)
-                self.collectionView.collectionViewLayout.invalidateLayout()
-            }
-        }, completion: nil)
+        guard !searchText.isEmpty else {
+            filteredRecords = records
+            return
+        }
+        
+        filteredRecords = records.filter { record in
+            record.fields.articleName.lowercased().contains(searchText.lowercased()) ||
+            record.fields.articleNumber.lowercased().contains(searchText.lowercased())
+        }
+        tableView.reloadData()
     }
 }
 
-extension ProductListViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    
-    // MARK: - numberOfItemsInSection
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if searchController.isActive {
-            return filteredRecords.count
-        } else {
-            return productData?.records.count ?? 0
-        }
+// MARK: - UITableViewDelegate, UITableViewDataSource
+extension ProductListViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return searchController.isActive ? filteredRecords.count : records.count
     }
     
-    // MARK: - cellForItemAt
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductCollectionViewCell.identifier, for: indexPath) as! ProductCollectionViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: ProductTableViewCell.identifier, for: indexPath) as! ProductTableViewCell
         
-        // 取得正確的資料來源
-        let product = (searchController.isActive) ? filteredRecords[indexPath.row] : productData?.records[indexPath.row]
+        let record = searchController.isActive ? filteredRecords[indexPath.row] : records[indexPath.row]
+        cell.articleNumberLabel.text = record.fields.articleNumber
+        cell.productENNameLabel.text = record.fields.articleName
+        cell.qtyLabel.text = "Stock Qty: \(record.fields.Qty)"
         
-        // 設定文字
-        cell.articleNumberLabel.text = product?.fields.articleNumber ?? "Loading..."
-        cell.productTCNameLabel.text = product?.fields.articleNameInChinese ?? "Loading..."
-        cell.productENNameLabel.text = product?.fields.articleName ?? "Loading..."
-        
-        // 設定圖片
-        if let imageUrlString = product?.fields.image.last?.url,
+        if let imageUrlString = record.fields.image.last?.url,
            let url = URL(string: imageUrlString) {
             cell.productImageView.kf.setImage(
                 with: url,
-                placeholder: Images.image, // 載入中顯示的預設圖片
-                options: [
-                    .transition(.fade(0.2)), // 淡入淡出效果
-                    .cacheOriginalImage // 快取原始圖片
-                ])
-        } else {
-            cell.productImageView.image = Images.image
+                placeholder: UIImage(systemName: "photo.fill"),
+                options: [.transition(.fade(0.2)), .cacheOriginalImage]
+            )
         }
-        
         return cell
     }
     
-    // MARK: - didSelectItemAt
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("\(indexPath.row)")
-        
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 152
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         let productDetailVC = ProductDetailViewController()
         self.navigationController?.pushViewController(productDetailVC, animated: true)
-    }
-    
-    // MARK: - sizeForItemAt
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let itemSpace: CGFloat = 1
-        let columnCount: CGFloat = 1
-        let width = floor((collectionView.bounds.width - itemSpace * (columnCount - 1)) / columnCount)
-        
-        // 假設最小高度為圖片高度加上一些額外空間
-        let minHeight: CGFloat = 170 // 150 (圖片高度) + 20 (上下間距)
-        
-        // 計算文字內容的高度
-        let product = productData?.records[indexPath.row]
-        let tcNameHeight = heightForLabel(text: product?.fields.articleNameInChinese ?? "", font: ProductCollectionViewCell.scriptFont(size: 15), width: width - 190)
-        let enNameHeight = heightForLabel(text: product?.fields.articleName ?? "", font: ProductCollectionViewCell.scriptFont(size: 13), width: width - 190)
-        let articleNumberHeight = heightForLabel(text: product?.fields.articleNumber ?? "", font: ProductCollectionViewCell.scriptFont(size: 15), width: width - 190)
-        
-        // 計算總高度
-        let totalHeight = max(minHeight, tcNameHeight + enNameHeight + articleNumberHeight + 60) // 60 為額外間距
-        return CGSize(width: width, height: totalHeight)
-    }
-    
-    
-    private func heightForLabel(text: String, font: UIFont, width: CGFloat) -> CGFloat {
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: width, height: .greatestFiniteMagnitude))
-        label.numberOfLines = 0
-        label.lineBreakMode = .byWordWrapping
-        label.font = font
-        label.text = text
-        label.sizeToFit()
-        return label.frame.height
     }
 }
 
 // MARK: - UISearchBarDelegate
 extension ProductListViewController: UISearchBarDelegate {
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard let searchText = searchBar.text?.lowercased(),
-              let records = productData?.records else { return }
-        
-        filteredRecords = records.filter { record in
-            record.fields.articleName.lowercased().contains(searchText) ||
-            record.fields.articleNameInChinese.contains(searchText) ||
-            record.fields.articleNumber.lowercased().contains(searchText)
-        }
-        
-        collectionView.reloadData()
-        searchBar.resignFirstResponder()
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        performSearch(with: searchText)
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        filteredRecords = productData?.records ?? []
-        collectionView.reloadData()
+        filteredRecords = records
+        tableView.reloadData()
     }
 }
 
+// MARK: - Preview
 #Preview {
     UINavigationController(rootViewController: ProductListViewController())
 }
