@@ -2,6 +2,7 @@ import UIKit
 import Firebase
 import FirebaseAuth
 import SwiftUI
+import IQKeyboardManagerSwift
 
 // MARK: - RegisterViewController
 class RegisterViewController: UIViewController {
@@ -77,11 +78,14 @@ class RegisterViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         setupGestures()
+        
+        IQKeyboardManager.shared.isEnabled = true
     }
     
     // MARK: - UI Setup
     private func setupUI() {
-        view.backgroundColor = .systemBackground
+        view.overrideUserInterfaceStyle = .light
+        self.view.backgroundColor = Colors.white
         
         // Add hosting controller
         addChild(hostingController)
