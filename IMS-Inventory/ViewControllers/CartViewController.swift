@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ShoppingCartViewController: UIViewController {
+class CartViewController: UIViewController {
     
     private let tableView: UITableView = {
         let tableView = UITableView(frame: .zero)
@@ -35,7 +35,7 @@ class ShoppingCartViewController: UIViewController {
     }
 }
 
-extension ShoppingCartViewController: UITableViewDelegate, UITableViewDataSource {
+extension CartViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1 // Replace with your data count
     }
@@ -48,5 +48,5 @@ extension ShoppingCartViewController: UITableViewDelegate, UITableViewDataSource
 }
 
 #Preview {
-    UINavigationController(rootViewController: ShoppingCartViewController())
+    UINavigationController(rootViewController: CartViewController())
 }

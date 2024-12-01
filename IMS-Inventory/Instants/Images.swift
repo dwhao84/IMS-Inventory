@@ -83,5 +83,8 @@ struct Images {
     static let calculation = UIImage(systemName: "plus.forwardslash.minus")!
     static let server = UIImage(systemName: "server.rack")!
     static let person_badge = UIImage(systemName: "person.badge.plus")!
-    
+ 
+    static let cancel_icon = UIImage(systemName: "x.circle")!
+    static let shippingbox = UIImage(systemName: "shippingbox")!
+    static let line_3_horizontal_decrease = UIImage(systemName: "line.3.horizontal.decrease")!
 }
