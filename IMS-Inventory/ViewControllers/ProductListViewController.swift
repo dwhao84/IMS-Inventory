@@ -41,6 +41,22 @@ class ProductListViewController: UIViewController {
         return controller
     }()
     
+    lazy var fliterBtn: UIButton = {
+        let btn = UIButton(type: .system)
+        var config = UIButton.Configuration.plain()
+        config.baseForegroundColor = Colors.black
+        config.image = Images.line_3_horizontal_decrease
+        config.cornerStyle = .capsule
+        btn.configuration = config
+        btn.addTarget(self, action: #selector(filterBtnTapped), for: .touchUpInside)
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.configurationUpdateHandler = { btn in
+            btn.alpha = btn.isHighlighted ? 0.5 : 1
+            btn.configuration = config
+        }
+        return btn
+    } ()
+    
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,18 +86,27 @@ class ProductListViewController: UIViewController {
     
     func setNavigationView() {
         let standardAppearance = UINavigationBarAppearance()
+        standardAppearance.configureWithDefaultBackground()
         self.navigationController?.navigationBar.standardAppearance = standardAppearance
         
         let scrollAppearance = UINavigationBarAppearance()
+        scrollAppearance.configureWithDefaultBackground()
         self.navigationController?.navigationBar.scrollEdgeAppearance = scrollAppearance
-
+        
         let textAttributes = [NSAttributedString.Key.foregroundColor: Colors.darkGray]
         self.navigationController?.navigationBar.titleTextAttributes = textAttributes
         
-        self.navigationItem.title = "IMS Stock Qty"
+        // 使用客製化的標題視圖
+        let customTitleView = CustomNavigationTitleView(title: Constants.nav_title_list)
+        navigationItem.titleView = customTitleView
+        
         self.navigationController?.navigationBar.isTranslucent = true
-        self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.searchController = searchController
+        
+        // 將 UIButton 轉換為 UIBarButtonItem
+        let rightBarButton = UIBarButtonItem(customView: fliterBtn)
+        // 設置到導航欄
+        navigationItem.rightBarButtonItem = rightBarButton
     }
     
     func addTargets() {
@@ -111,13 +136,18 @@ class ProductListViewController: UIViewController {
     }
 
     @objc func refreshControlValueChanged(_ sender: Any) {
+        print("refresh Control Value Changed")
         fetchData()
         refreshControl.endRefreshing()
     }
     
+    @objc func filterBtnTapped (_ sender: UIButton) {
+        print("filter Btn Tapped")
+        
+    }
+    
     private func fetchData() {
         activityIndicator.startAnimating()
-        
         NetworkManager.shared.getProductData { [weak self] result in
             guard let self = self else { return }
             
@@ -190,11 +220,13 @@ extension ProductListViewController: UITableViewDelegate, UITableViewDataSource 
 extension ProductListViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         performSearch(with: searchText)
+        print("searchBar textDidChange")
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         filteredRecords = records
         tableView.reloadData()
+        print("searchBar Cancel Button Clicked")
     }
 }
 

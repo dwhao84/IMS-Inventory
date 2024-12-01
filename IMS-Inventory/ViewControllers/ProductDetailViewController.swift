@@ -24,7 +24,7 @@ class ProductDetailViewController: UIViewController {
         return imageView
     }()
     
-    private let confirmBtn: ConfirmButton = {
+    private let sendBtn: ConfirmButton = {
         let btn = ConfirmButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
@@ -43,7 +43,6 @@ class ProductDetailViewController: UIViewController {
     private var quantity: Int = 1
     
     
-    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,18 +56,18 @@ class ProductDetailViewController: UIViewController {
         setNavigationView()
         self.view.backgroundColor = UIColor.systemGray6
         self.view.addSubview(tableView)
-        self.view.addSubview(confirmBtn)
+        self.view.addSubview(sendBtn)
         
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: confirmBtn.topAnchor, constant: -20),
+            tableView.bottomAnchor.constraint(equalTo: sendBtn.topAnchor, constant: -20),
             
-            confirmBtn.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            confirmBtn.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            confirmBtn.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
-            confirmBtn.heightAnchor.constraint(equalToConstant: 60)
+            sendBtn.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            sendBtn.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            sendBtn.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+            sendBtn.heightAnchor.constraint(equalToConstant: 55)
         ])
     }
     
@@ -81,25 +80,31 @@ class ProductDetailViewController: UIViewController {
     }
     
     private func setNavigationView() {
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.largeTitleDisplayMode = .always
-        navigationItem.title = "Product Name"
+        let standardAppearance = UINavigationBarAppearance()
+        standardAppearance.configureWithDefaultBackground()
+        self.navigationController?.navigationBar.standardAppearance = standardAppearance
         
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithTransparentBackground()
-        appearance.backgroundColor = Colors.white
+        let scrollAppearance = UINavigationBarAppearance()
+        scrollAppearance.configureWithDefaultBackground()
+        self.navigationController?.navigationBar.scrollEdgeAppearance = scrollAppearance
         
-        UINavigationBar.appearance().standardAppearance = appearance
-        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        let textAttributes = [NSAttributedString.Key.foregroundColor: Colors.darkGray]
+        self.navigationController?.navigationBar.titleTextAttributes = textAttributes
+        
+        // 使用客製化的標題視圖
+        let customTitleView = CustomNavigationTitleView(title: Constants.nav_title_list)
+        navigationItem.titleView = customTitleView
+        
+        self.navigationController?.navigationBar.isTranslucent = true
     }
     
     // MARK: - Actions
-    private func addTargets() {
-        confirmBtn.addTarget(self, action: #selector(confirmBtnTapped), for: .touchUpInside)
+    func addTargets() {
+        sendBtn.addTarget(self, action: #selector(confirmBtnTapped), for: .touchUpInside)
     }
     
     @objc private func confirmBtnTapped(_ sender: UIButton) {
-        let shoppingCartVC = ShoppingCartViewController()
+        let shoppingCartVC = CartViewController()
         shoppingCartVC.modalPresentationStyle = .overFullScreen
         navigationController?.pushViewController(shoppingCartVC, animated: true)
     }

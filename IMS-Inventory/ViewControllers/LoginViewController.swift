@@ -15,7 +15,7 @@ class LoginViewController: UIViewController {
     // MARK: - UI Elements
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Welcome to Inventory App!"
+        label.text = Constants.welcome_quote
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         label.textColor = Colors.black
@@ -26,7 +26,7 @@ class LoginViewController: UIViewController {
     private let acccoutTf: UITextField = {
         let tf = UITextField()
         tf.borderStyle = .roundedRect
-        tf.placeholder = "Enter your email"
+        tf.placeholder = Constants.enter_your_mail
         tf.font = UIFont.systemFont(ofSize: 16)
         tf.rightViewMode = .whileEditing
         tf.clearButtonMode = .whileEditing
@@ -38,7 +38,7 @@ class LoginViewController: UIViewController {
     private let passwordTf: UITextField = {
         let tf = UITextField()
         tf.borderStyle = .roundedRect
-        tf.placeholder = "Enter your password"
+        tf.placeholder = Constants.enter_your_password
         tf.font = UIFont.systemFont(ofSize: 16)
         tf.rightViewMode = .whileEditing
         tf.textColor = Colors.black
@@ -57,7 +57,7 @@ class LoginViewController: UIViewController {
             .font: UIFont.systemFont(ofSize: 16, weight: .regular),
             .foregroundColor: Colors.white
         ]
-        config.attributedTitle = AttributedString("Login", attributes: AttributeContainer(attributes))
+        config.attributedTitle = AttributedString(Constants.login, attributes: AttributeContainer(attributes))
         config.cornerStyle = .capsule
         btn.configuration = config
         btn.translatesAutoresizingMaskIntoConstraints = false
@@ -76,7 +76,7 @@ class LoginViewController: UIViewController {
             .font: UIFont.systemFont(ofSize: 16, weight: .light),
             .foregroundColor: Colors.black
         ]
-        config.attributedTitle = AttributedString("Register", attributes: AttributeContainer(attributes))
+        config.attributedTitle = AttributedString(Constants.register, attributes: AttributeContainer(attributes))
         config.cornerStyle = .capsule
         config.background.strokeColor = Colors.black
         btn.configuration = config
@@ -197,8 +197,8 @@ class LoginViewController: UIViewController {
                 if error != nil {
                     AlertManager.showButtonAlert(
                         on: self,
-                        title: "錯誤",
-                        message: "登入失敗"
+                        title: Constants.error,
+                        message: Constants.loginFailed
                     )
                     return
                 }

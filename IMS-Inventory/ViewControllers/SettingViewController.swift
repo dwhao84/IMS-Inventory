@@ -2,7 +2,7 @@ import UIKit
 
 class SettingViewController: UIViewController {
     
-    let largeTitle: String = "Settings"
+    let navigationItemTitle: String = Constants.nav_title_settings
     
     // MARK: - Properties
     private let tableView: UITableView = {
@@ -17,15 +17,21 @@ class SettingViewController: UIViewController {
         SettingsSection(items: [
             Service(
                 image: Images.bookPages,
-                title: "免責聲明",
+                title: Constants.disclaimer,
                 url: "https://dwhao84.blogspot.com/2024/07/blog-post.html?m=1",
                 color: .systemRed
             ),
             Service(
                 image: Images.gear,
-                title: "版本 V 1.1.0",
+                title: Constants.version,
                 url: "",
                 color: .blue
+            ),
+            Service(
+                image: Images.mail,
+                title: Constants.report,
+                url: "",
+                color: Colors.black
             )
         ])
     ]
@@ -44,7 +50,6 @@ class SettingViewController: UIViewController {
     
     private func setupTableView() {
         self.view.addSubview(tableView)
-        
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -52,36 +57,23 @@ class SettingViewController: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
         
-        // 設置 contentInset
-        tableView.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(SettingTableViewCell.self, forCellReuseIdentifier: SettingTableViewCell.identifier)
     }
     
     func setNavigationView() {
-        // 設置基本屬性
-        navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationItem.largeTitleDisplayMode = .always
-        navigationItem.title = largeTitle
+        let standardAppearance = UINavigationBarAppearance()
+        self.navigationController?.navigationBar.standardAppearance = standardAppearance
         
-        // 創建並配置 NavigationBar 外觀
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()  // 使用不透明背景
+        let scrollAppearance = UINavigationBarAppearance()
+        self.navigationController?.navigationBar.scrollEdgeAppearance = scrollAppearance
+
+        let textAttributes = [NSAttributedString.Key.foregroundColor: Colors.darkGray]
+        self.navigationController?.navigationBar.titleTextAttributes = textAttributes
         
-        // 設置背景顏色
-        appearance.backgroundColor = .systemBackground
-        
-        // 設置標題顏色
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.label]
-        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.label]
-        
-        // 重要：同時設置這三種外觀狀態
-        navigationController?.navigationBar.standardAppearance = appearance
-        navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        
-        // 確保即時更新外觀
-        navigationController?.navigationBar.tintColor = .label
+        self.navigationItem.title = navigationItemTitle
+        self.navigationController?.navigationBar.isTranslucent = true
     }
 }
 

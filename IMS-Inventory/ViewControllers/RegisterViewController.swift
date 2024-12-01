@@ -18,7 +18,7 @@ class RegisterViewController: UIViewController {
     private let accountTextField: UITextField = {
         let tf = UITextField()
         tf.borderStyle = .roundedRect
-        tf.placeholder = "Email"
+        tf.placeholder = Constants.email
         tf.font = .systemFont(ofSize: 16)
         tf.autocapitalizationType = .none
         tf.keyboardType = .emailAddress
@@ -31,7 +31,7 @@ class RegisterViewController: UIViewController {
     private let passwordTextField: UITextField = {
         let tf = UITextField()
         tf.borderStyle = .roundedRect
-        tf.placeholder = "Password"
+        tf.placeholder = Constants.password
         tf.font = .systemFont(ofSize: 16)
         tf.rightViewMode = .whileEditing
         tf.textColor = .customBlack
@@ -50,7 +50,7 @@ class RegisterViewController: UIViewController {
             .font: UIFont.systemFont(ofSize: 16, weight: .semibold),
             .foregroundColor: UIColor.customWhite
         ]
-        config.attributedTitle = AttributedString("Register", attributes: AttributeContainer(attributes))
+        config.attributedTitle = AttributedString(Constants.register, attributes: AttributeContainer(attributes))
         config.cornerStyle = .capsule
         
         button.configuration = config
@@ -78,7 +78,6 @@ class RegisterViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         setupGestures()
-        
         IQKeyboardManager.shared.isEnabled = true
     }
     
@@ -128,7 +127,8 @@ class RegisterViewController: UIViewController {
             passwordTextField.heightAnchor.constraint(equalToConstant: 50),
             
             // Register Button Constraints
-            registerButton.heightAnchor.constraint(equalToConstant: 50)
+            registerButton.heightAnchor.constraint(equalToConstant: 50),
+
         ])
     }
     
@@ -138,7 +138,7 @@ class RegisterViewController: UIViewController {
     }
     
     // MARK: - Actions
-    @objc func dismissKeyboard() {
+    @objc func dismissKeyboard(_ sender: UIButton) {
         view.endEditing(true)
     }
     
@@ -147,8 +147,8 @@ class RegisterViewController: UIViewController {
               let password = passwordTextField.text, !password.isEmpty else {
             AlertManager.showButtonAlert(
                 on: self,
-                title: "錯誤",
-                message: "請填寫完整的資料"
+                title: Constants.error,
+                message: Constants.fill_in_info
             )
             return
         }
@@ -168,14 +168,14 @@ class RegisterViewController: UIViewController {
                 let errorMessage: String
                 
                 switch error.localizedDescription {
-                case let str where str.contains("email address is badly formatted"):
-                    errorMessage = "請輸入有效的電子郵件地址"
-                case let str where str.contains("email address is already in use"):
-                    errorMessage = "此電子郵件已被註冊"
-                case let str where str.contains("Password should be at least 6 characters"):
-                    errorMessage = "密碼長度必須至少為 6 個字元"
-                default:
-                    errorMessage = "註冊時發生錯誤，請稍後再試"
+                    case let str where str.contains("email address is badly formatted"):
+                        errorMessage = LocalizedString.invalid_email
+                    case let str where str.contains("email address is already in use"):
+                        errorMessage = LocalizedString.email_already_exists
+                    case let str where str.contains("Password should be at least 6 characters"):
+                        errorMessage = LocalizedString.password_too_short
+                    default:
+                        errorMessage = LocalizedString.register_error
                 }
                 
                 AlertManager.showButtonAlert(

@@ -31,24 +31,30 @@ class MainTabBarViewController: ESTabBarController {
     private func setupViewControllers() {
         let productListNC = createNavigationController(
             for: ProductListViewController(),
-            title: "Racking Status",
+            title: Constants.list,
             image: Images.server
         )
         
         let calculationNC = createNavigationController(
             for: CalculationViewController(),
-            title: "Calculation",
+            title: Constants.calculation,
             image: Images.calculation
+        )
+        
+        let cartNC = createNavigationController(
+            for: CartViewController(),
+            title: Constants.cart,
+            image: Images.shippingbox
         )
         
         let settingNC = createNavigationController(
             for: SettingViewController(),
-            title: "Settings",
+            title: Constants.settings,
             image: Images.gear
         )
         
         setViewControllers(
-            [productListNC, calculationNC, settingNC],
+            [productListNC, calculationNC, cartNC, settingNC],
             animated: true
         )
     }

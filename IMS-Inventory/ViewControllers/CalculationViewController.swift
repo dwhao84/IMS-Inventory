@@ -8,19 +8,37 @@
 import UIKit
 
 class CalculationViewController: UIViewController {
-    
-    let largeTitle: String = "Calculations"
-    
+
     let segmentControl: UISegmentedControl = {
-        let segmentControl: UISegmentedControl = UISegmentedControl()
+        let segmentControl = UISegmentedControl()
         segmentControl.insertSegment(withTitle: "Bins", at: 0, animated: true)
         segmentControl.insertSegment(withTitle: "Gondola", at: 1, animated: true)
         segmentControl.insertSegment(withTitle: "Backwall", at: 2, animated: true)
         segmentControl.insertSegment(withTitle: "Shelving System", at: 3, animated: true)
         segmentControl.selectedSegmentIndex = 0
+        
+        let segmentWidths = [80, 90, 90, 150]
+        for (index, width) in segmentWidths.enumerated() {
+            segmentControl.setWidth(CGFloat(width), forSegmentAt: index)
+        }
+        
+        // 設定正常狀態(未選中)的外觀
+        segmentControl.setTitleTextAttributes([
+            .foregroundColor: Colors.black,
+        ], for: .normal)
+        
+        // 設定選中狀態的外觀
+        segmentControl.setTitleTextAttributes([
+            .foregroundColor: Colors.white,
+            .backgroundColor: Colors.black
+        ], for: .selected)
+        
+        // 設定選中時的背景顏色
+        segmentControl.selectedSegmentTintColor = Colors.black
+        segmentControl.setDividerImage(UIImage(), forLeftSegmentState: .normal, rightSegmentState: .normal, barMetrics: .default)
         segmentControl.translatesAutoresizingMaskIntoConstraints = false
         return segmentControl
-    } ()
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,38 +50,32 @@ class CalculationViewController: UIViewController {
         addConstraints()
     }
     
-    func setNavigationView () {
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationItem.largeTitleDisplayMode = .always
-        self.navigationItem.title = largeTitle
+    func setNavigationView() {
+        let standardAppearance = UINavigationBarAppearance()
+        standardAppearance.configureWithDefaultBackground()
+        self.navigationController?.navigationBar.standardAppearance = standardAppearance
         
-        // 創建並配置 NavigationBar 外觀
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()  // 使用不透明背景
+        let scrollAppearance = UINavigationBarAppearance()
+        scrollAppearance.configureWithDefaultBackground()
+        self.navigationController?.navigationBar.scrollEdgeAppearance = scrollAppearance
         
-        // 設置背景顏色
-        appearance.backgroundColor = .systemBackground
+        let textAttributes = [NSAttributedString.Key.foregroundColor: Colors.darkGray]
+        self.navigationController?.navigationBar.titleTextAttributes = textAttributes
         
-        // 設置標題顏色
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.label]
-        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.label]
+        // 使用客製化的標題視圖
+        let customTitleView = CustomNavigationTitleView(title: Constants.nav_title_calculation)
+        navigationItem.titleView = customTitleView
         
-        // 重要：同時設置這三種外觀狀態
-        navigationController?.navigationBar.standardAppearance = appearance
-        navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        
-        // 確保即時更新外觀
-        navigationController?.navigationBar.tintColor = .label
+        self.navigationController?.navigationBar.isTranslucent = true
     }
-    
     
     func addConstraints () {
         self.view.addSubview(segmentControl)
         NSLayoutConstraint.activate([
             segmentControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
-            segmentControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            segmentControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            segmentControl.heightAnchor.constraint(equalToConstant: 30)
+            segmentControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            segmentControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+            segmentControl.heightAnchor.constraint(equalToConstant: 35)
         ])
     }
 }

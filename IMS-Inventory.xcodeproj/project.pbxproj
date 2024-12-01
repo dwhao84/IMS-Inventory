@@ -25,7 +25,7 @@
 		D399A8252CC568430074738D /* PrivateData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D399A8242CC568430074738D /* PrivateData.swift */; };
 		D399A8282CC569FF0074738D /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = D399A8272CC569FF0074738D /* Lottie */; };
 		D399C3AE2BFA257600DBBC78 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = D399C3AD2BFA257600DBBC78 /* Images.swift */; };
-		D3A1F8312CD671E40035AF93 /* ShoppingCartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A1F8302CD671E40035AF93 /* ShoppingCartViewController.swift */; };
+		D3A1F8312CD671E40035AF93 /* CartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A1F8302CD671E40035AF93 /* CartViewController.swift */; };
 		D3A1F8332CD7D3660035AF93 /* ProductImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A1F8322CD7D3660035AF93 /* ProductImageCell.swift */; };
 		D3A1F8352CD7D8DB0035AF93 /* ProductQuantityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A1F8342CD7D8DB0035AF93 /* ProductQuantityCell.swift */; };
 		D3B30BD32CE859FB001F2484 /* ProductInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3B30BD22CE859FB001F2484 /* ProductInfoCell.swift */; };
@@ -53,6 +53,8 @@
 		D3E2B6992AFB7E9F00C932E7 /* IMS_InventoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E2B6982AFB7E9F00C932E7 /* IMS_InventoryTests.swift */; };
 		D3E2B6A32AFB7E9F00C932E7 /* IMS_InventoryUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E2B6A22AFB7E9F00C932E7 /* IMS_InventoryUITests.swift */; };
 		D3E2B6A52AFB7E9F00C932E7 /* IMS_InventoryUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E2B6A42AFB7E9F00C932E7 /* IMS_InventoryUITestsLaunchTests.swift */; };
+		D3EDD7402CFC016D000999E8 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3EDD73F2CFC016D000999E8 /* Constants.swift */; };
+		D3EDD7492CFCC5B1000999E8 /* CustomNavigationTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3EDD7482CFCC5B1000999E8 /* CustomNavigationTitleView.swift */; };
 		D3FADE272BF8478F00185477 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = D3FADE262BF8478F00185477 /* Kingfisher */; };
 		D3FADE2B2BF8596C00185477 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FADE2A2BF8596C00185477 /* Colors.swift */; };
 		D3FADE2D2BF85D5D00185477 /* ProductModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FADE2C2BF85D5D00185477 /* ProductModel.swift */; };
@@ -94,7 +96,7 @@
 		D34086472B4656DF00F6C6E4 /* NotoIKEATraditionalChinese_Latin-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoIKEATraditionalChinese_Latin-Regular.ttf"; sourceTree = "<group>"; };
 		D399A8242CC568430074738D /* PrivateData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateData.swift; sourceTree = "<group>"; };
 		D399C3AD2BFA257600DBBC78 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
-		D3A1F8302CD671E40035AF93 /* ShoppingCartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingCartViewController.swift; sourceTree = "<group>"; };
+		D3A1F8302CD671E40035AF93 /* CartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartViewController.swift; sourceTree = "<group>"; };
 		D3A1F8322CD7D3660035AF93 /* ProductImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductImageCell.swift; sourceTree = "<group>"; };
 		D3A1F8342CD7D8DB0035AF93 /* ProductQuantityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductQuantityCell.swift; sourceTree = "<group>"; };
 		D3B30BD22CE859FB001F2484 /* ProductInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductInfoCell.swift; sourceTree = "<group>"; };
@@ -121,6 +123,9 @@
 		D3E2B69E2AFB7E9F00C932E7 /* IMS-InventoryUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "IMS-InventoryUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3E2B6A22AFB7E9F00C932E7 /* IMS_InventoryUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IMS_InventoryUITests.swift; sourceTree = "<group>"; };
 		D3E2B6A42AFB7E9F00C932E7 /* IMS_InventoryUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IMS_InventoryUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		D3EDD73F2CFC016D000999E8 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		D3EDD7472CFCA46B000999E8 /* IMS-Inventory.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "IMS-Inventory.entitlements"; sourceTree = "<group>"; };
+		D3EDD7482CFCC5B1000999E8 /* CustomNavigationTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationTitleView.swift; sourceTree = "<group>"; };
 		D3FADE2A2BF8596C00185477 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		D3FADE2C2BF85D5D00185477 /* ProductModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -170,6 +175,7 @@
 				D3D6CBC42CFADEE60019CBA5 /* PersonalAnimatedView.swift */,
 				D30A6BB52CD346F8003AC00A /* PaddingLabel.swift */,
 				D30A6BBE2CD36F13003AC00A /* ConfirmButton.swift */,
+				D3EDD7482CFCC5B1000999E8 /* CustomNavigationTitleView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -205,6 +211,7 @@
 			children = (
 				D3FADE2A2BF8596C00185477 /* Colors.swift */,
 				D399C3AD2BFA257600DBBC78 /* Images.swift */,
+				D3EDD73F2CFC016D000999E8 /* Constants.swift */,
 			);
 			path = Instants;
 			sourceTree = "<group>";
@@ -270,6 +277,7 @@
 		D3E2B6802AFB7E9D00C932E7 /* IMS-Inventory */ = {
 			isa = PBXGroup;
 			children = (
+				D3EDD7472CFCA46B000999E8 /* IMS-Inventory.entitlements */,
 				D3D6CB912CF76EA80019CBA5 /* Localizable.strings */,
 				D3D6CB982CF8B6990019CBA5 /* Managers */,
 				D399A8232CC568200074738D /* Private Data */,
@@ -322,7 +330,7 @@
 				D30A6BB72CD34CC5003AC00A /* MainTabBarViewController.swift */,
 				D3027AD42AFCB79B00A3BCE3 /* ProductListViewController.swift */,
 				D30A6BB12CD32339003AC00A /* ProductDetailViewController.swift */,
-				D3A1F8302CD671E40035AF93 /* ShoppingCartViewController.swift */,
+				D3A1F8302CD671E40035AF93 /* CartViewController.swift */,
 				D30A6BAF2CD130EC003AC00A /* CalculationViewController.swift */,
 				D30A6BAD2CD1208E003AC00A /* SettingViewController.swift */,
 			);
@@ -439,6 +447,7 @@
 				D30A6BB92CD34F95003AC00A /* XCRemoteSwiftPackageReference "ESTabBarController" */,
 				D3D6CBB02CFAB2DA0019CBA5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				D38912092CFB6A470043295A /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
+				D3EDD7412CFC9BD2000999E8 /* XCRemoteSwiftPackageReference "Charts" */,
 			);
 			productRefGroup = D3E2B67F2AFB7E9D00C932E7 /* Products */;
 			projectDirPath = "";
@@ -494,7 +503,7 @@
 				D3D6CBA12CFA25700019CBA5 /* RegisterViewController.swift in Sources */,
 				D3D6CBC72CFB57F10019CBA5 /* ProductTableViewCell.swift in Sources */,
 				D30A6BB82CD34CC5003AC00A /* MainTabBarViewController.swift in Sources */,
-				D3A1F8312CD671E40035AF93 /* ShoppingCartViewController.swift in Sources */,
+				D3A1F8312CD671E40035AF93 /* CartViewController.swift in Sources */,
 				D30A6BBD2CD36E12003AC00A /* LaunchSceenViewController.swift in Sources */,
 				D30A6BB02CD130EC003AC00A /* CalculationViewController.swift in Sources */,
 				D3E2B6822AFB7E9D00C932E7 /* AppDelegate.swift in Sources */,
@@ -513,6 +522,8 @@
 				D3027AD52AFCB79B00A3BCE3 /* ProductListViewController.swift in Sources */,
 				D3B30BD32CE859FB001F2484 /* ProductInfoCell.swift in Sources */,
 				D3A1F8352CD7D8DB0035AF93 /* ProductQuantityCell.swift in Sources */,
+				D3EDD7402CFC016D000999E8 /* Constants.swift in Sources */,
+				D3EDD7492CFCC5B1000999E8 /* CustomNavigationTitleView.swift in Sources */,
 				D3E2B6842AFB7E9D00C932E7 /* SceneDelegate.swift in Sources */,
 				D3FADE2D2BF85D5D00185477 /* ProductModel.swift in Sources */,
 				D3D6CB9A2CF8B8470019CBA5 /* ViewModel.swift in Sources */,
@@ -700,17 +711,23 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "IMS-Inventory/IMS-Inventory.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "Font/NotoIKEATraditionalChinese_Latin-Regular.ttf Font/NotoIKEATraditionalChinese_Latin-Bold.ttf";
-				DEVELOPMENT_TEAM = 7NJ9W73ML8;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = 5862HZ6X6T;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "IMS-Inventory/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "IMS Inventory";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=iphoneos*]" = 17.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -718,6 +735,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dawei84.IMS-Inventory";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -729,17 +747,23 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "IMS-Inventory/IMS-Inventory.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "Font/NotoIKEATraditionalChinese_Latin-Regular.ttf Font/NotoIKEATraditionalChinese_Latin-Bold.ttf";
-				DEVELOPMENT_TEAM = 7NJ9W73ML8;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = 5862HZ6X6T;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "IMS-Inventory/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "IMS Inventory";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=iphoneos*]" = 17.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -747,6 +771,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dawei84.IMS-Inventory";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -909,6 +934,14 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 11.5.0;
+			};
+		};
+		D3EDD7412CFC9BD2000999E8 /* XCRemoteSwiftPackageReference "Charts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ChartsOrg/Charts.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.1.0;
 			};
 		};
 		D3FADE252BF8478F00185477 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {

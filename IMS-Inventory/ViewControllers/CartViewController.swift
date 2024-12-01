@@ -9,19 +9,25 @@ import UIKit
 
 class CartViewController: UIViewController {
     
-    private let tableView: UITableView = {
-        let tableView = UITableView(frame: .zero)
+    let tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.backgroundColor = Colors.white
+        tableView.separatorStyle = .singleLine
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = Colors.IKEA_Yellow
-        setupTableView()
+        setupUI()
     }
     
-    private func setupTableView() {
+    func setupUI () {
+        setupTableView()
+        setNavigationView()
+    }
+    
+    func setupTableView() {
         view.addSubview(tableView)
         tableView.delegate = self
         tableView.dataSource = self
@@ -32,6 +38,25 @@ class CartViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+    
+    func setNavigationView() {
+        let standardAppearance = UINavigationBarAppearance()
+        standardAppearance.configureWithDefaultBackground()
+        self.navigationController?.navigationBar.standardAppearance = standardAppearance
+        
+        let scrollAppearance = UINavigationBarAppearance()
+        scrollAppearance.configureWithDefaultBackground()
+        self.navigationController?.navigationBar.scrollEdgeAppearance = scrollAppearance
+        
+        let textAttributes = [NSAttributedString.Key.foregroundColor: Colors.darkGray]
+        self.navigationController?.navigationBar.titleTextAttributes = textAttributes
+        
+        // 使用客製化的標題視圖
+        let customTitleView = CustomNavigationTitleView(title: Constants.nav_title_cart)
+        navigationItem.titleView = customTitleView
+        
+        self.navigationController?.navigationBar.isTranslucent = true
     }
 }
 
@@ -44,6 +69,10 @@ extension CartViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = UITableViewCell()
         // Configure your cell here
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        120
     }
 }
 
