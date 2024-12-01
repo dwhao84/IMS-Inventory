@@ -5,11 +5,18 @@
 //  Created by Dawei Hao on 2024/11/28.
 //
 
-import Foundation
+import UIKit
 
 class NetworkManager {
     private init() {}
     static let shared = NetworkManager()
+    
+    enum NetworkError: Error {
+        case networkError(Error)
+        case invalidResponse
+        case noData
+        case decodingError(Error)
+    }
     
     func getProductData(completion: @escaping(Result<[Record], NetworkError>) -> Void) {
         let url = API.baseUrl
@@ -51,10 +58,7 @@ class NetworkManager {
         task.resume()
     }
     
-    enum NetworkError: Error {
-        case networkError(Error)
-        case invalidResponse
-        case noData
-        case decodingError(Error)
-    }
+
+    
+    
 }
