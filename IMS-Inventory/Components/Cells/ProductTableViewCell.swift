@@ -2,11 +2,12 @@ import UIKit
 import UIView_Shimmer
 
 class ProductTableViewCell: UITableViewCell, ShimmeringViewProtocol {
+    
     static let identifier = "ProductTableViewCell"
     
     let productImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "photo.fill")
+        imageView.image = Images.photoLibrary
         imageView.backgroundColor = Colors.white
         imageView.tintColor = Colors.black
         imageView.layer.cornerRadius = 10
@@ -45,7 +46,7 @@ class ProductTableViewCell: UITableViewCell, ShimmeringViewProtocol {
     
     let qtyLabel: UILabel = {
         let label = UILabel()
-        label.text = "Stock Qty: Loading..."
+        label.text = "Qty: Loading..."
         label.textColor = Colors.darkGray
         label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 13)
@@ -80,7 +81,7 @@ class ProductTableViewCell: UITableViewCell, ShimmeringViewProtocol {
         productImageView.image = UIImage(systemName: "photo.fill")
         productENNameLabel.text = "Loading..."
         articleNumberLabel.text = "Loading..."
-        qtyLabel.text = "Stock Qty: "
+        qtyLabel.text = "Qty: "
     }
     
     private func setupUI() {

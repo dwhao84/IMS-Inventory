@@ -10,6 +10,7 @@ import UIKit
 class ProductImageCell: UITableViewCell {
     private let productImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.image = Images.photoLibrary
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         imageView.tintColor = Colors.black
