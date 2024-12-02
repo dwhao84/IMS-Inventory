@@ -2,9 +2,11 @@ import UIKit
 
 class ProductDetailViewController: UIViewController {
     
+    var qtyValue: Int = 0
+    
     // MARK: - UI Components
     private let tableView: UITableView = {
-        let table = UITableView(frame: .zero, style: .insetGrouped)
+        let table = UITableView(frame: .zero, style: .grouped)
         table.backgroundColor = UIColor.systemGray6
         table.translatesAutoresizingMaskIntoConstraints = false
         table.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
@@ -30,18 +32,9 @@ class ProductDetailViewController: UIViewController {
         return btn
     }()
     
-    // MARK: - Properties
-    private enum Section: Int, CaseIterable {
-        case image
-        case basicInfo
-        case details
-        case quantity
-    }
-    
     private var selectedDate: Date?
     private var selectedStatus: String?
     private var quantity: Int = 1
-    
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -54,12 +47,12 @@ class ProductDetailViewController: UIViewController {
     // MARK: - Setup
     private func setupUI() {
         setNavigationView()
-        self.view.backgroundColor = UIColor.systemGray6
+        view.backgroundColor = Colors.white
         self.view.addSubview(tableView)
         self.view.addSubview(sendBtn)
         
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: sendBtn.topAnchor, constant: -20),
@@ -74,9 +67,11 @@ class ProductDetailViewController: UIViewController {
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(ProductImageCell.self, forCellReuseIdentifier: "ProductImageCell")
-        tableView.register(ProductInfoCell.self, forCellReuseIdentifier: "ProductInfoCell")
-        tableView.register(ProductQuantityCell.self, forCellReuseIdentifier: "ProductQuantityCell")
+        tableView.backgroundColor = Colors.white
+        tableView.register(ProductImageCell.self, forCellReuseIdentifier: ProductImageCell.identifier)
+        tableView.register(ProductInfoCell.self, forCellReuseIdentifier: ProductInfoCell.identifier)
+        tableView.register(ProductQuantityCell.self, forCellReuseIdentifier: ProductQuantityCell.identifier)
+        tableView.register(DateTableViewCell.self, forCellReuseIdentifier: DateTableViewCell.identifier)
     }
     
     private func setNavigationView() {
@@ -92,7 +87,7 @@ class ProductDetailViewController: UIViewController {
         self.navigationController?.navigationBar.titleTextAttributes = textAttributes
         
         // 使用客製化的標題視圖
-        let customTitleView = CustomNavigationTitleView(title: Constants.nav_title_list)
+        let customTitleView = CustomNavigationTitleView(title: Constants.nav_title_detail)
         navigationItem.titleView = customTitleView
         
         self.navigationController?.navigationBar.isTranslucent = true
@@ -103,90 +98,73 @@ class ProductDetailViewController: UIViewController {
         sendBtn.addTarget(self, action: #selector(confirmBtnTapped), for: .touchUpInside)
     }
     
-    @objc private func confirmBtnTapped(_ sender: UIButton) {
+    @objc func confirmBtnTapped(_ sender: UIButton) {
         let shoppingCartVC = CartViewController()
         shoppingCartVC.modalPresentationStyle = .overFullScreen
         navigationController?.pushViewController(shoppingCartVC, animated: true)
     }
     
-    @objc private func stepperValueChanged(_ stepper: UIStepper) {
-        quantity = Int(stepper.value)
-        tableView.reloadSections(IndexSet(integer: Section.quantity.rawValue), with: .none)
-    }
 }
 
 // MARK: - UITableViewDataSource
 extension ProductDetailViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return Section.allCases.count
+        return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let section = Section(rawValue: section) else { return 0 }
         switch section {
-        case .image:
-            return 1
-        case .basicInfo:
-            return 1
-        case .details:
-            return 2  // 日期和狀態
-        case .quantity:
-            return 2  // 庫存和數量選擇
+        case 0:
+            return 4  // 因為你有 ProductImageCell, ProductInfoCell, 和 ProductQuantityCell 三種
+        default:
+            return 0
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let section = Section(rawValue: indexPath.section) else {
+        switch indexPath.row {
+        case 0:
+            let cell = tableView.dequeueReusableCell(withIdentifier: ProductImageCell.identifier, for: indexPath) as! ProductImageCell
+            cell.configure(with: Images.photoLibrary)
+            return cell
+            
+        case 1:
+            let cell = tableView.dequeueReusableCell(withIdentifier: ProductInfoCell.identifier, for: indexPath) as! ProductInfoCell
+            cell.configure(articleNumber: "15525", rackingText: "BASKET F MULTIUSE W300 D800MM GALV", qtyText: "Qty: 10")
+            return cell
+            
+        case 2:
+            let cell = tableView.dequeueReusableCell(withIdentifier: ProductQuantityCell.identifier, for: indexPath) as! ProductQuantityCell
+            cell.configureWithStepper(title: "Require Qty", value: qtyValue) { [weak self] stepper in
+                self?.qtyValue = Int(stepper.value)
+                self?.tableView.reloadRows(at: [indexPath], with: .none)
+            }
+            return cell
+            
+        case 3:
+            let cell = tableView.dequeueReusableCell(withIdentifier: DateTableViewCell.identifier, for: indexPath) as! DateTableViewCell
+            cell.configure(title: "Using Date")
+            return cell
+            
+        default:
             return UITableViewCell()
-        }
-        
-        switch section {
-        case .image:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ProductImageCell", for: indexPath) as! ProductImageCell
-            cell.configure(with: productImageView.image)
-            return cell
-            
-        case .basicInfo:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ProductInfoCell", for: indexPath) as! ProductInfoCell
-            cell.configure(articleNumber: "No.10150")
-            return cell
-            
-        case .details:
-            let cell = UITableViewCell(style: .value1, reuseIdentifier: "cell")
-            switch indexPath.row {
-            case 0:
-                cell.textLabel?.text = "使用日期"
-                cell.detailTextLabel?.text = "請選擇日期"
-            case 1:
-                cell.textLabel?.text = "狀態選擇"
-                cell.detailTextLabel?.text = "請選擇狀態"
-            default:
-                break
-            }
-            cell.accessoryType = .disclosureIndicator
-            return cell
-            
-        case .quantity:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ProductQuantityCell", for: indexPath) as! ProductQuantityCell
-            if indexPath.row == 0 {
-                cell.configure(title: "庫存數:", value: "100")
-            } else {
-                cell.configureWithStepper(title: "數量:", value: quantity) { [weak self] stepper in
-                    self?.stepperValueChanged(stepper)
-                }
-            }
-            return cell
         }
     }
 }
 
+
 // MARK: - UITableViewDelegate
 extension ProductDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard let section = Section(rawValue: indexPath.section) else { return UITableView.automaticDimension }
-        switch section {
-        case .image:
-            return 250
+        switch indexPath.row {
+        case 0:
+            return 260
+        case 1:
+            return 150
+        case 2:
+            return 90
+        case 3:
+            return 90
         default:
             return UITableView.automaticDimension
         }
@@ -194,21 +172,7 @@ extension ProductDetailViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
-        guard let section = Section(rawValue: indexPath.section) else { return }
-        switch section {
-        case .details:
-            // Handle date and status selection
-            if indexPath.row == 0 {
-                // Show date picker
-                print("Show date picker")
-            } else {
-                // Show status picker
-                print("Show status picker")
-            }
-        default:
-            break
-        }
+        print("indexPath:\(indexPath.row)")
     }
 }
 
