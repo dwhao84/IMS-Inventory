@@ -17,11 +17,20 @@ class CartViewController: UIViewController {
         return tableView
     }()
     
+    let refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = Colors.black
+        refreshControl.addTarget(self, action: #selector(refreshControlValueChanged), for: .valueChanged)
+        return refreshControl
+    }()
+    
+    // MARK: - Life Cycle:
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
     }
     
+    // MARK: - set up UI
     func setupUI () {
         setupTableView()
         setNavigationView()
@@ -29,6 +38,8 @@ class CartViewController: UIViewController {
     
     func setupTableView() {
         view.addSubview(tableView)
+        tableView.register(CartTableViewCell.self, forCellReuseIdentifier: CartTableViewCell.identifier)
+        tableView.refreshControl = refreshControl
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -55,8 +66,16 @@ class CartViewController: UIViewController {
         // 使用客製化的標題視圖
         let customTitleView = CustomNavigationTitleView(title: Constants.nav_title_cart)
         navigationItem.titleView = customTitleView
-        
         self.navigationController?.navigationBar.isTranslucent = true
+    }
+    
+    @objc func refreshControlValueChanged(_ sender: Any) {
+        print("refresh Control Value Changed")
+        refreshControl.endRefreshing()
+    }
+    
+    func fetchData () {
+        
     }
 }
 
@@ -66,13 +85,16 @@ extension CartViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        // Configure your cell here
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CartTableViewCell.identifier, for: indexPath) as? CartTableViewCell else {
+            fatalError("Unable to dequeuse Reusable Cell")
+        }
+        
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        120
+        return 180
     }
 }
 
