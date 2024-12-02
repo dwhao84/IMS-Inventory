@@ -1,0 +1,55 @@
+/* 
+  Localizable.strings
+  IMS-Inventory
+
+  Created by Dawei Hao on 2024/11/27.
+  
+*/
+// MARK: - Login VC
+"Login" = "登录";
+"Register" = "注册";
+"Welcome to Inventory App!" = "欢迎使用库存应用程序！";
+"Enter your email" = "请输入电子邮件";
+"Enter your password" = "请输入密码";
+"Error" = "错误";
+"Login Failed" = "登录失败";
+
+// MARK: - Register VC
+"E-mail" = "电子邮件";
+"Password" = "密码";
+"Please fill in the information" = "请填写信息";
+"Register Failed" = "注册失败";
+
+// MARK: - Product List VC
+"Racking Status" = "上架状态";
+
+// MARK: - Product Detail VC
+"Product name" = "商品名称";
+
+// MARK: - MainTabBarController
+"Calculation" = "计算";
+"Settings" = "设置";
+"List" = "列表";
+
+// MARK: - Shopping VC
+"Cart" = "购物车";
+
+// MARK: - Setting VC
+"⚙️ Settings" = "⚙️ 设置";
+
+// MARK: Services
+"Disclaimer" = "免责声明";
+"Version V 1.1.0" = "版本 V 1.1.0";
+"Problem Report" = "问题报告";
+
+// Title:
+"📦 Cart" = "📦 购物车";
+"🧮 Calculation" = "🧮 计算";
+"⚙️ Settings" = "⚙️ 设置";
+"📄 List" = "📄 列表";
+
+// LocalizedString
+"Please enter a valid email address" = "请输入有效的电子邮件地址";
+"This email has already been registered" = "此电子邮件已被注册";
+"Password must be at least 6 characters" = "密码必须至少6个字符";
+"An error occurred during registration, please try again later" = "注册过程中发生错误，请稍后再试";

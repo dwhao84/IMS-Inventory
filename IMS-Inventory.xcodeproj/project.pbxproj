@@ -123,6 +123,10 @@
 		D3E2B69E2AFB7E9F00C932E7 /* IMS-InventoryUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "IMS-InventoryUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3E2B6A22AFB7E9F00C932E7 /* IMS_InventoryUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IMS_InventoryUITests.swift; sourceTree = "<group>"; };
 		D3E2B6A42AFB7E9F00C932E7 /* IMS_InventoryUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IMS_InventoryUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		D3E2EF102CFDDCC1009A2E03 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		D3E2EF112CFDDCC2009A2E03 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D3E2EF122CFDDCEC009A2E03 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		D3E2EF132CFDDCEC009A2E03 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		D3EDD73F2CFC016D000999E8 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		D3EDD7472CFCA46B000999E8 /* IMS-Inventory.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "IMS-Inventory.entitlements"; sourceTree = "<group>"; };
 		D3EDD7482CFCC5B1000999E8 /* CustomNavigationTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationTitleView.swift; sourceTree = "<group>"; };
@@ -438,6 +442,8 @@
 				en,
 				Base,
 				"zh-Hant",
+				ja,
+				"zh-Hans",
 			);
 			mainGroup = D3E2B6752AFB7E9D00C932E7;
 			packageReferences = (
@@ -570,6 +576,8 @@
 			children = (
 				D3D6CB902CF76EA80019CBA5 /* en */,
 				D3D6CB922CF76EAA0019CBA5 /* zh-Hant */,
+				D3E2EF112CFDDCC2009A2E03 /* ja */,
+				D3E2EF132CFDDCEC009A2E03 /* zh-Hans */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -579,6 +587,8 @@
 			children = (
 				D3E2B68D2AFB7E9F00C932E7 /* Base */,
 				D3D6CB862CF76D2D0019CBA5 /* zh-Hant */,
+				D3E2EF102CFDDCC1009A2E03 /* ja */,
+				D3E2EF122CFDDCEC009A2E03 /* zh-Hans */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";

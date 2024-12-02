@@ -14,8 +14,8 @@
 
 // MARK: - Cells
 "Loading..." = "等待中";
-"Sent" = "送出";
-"Send" = "已送出";
+"Sent" = "以送出";
+"Send" = "送出";
 "Stock Qty" = "庫存數";
 
 // MARK: - Login VC
@@ -66,3 +66,5 @@
 "This email has already been registered" = "此電子郵件已被註冊";
 "Password must be at least 6 characters" = "密碼必須至少6個字符";
 "An error occurred during registration, please try again later" = "註冊過程中發生錯誤，請稍後再試";
+
+

@@ -1,0 +1,55 @@
+/* 
+  Localizable.strings
+  IMS-Inventory
+
+  Created by Dawei Hao on 2024/11/27.
+  
+*/
+// MARK: - Login VC
+"Login" = "ログイン";
+"Register" = "登録";
+"Welcome to Inventory App!" = "在庫管理アプリへようこそ！";
+"Enter your email" = "メールアドレスを入力してください";
+"Enter your password" = "パスワードを入力してください";
+"Error" = "エラー";
+"Login Failed" = "ログインに失敗しました";
+
+// MARK: - Register VC
+"E-mail" = "メールアドレス";
+"Password" = "パスワード";
+"Please fill in the information" = "情報を入力してください";
+"Register Failed" = "登録に失敗しました";
+
+// MARK: - Product List VC
+"Racking Status" = "棚卸状態";
+
+// MARK: - Product Detail VC
+"Product name" = "商品名";
+
+// MARK: - MainTabBarController
+"Calculation" = "計算";
+"Settings" = "設定";
+"List" = "リスト";
+
+// MARK: - Shopping VC
+"Cart" = "カート";
+
+// MARK: - Setting VC
+"⚙️ Settings" = "⚙️ 設定";
+
+// MARK: Services
+"Disclaimer" = "免責事項";
+"Version V 1.1.0" = "バージョン V 1.1.0";
+"Problem Report" = "問題報告";
+
+// Title:
+"📦 Cart" = "📦 カート";
+"🧮 Calculation" = "🧮 計算";
+"⚙️ Settings" = "⚙️ 設定";
+"📄 List" = "📄 リスト";
+
+// LocalizedString
+"Please enter a valid email address" = "有効なメールアドレスを入力してください";
+"This email has already been registered" = "このメールアドレスは既に登録されています";
+"Password must be at least 6 characters" = "パスワードは6文字以上である必要があります";
+"An error occurred during registration, please try again later" = "登録中にエラーが発生しました。後でもう一度お試しください";
