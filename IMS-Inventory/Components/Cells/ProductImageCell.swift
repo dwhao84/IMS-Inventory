@@ -8,6 +8,9 @@
 import UIKit
 
 class ProductImageCell: UITableViewCell {
+    
+    static let identifier: String = "ProductImageCell"
+    
     private let productImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = Images.photoLibrary
@@ -30,10 +33,10 @@ class ProductImageCell: UITableViewCell {
     private func setupUI() {
         contentView.addSubview(productImageView)
         NSLayoutConstraint.activate([
-            productImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            productImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            productImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-            productImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
+            productImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
+            productImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            productImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            productImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
     
@@ -42,7 +45,7 @@ class ProductImageCell: UITableViewCell {
     }
 }
 
-#Preview(traits: .fixedLayout(width: 420, height: 170), body: {
+#Preview(traits: .fixedLayout(width: 420, height: 250), body: {
     let productImageCell = ProductImageCell()
     return productImageCell
 })

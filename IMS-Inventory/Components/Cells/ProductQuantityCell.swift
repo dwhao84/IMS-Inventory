@@ -8,16 +8,20 @@
 import UIKit
 
 class ProductQuantityCell: UITableViewCell {
+    
+    static let identifier = "ProductQuantityCell"
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 17)
+        label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        label.textColor = Colors.black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let valueLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 17)
+        label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -48,7 +52,7 @@ class ProductQuantityCell: UITableViewCell {
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             
-            valueLabel.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 8),
+            valueLabel.leadingAnchor.constraint(equalTo: stepper.leadingAnchor, constant: -30),
             valueLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             
             stepper.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
@@ -59,7 +63,7 @@ class ProductQuantityCell: UITableViewCell {
     func configure(title: String, value: String) {
         titleLabel.text = title
         valueLabel.text = value
-        stepper.isHidden = true
+        stepper.isHidden = false
     }
     
     func configureWithStepper(title: String, value: Int, action: @escaping (UIStepper) -> Void) {
