@@ -6,7 +6,7 @@ struct PersonalAnimatedView: View {
     
     var body: some View {
         VStack {
-            SwiftUI.Image(systemName: "person")
+            SwiftUI.Image(systemName: "person.crop.circle")
                 .resizable().scaledToFit()
                 .imageScale(.large)
                 .foregroundStyle(Color.black)
