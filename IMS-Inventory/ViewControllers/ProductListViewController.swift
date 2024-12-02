@@ -160,7 +160,6 @@ class ProductListViewController: UIViewController {
                     self.filteredRecords = records
                 case .failure(let error):
                     print("Error fetching data: \(error)")
-                    // Show alert here if needed
                 }
             }
         }
