@@ -52,6 +52,8 @@ struct Constants {
     static let nav_title_settings: String     = "⚙️ Settings"
     static let nav_title_list: String         = "📄 List"
     static let nav_title_detail: String       = "Product Detail"
+    
+    static let status: String                 = "Status"
 }
 
 
