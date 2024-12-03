@@ -72,6 +72,7 @@ class ProductDetailViewController: UIViewController {
         tableView.register(ProductInfoCell.self, forCellReuseIdentifier: ProductInfoCell.identifier)
         tableView.register(ProductQuantityCell.self, forCellReuseIdentifier: ProductQuantityCell.identifier)
         tableView.register(DateTableViewCell.self, forCellReuseIdentifier: DateTableViewCell.identifier)
+        tableView.register(StatusTableViewCell.self, forCellReuseIdentifier: StatusTableViewCell.identifier)
     }
     
     private func setNavigationView() {
@@ -115,7 +116,7 @@ extension ProductDetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return 4  // 因為你有 ProductImageCell, ProductInfoCell, 和 ProductQuantityCell 三種
+            return 5  // 因為你有 ProductImageCell, ProductInfoCell, 和 ProductQuantityCell 三種
         default:
             return 0
         }
@@ -130,20 +131,24 @@ extension ProductDetailViewController: UITableViewDataSource {
             
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: ProductInfoCell.identifier, for: indexPath) as! ProductInfoCell
-            cell.configure(articleNumber: "15525", rackingText: "BASKET F MULTIUSE W300 D800MM GALV", qtyText: "Qty: 10")
+            cell.configure(articleNumber: "15525", rackingText: "BASKET F MULTIUSE W300 D800MM GALV", qtyText: "Qty: 10 pcs")
             return cell
             
         case 2:
+            let cell = tableView.dequeueReusableCell(withIdentifier: DateTableViewCell.identifier, for: indexPath) as! DateTableViewCell
+            cell.configure(title: "Using Date")
+            return cell
+            
+        case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: ProductQuantityCell.identifier, for: indexPath) as! ProductQuantityCell
             cell.configureWithStepper(title: "Require Qty", value: qtyValue) { [weak self] stepper in
                 self?.qtyValue = Int(stepper.value)
                 self?.tableView.reloadRows(at: [indexPath], with: .none)
             }
             return cell
+        case 4:
+            let cell = tableView.dequeueReusableCell(withIdentifier: StatusTableViewCell.identifier, for: indexPath) as! StatusTableViewCell
             
-        case 3:
-            let cell = tableView.dequeueReusableCell(withIdentifier: DateTableViewCell.identifier, for: indexPath) as! DateTableViewCell
-            cell.configure(title: "Using Date")
             return cell
             
         default:
@@ -161,9 +166,7 @@ extension ProductDetailViewController: UITableViewDelegate {
             return 260
         case 1:
             return 150
-        case 2:
-            return 90
-        case 3:
+        case 2, 3, 4:
             return 90
         default:
             return UITableView.automaticDimension
