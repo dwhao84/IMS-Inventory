@@ -54,11 +54,6 @@ class NetworkManager {
                 completion(.failure(.decodingError(error)))
             }
         }
-        
         task.resume()
     }
-    
-
-    
-    
 }
