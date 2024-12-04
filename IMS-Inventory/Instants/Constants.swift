@@ -54,6 +54,13 @@ struct Constants {
     static let nav_title_detail: String       = "Product Detail"
     
     static let status: String                 = "Status"
+    static let searchBar_placeHolder: String  = "Item, Article No, Description"
+    
+    static let sortByArticleNoAsc: String = "Article No: Ascending"
+    static let sortByArticleNoDesc: String = "Article No: Descending"
+    static let sortByNameAZ: String = "Name: A to Z"
+    static let sortByQuantityDesc: String = "Quantity: High to Low"
+    
 }
 
 
