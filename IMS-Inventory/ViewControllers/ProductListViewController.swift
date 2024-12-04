@@ -10,7 +10,14 @@ class ProductListViewController: UIViewController {
             }
         }
     }
-    lazy var filteredRecords:[Record] = []
+    
+    private var filteredRecords: [Record] = [] {
+        didSet {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
     var activityIndicator: UIActivityIndicatorView!
     
     // MARK: - TableView
@@ -27,13 +34,13 @@ class ProductListViewController: UIViewController {
         refreshControl.tintColor = Colors.black
         return refreshControl
     }()
-
+    
     // MARK: - SearchController
     let searchController: UISearchController = {
         let controller = UISearchController()
         controller.searchBar.sizeToFit()
         controller.automaticallyShowsCancelButton = true
-        controller.searchBar.placeholder = "Item, Article No, Description"
+        controller.searchBar.placeholder = Constants.searchBar_placeHolder
         controller.isActive = true
         controller.searchBar.searchTextField.returnKeyType = .search
         controller.hidesNavigationBarDuringPresentation = false
@@ -41,7 +48,7 @@ class ProductListViewController: UIViewController {
         return controller
     }()
     
-    lazy var fliterBtn: UIButton = {
+    lazy var         filterBtn: UIButton = {
         let btn = UIButton(type: .system)
         var config = UIButton.Configuration.plain()
         config.baseForegroundColor = Colors.black
@@ -104,7 +111,7 @@ class ProductListViewController: UIViewController {
         self.navigationItem.searchController = searchController
         
         // 將 UIButton 轉換為 UIBarButtonItem
-        let rightBarButton = UIBarButtonItem(customView: fliterBtn)
+        let rightBarButton = UIBarButtonItem(customView:         filterBtn)
         // 設置到導航欄
         navigationItem.rightBarButtonItem = rightBarButton
     }
@@ -134,16 +141,46 @@ class ProductListViewController: UIViewController {
     func addSearchControllerDelegates() {
         searchController.searchBar.delegate = self
     }
-
+    
     @objc func refreshControlValueChanged(_ sender: Any) {
         print("refresh Control Value Changed")
         fetchData()
         refreshControl.endRefreshing()
     }
     
-    @objc func filterBtnTapped (_ sender: UIButton) {
-        print("filter Btn Tapped")
-        
+    @objc func filterBtnTapped(_ sender: UIButton) {
+        filterBtn.showsMenuAsPrimaryAction = true
+        filterBtn.menu = UIMenu(children: [
+            // 貨號排序
+            UIAction(title: Constants.sortByArticleNoAsc, image: UIImage(systemName: "arrow.up"), handler: { [weak self] _ in
+                guard let self = self else { return }
+                // 直接設定 records
+                self.records = self.records.sorted { (record1: Record, record2: Record) in
+                    return record1.fields.articleNumber.compare(record2.fields.articleNumber,
+                                                                options: .numeric) == .orderedAscending
+                }
+            }),
+            
+            UIAction(title: Constants.sortByArticleNoDesc, image: UIImage(systemName: "arrow.down"), handler: { [weak self] _ in
+                guard let self = self else { return }
+                self.records = self.records.sorted { (record1: Record, record2: Record) in
+                    return record1.fields.articleNumber.compare(record2.fields.articleNumber,
+                                                                options: .numeric) == .orderedDescending
+                }
+            }),
+            
+            // 名稱排序
+            UIAction(title: Constants.sortByNameAZ, image: UIImage(systemName: "textformat.abc"), handler: { [weak self] _ in
+                guard let self = self else { return }
+                self.records = self.records.sorted { $0.fields.articleName < $1.fields.articleName }
+            }),
+            
+            // 數量排序
+            UIAction(title: Constants.sortByQuantityDesc, image: UIImage(systemName: "number"), handler: { [weak self] _ in
+                guard let self = self else { return }
+                self.records = self.records.sorted { $0.fields.Qty > $1.fields.Qty }
+            })
+        ])
     }
     
     private func fetchData() {
