@@ -1,4 +1,6 @@
 import UIKit
+import MessageUI
+
 
 class SettingViewController: UIViewController {
     
@@ -68,17 +70,30 @@ class SettingViewController: UIViewController {
         
         let scrollAppearance = UINavigationBarAppearance()
         self.navigationController?.navigationBar.scrollEdgeAppearance = scrollAppearance
-
+        
         let textAttributes = [NSAttributedString.Key.foregroundColor: Colors.darkGray]
         self.navigationController?.navigationBar.titleTextAttributes = textAttributes
         
         self.navigationItem.title = navigationItemTitle
         self.navigationController?.navigationBar.isTranslucent = true
     }
+    
+    func sendEmail() {
+        if MFMailComposeViewController.canSendMail() {
+            let mail = MFMailComposeViewController()
+            mail.mailComposeDelegate = self
+            mail.setToRecipients(["dwhao84@gmail.com"])
+            mail.setMessageBody("<p>Hi there, there have some problem</p>", isHTML: true)
+            present(mail, animated: true)
+        } else {
+            // show failure alert
+            print("=== Unable to send e-mail. ===")
+        }
+    }
 }
 
 // MARK: - UITableView DataSource & Delegate
-extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
+extension SettingViewController: UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
     }
@@ -94,7 +109,6 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         
         let service = sections[indexPath.section].items[indexPath.row]
         var content = cell.defaultContentConfiguration()
-        
         content.text = service.title
         content.image = service.image
         content.imageProperties.tintColor = service.color
@@ -112,11 +126,21 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         
         let service = sections[indexPath.section].items[indexPath.row]
-        if !service.url.isEmpty, let url = URL(string: service.url) {
+        
+        if service.title == Constants.report {
+            sendEmail()
+        } else if !service.url.isEmpty, let url = URL(string: service.url) {
             UIApplication.shared.open(url)
         }
     }
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+            controller.dismiss(animated: true)
+            // Handle the mail composition result if needed
+        }
 }
+
+
 
 // MARK: - Models
 struct SettingsSection {
