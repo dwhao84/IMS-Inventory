@@ -87,4 +87,5 @@ struct Images {
     static let cancel_icon = UIImage(systemName: "x.circle")!
     static let shippingbox = UIImage(systemName: "shippingbox")!
     static let line_3_horizontal_decrease = UIImage(systemName: "line.3.horizontal.decrease")!
+    static let arrow_up_arrow_down = UIImage(systemName: "arrow.up.arrow.down")!
 }
