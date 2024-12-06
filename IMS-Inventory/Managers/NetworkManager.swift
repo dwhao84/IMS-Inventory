@@ -56,4 +56,10 @@ class NetworkManager {
         }
         task.resume()
     }
+    
+    
+    
+    func getRackingDatabase(completion: @escaping(Result<[Record], NetworkError>) -> Void) {
+        
+    }
 }
