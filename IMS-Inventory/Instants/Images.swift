@@ -79,7 +79,6 @@ struct Images {
     static let alarm = UIImage(systemName: "alarm.fill")!
     static let hourglass = UIImage(systemName: "hourglass")!
     
-    // MARK:
     static let calculation = UIImage(systemName: "plus.forwardslash.minus")!
     static let server = UIImage(systemName: "server.rack")!
     static let person_badge = UIImage(systemName: "person.badge.plus")!
@@ -88,4 +87,13 @@ struct Images {
     static let shippingbox = UIImage(systemName: "shippingbox")!
     static let line_3_horizontal_decrease = UIImage(systemName: "line.3.horizontal.decrease")!
     static let arrow_up_arrow_down = UIImage(systemName: "arrow.up.arrow.down")!
+    static let arrowTriangleheadClockwise = UIImage(systemName:"arrow.trianglehead.2.clockwise")!
+    
+    // MARK: - Meun
+    static let arrowUp = UIImage(systemName: "arrow.up")!
+    static let arrowDown = UIImage(systemName: "arrow.down")!
+    static let textFormatAbc = UIImage(systemName: "textformat.abc")!
+    static let number = UIImage(systemName: "number")!
+    
+    static let folderBadgePlus = UIImage(systemName: "folder.badge.plus")!
 }
