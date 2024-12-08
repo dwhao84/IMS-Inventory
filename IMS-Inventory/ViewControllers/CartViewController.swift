@@ -34,7 +34,7 @@ class CartViewController: UIViewController {
         let btn = UIButton(type: .system)
         var config = UIButton.Configuration.plain()
         config.baseForegroundColor = Colors.black
-        config.image = UIImage(systemName: "arrow.clockwise")
+        config.image = Images.arrowClockwise
         config.cornerStyle = .capsule
         btn.configuration = config
         btn.translatesAutoresizingMaskIntoConstraints = false
@@ -117,7 +117,7 @@ class CartViewController: UIViewController {
     
     // MARK: - Actions
     @objc private func handleRefresh() {
-        print("== Call API again ===")
+        print("== API Call again ===")
         // Implement refresh logic here
         refreshControl.endRefreshing()
         fetchData()
