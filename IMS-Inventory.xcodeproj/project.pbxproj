@@ -21,7 +21,6 @@
 		D31D88312D05CEFD006392C9 /* NameFillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31D88302D05CEFD006392C9 /* NameFillCell.swift */; };
 		D389120B2CFB6A470043295A /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D389120A2CFB6A470043295A /* IQKeyboardManagerSwift */; };
 		D399A8252CC568430074738D /* PrivateData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D399A8242CC568430074738D /* PrivateData.swift */; };
-		D399A8282CC569FF0074738D /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = D399A8272CC569FF0074738D /* Lottie */; };
 		D399C3AE2BFA257600DBBC78 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = D399C3AD2BFA257600DBBC78 /* Images.swift */; };
 		D3A1F8312CD671E40035AF93 /* CartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A1F8302CD671E40035AF93 /* CartViewController.swift */; };
 		D3A1F8332CD7D3660035AF93 /* ProductImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A1F8322CD7D3660035AF93 /* ProductImageCell.swift */; };
@@ -149,7 +148,6 @@
 				D3D6CBBF2CFAB3AB0019CBA5 /* FirebaseAuthCombine-Community in Frameworks */,
 				D3D6CBB62CFAB2DA0019CBA5 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				D3D6CBB22CFAB2DA0019CBA5 /* FirebaseAnalytics in Frameworks */,
-				D399A8282CC569FF0074738D /* Lottie in Frameworks */,
 				D3D6CBBA2CFAB2DA0019CBA5 /* FirebaseAppDistribution-Beta in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -353,7 +351,6 @@
 			name = "IMS-Inventory";
 			packageProductDependencies = (
 				D3FADE262BF8478F00185477 /* Kingfisher */,
-				D399A8272CC569FF0074738D /* Lottie */,
 				D30A6BAB2CD11F76003AC00A /* UIView-Shimmer */,
 				D30A6BBA2CD34F95003AC00A /* ESTabBarController */,
 				D3D6CBB12CFAB2DA0019CBA5 /* FirebaseAnalytics */,
@@ -442,12 +439,10 @@
 			mainGroup = D3E2B6752AFB7E9D00C932E7;
 			packageReferences = (
 				D3FADE252BF8478F00185477 /* XCRemoteSwiftPackageReference "Kingfisher" */,
-				D399A8262CC569FF0074738D /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				D30A6BAA2CD11F76003AC00A /* XCRemoteSwiftPackageReference "UIView-Shimmer" */,
 				D30A6BB92CD34F95003AC00A /* XCRemoteSwiftPackageReference "ESTabBarController" */,
 				D3D6CBB02CFAB2DA0019CBA5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				D38912092CFB6A470043295A /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
-				D3EDD7412CFC9BD2000999E8 /* XCRemoteSwiftPackageReference "Charts" */,
 			);
 			productRefGroup = D3E2B67F2AFB7E9D00C932E7 /* Products */;
 			projectDirPath = "";
@@ -922,28 +917,12 @@
 				minimumVersion = 8.0.0;
 			};
 		};
-		D399A8262CC569FF0074738D /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/airbnb/lottie-ios";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.5.0;
-			};
-		};
 		D3D6CBB02CFAB2DA0019CBA5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 11.5.0;
-			};
-		};
-		D3EDD7412CFC9BD2000999E8 /* XCRemoteSwiftPackageReference "Charts" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ChartsOrg/Charts.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.1.0;
 			};
 		};
 		D3FADE252BF8478F00185477 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
@@ -971,11 +950,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D38912092CFB6A470043295A /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
 			productName = IQKeyboardManagerSwift;
-		};
-		D399A8272CC569FF0074738D /* Lottie */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D399A8262CC569FF0074738D /* XCRemoteSwiftPackageReference "lottie-ios" */;
-			productName = Lottie;
 		};
 		D3D6CBB12CFAB2DA0019CBA5 /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
