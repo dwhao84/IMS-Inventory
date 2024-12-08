@@ -66,7 +66,7 @@ struct Constants {
     static let delete: String = "Delete"
     static let deleteFailed: String = "Delete Failed"
     
-
+    static let send: String = "Send"
 }
 
 struct AlertConstants {
