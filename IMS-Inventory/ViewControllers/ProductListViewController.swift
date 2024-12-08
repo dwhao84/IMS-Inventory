@@ -48,7 +48,7 @@ class ProductListViewController: UIViewController {
         return controller
     }()
     
-    lazy var         filterBtn: UIButton = {
+    lazy var filterBtn: UIButton = {
         let btn = UIButton(type: .system)
         var config = UIButton.Configuration.plain()
         config.baseForegroundColor = Colors.black
@@ -111,7 +111,7 @@ class ProductListViewController: UIViewController {
         self.navigationItem.searchController = searchController
         
         // 將 UIButton 轉換為 UIBarButtonItem
-        let rightBarButton = UIBarButtonItem(customView:         filterBtn)
+        let rightBarButton = UIBarButtonItem(customView: filterBtn)
         // 設置到導航欄
         navigationItem.rightBarButtonItem = rightBarButton
     }
@@ -129,7 +129,6 @@ class ProductListViewController: UIViewController {
     
     func addConstraints() {
         view.addSubview(tableView)
-        
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 16),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -152,7 +151,7 @@ class ProductListViewController: UIViewController {
         filterBtn.showsMenuAsPrimaryAction = true
         filterBtn.menu = UIMenu(children: [
             // 貨號排序
-            UIAction(title: Constants.sortByArticleNoAsc, image: UIImage(systemName: "arrow.up"), handler: { [weak self] _ in
+            UIAction(title: Constants.sortByArticleNoAsc, image: Images.arrowUp, handler: { [weak self] _ in
                 guard let self = self else { return }
                 // 直接設定 records
                 self.records = self.records.sorted { (record1: Record, record2: Record) in
@@ -161,7 +160,7 @@ class ProductListViewController: UIViewController {
                 }
             }),
             
-            UIAction(title: Constants.sortByArticleNoDesc, image: UIImage(systemName: "arrow.down"), handler: { [weak self] _ in
+            UIAction(title: Constants.sortByArticleNoDesc, image: Images.arrowDown, handler: { [weak self] _ in
                 guard let self = self else { return }
                 self.records = self.records.sorted { (record1: Record, record2: Record) in
                     return record1.fields.articleNumber.compare(record2.fields.articleNumber,
@@ -170,13 +169,13 @@ class ProductListViewController: UIViewController {
             }),
             
             // 名稱排序
-            UIAction(title: Constants.sortByNameAZ, image: UIImage(systemName: "textformat.abc"), handler: { [weak self] _ in
+            UIAction(title: Constants.sortByNameAZ, image: Images.textFormatAbc, handler: { [weak self] _ in
                 guard let self = self else { return }
                 self.records = self.records.sorted { $0.fields.articleName < $1.fields.articleName }
             }),
             
             // 數量排序
-            UIAction(title: Constants.sortByQuantityDesc, image: UIImage(systemName: "number"), handler: { [weak self] _ in
+            UIAction(title: Constants.sortByQuantityDesc, image: Images.number, handler: { [weak self] _ in
                 guard let self = self else { return }
                 self.records = self.records.sorted { $0.fields.Qty > $1.fields.Qty }
             })
@@ -247,6 +246,9 @@ extension ProductListViewController: UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+//        let productDetail = records[indexPath.row].id
+        
         let productDetailVC = ProductDetailViewController()
         self.navigationController?.pushViewController(productDetailVC, animated: true)
     }
