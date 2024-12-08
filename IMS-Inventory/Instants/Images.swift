@@ -96,4 +96,6 @@ struct Images {
     static let number = UIImage(systemName: "number")!
     
     static let folderBadgePlus = UIImage(systemName: "folder.badge.plus")!
+    
+    static let arrowClockwise = UIImage(systemName: "arrow.clockwise")!
 }
