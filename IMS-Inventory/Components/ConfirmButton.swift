@@ -23,7 +23,7 @@ class ConfirmButton: UIButton {
         var config = UIButton.Configuration.filled()
         config.baseBackgroundColor = Colors.black
         config.baseForegroundColor = Colors.white
-        config.title = "Send"
+        config.title = Constants.send
         config.cornerStyle = .capsule
         self.configuration = config
         self.translatesAutoresizingMaskIntoConstraints = false
