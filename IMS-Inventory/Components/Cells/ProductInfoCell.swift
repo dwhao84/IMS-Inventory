@@ -16,6 +16,7 @@ class ProductInfoCell: UITableViewCell {
         label.textColor = Colors.white
         label.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
         label.backgroundColor = Colors.black
+        label.lineBreakMode = .byTruncatingTail
         label.textAlignment = .center
         label.layer.cornerRadius = 2
         label.clipsToBounds = true

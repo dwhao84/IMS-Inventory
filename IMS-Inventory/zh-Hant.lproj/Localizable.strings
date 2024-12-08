@@ -11,7 +11,6 @@
 "Calculation"    = "貨架計算";
 "Settings"       = "設定頁面";
 
-
 // MARK: - Cells
 "Loading..." = "等待中";
 "Sent" = "以送出";
@@ -48,7 +47,7 @@
 "Cart" = "購物車";
 
 // MARK: - Setting VC
-"⚙️ Settings" = "⚙️ 設定";
+"Settings" = "設定";
 
 // MARK: Services
 "Disclaimer" = "免責聲明";
@@ -56,10 +55,10 @@
 "Problem Report" = "問題回報";
 
 // Title:
-"📦 Cart" = "📦 購物車";
-"🧮 Calculation" = "🧮 計算";
-"⚙️ Settings" = "⚙️ 設定";
-"📄 List" = "📄 清單";
+"Cart" = "購物車";
+"Calculation" = "計算";
+"Settings" = "設定";
+"List" = "清單";
 
 // LocalizedString
 "Please enter a valid email address" = "請輸入有效的電子郵件地址";

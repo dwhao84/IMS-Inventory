@@ -35,7 +35,7 @@
 "Cart" = "购物车";
 
 // MARK: - Setting VC
-"⚙️ Settings" = "⚙️ 设置";
+"Settings" = "设置";
 
 // MARK: Services
 "Disclaimer" = "免责声明";
@@ -43,10 +43,10 @@
 "Problem Report" = "问题报告";
 
 // Title:
-"📦 Cart" = "📦 购物车";
-"🧮 Calculation" = "🧮 计算";
-"⚙️ Settings" = "⚙️ 设置";
-"📄 List" = "📄 列表";
+"Cart" = "购物车";
+"Calculation" = "计算";
+"Settings" = "设置";
+"List" = "列表";
 
 // LocalizedString
 "Please enter a valid email address" = "请输入有效的电子邮件地址";

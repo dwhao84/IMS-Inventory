@@ -35,7 +35,7 @@
 "Cart" = "カート";
 
 // MARK: - Setting VC
-"⚙️ Settings" = "⚙️ 設定";
+"Settings" = "設定";
 
 // MARK: Services
 "Disclaimer" = "免責事項";
@@ -43,10 +43,10 @@
 "Problem Report" = "問題報告";
 
 // Title:
-"📦 Cart" = "📦 カート";
-"🧮 Calculation" = "🧮 計算";
-"⚙️ Settings" = "⚙️ 設定";
-"📄 List" = "📄 リスト";
+"Cart" = "カート";
+"Calculation" = "計算";
+"Settings" = "設定";
+"List" = "リスト";
 
 // LocalizedString
 "Please enter a valid email address" = "有効なメールアドレスを入力してください";
