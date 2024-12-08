@@ -184,13 +184,13 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
-		D38C9B812AFE7F7A00E05972 /* Model */ = {
+		D38C9B812AFE7F7A00E05972 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				D3FADE2C2BF85D5D00185477 /* Product.swift */,
 				D3E2EF1A2D020095009A2E03 /* Cart.swift */,
 			);
-			path = Model;
+			path = Models;
 			sourceTree = "<group>";
 		};
 		D399A8232CC568200074738D /* Private Data */ = {
@@ -282,7 +282,7 @@
 				D3E2B6B32AFB841F00C932E7 /* Supporting */,
 				D30A6BA92CD11CB6003AC00A /* Components */,
 				D3E2B6B42AFB843600C932E7 /* ViewControllers */,
-				D38C9B812AFE7F7A00E05972 /* Model */,
+				D38C9B812AFE7F7A00E05972 /* Models */,
 				D3D6CB9B2CF8BA560019CBA5 /* ViewModels */,
 				D399C3AF2BFA475700DBBC78 /* Instants */,
 				D3E2B68F2AFB7E9F00C932E7 /* Info.plist */,
