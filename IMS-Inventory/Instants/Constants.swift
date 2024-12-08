@@ -29,6 +29,8 @@ struct Constants {
     
     // MARK: - Product Detail VC
     static let product_name: String       = "Product name"
+    static let fillYourName: String       = "Fill your name"
+    static let fill: String       = "Fill"
     
     // MARK: - MainTabBarController
     static let calculation: String  = "Calculation"
@@ -39,7 +41,7 @@ struct Constants {
     static let cart: String         = "Cart"
     
     // MARK: - Setting VC
-    static let settingNavigationTitle: String = "⚙️ Settings"
+    static let settingNavigationTitle: String = "Settings"
     
     // MARK:  Services
     static let disclaimer: String   = "Disclaimer"
@@ -47,10 +49,10 @@ struct Constants {
     static let report: String       = "Problem Report"
     
     // Title:
-    static let nav_title_cart: String         = "📦 Cart"
-    static let nav_title_calculation: String  = "🧮 Calculation"
-    static let nav_title_settings: String     = "⚙️ Settings"
-    static let nav_title_list: String         = "📄 List"
+    static let nav_title_cart: String         = "Cart"
+    static let nav_title_calculation: String  = "Calculation"
+    static let nav_title_settings: String     = "Settings"
+    static let nav_title_list: String         = "List"
     static let nav_title_detail: String       = "Product Detail"
     
     static let status: String                 = "Status"
@@ -61,6 +63,16 @@ struct Constants {
     static let sortByNameAZ: String = "Name: A to Z"
     static let sortByQuantityDesc: String = "Quantity: High to Low"
     
+    static let delete: String = "Delete"
+    static let deleteFailed: String = "Delete Failed"
+    
+
+}
+
+struct AlertConstants {
+    static let error: String                = "Error"
+    static let loginFailed: String          = "Login Failed"
+    static let emptyQty: String             = "Qty is empty"
 }
 
 
