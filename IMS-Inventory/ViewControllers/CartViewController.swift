@@ -1,47 +1,85 @@
-//
-//  ShoppingCartViewController.swift
-//  IMS-Inventory
-//
-//  Created by Dawei Hao on 2024/11/2.
-//
-
 import UIKit
 
+// MARK: - CartViewController
 class CartViewController: UIViewController {
     
-    let tableView: UITableView = {
+    var borrowReturnRecords: [BorrowReturn.Record] = []
+    
+    // MARK: - Types
+    private enum Layout {
+        static let rowHeight: CGFloat = 180.0
+    }
+    
+    // MARK: - Properties
+    lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = Colors.white
         tableView.separatorStyle = .singleLine
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(CartTableViewCell.self, forCellReuseIdentifier: CartTableViewCell.identifier)
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.refreshControl = refreshControl
         return tableView
     }()
     
-    let refreshControl: UIRefreshControl = {
-        let refreshControl = UIRefreshControl()
-        refreshControl.tintColor = Colors.black
-        refreshControl.addTarget(self, action: #selector(refreshControlValueChanged), for: .valueChanged)
-        return refreshControl
+    lazy var refreshControl: UIRefreshControl = {
+        let control = UIRefreshControl()
+        control.tintColor = Colors.black
+        control.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        return control
     }()
     
-    // MARK: - Life Cycle:
+    private lazy var refreshButton: UIButton = {
+        let btn = UIButton(type: .system)
+        var config = UIButton.Configuration.plain()
+        config.baseForegroundColor = Colors.black
+        config.image = UIImage(systemName: "arrow.clockwise")
+        config.cornerStyle = .capsule
+        btn.configuration = config
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.configurationUpdateHandler = { btn in
+            btn.alpha = btn.isHighlighted ? 0.5 : 1
+            btn.configuration = config
+        }
+        return btn
+    }()
+    
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        fetchData()
     }
     
-    // MARK: - set up UI
-    func setupUI () {
-        setupTableView()
-        setNavigationView()
+    // MARK: - Private Methods
+    private func setupUI() {
+        configureTableView()
+        configureNavigationBar()
+        
+        refreshButton.addTarget(self, action: #selector(refreshButtonTapped), for: .touchUpInside)
     }
     
-    func setupTableView() {
+    func fetchData() {
+        NetworkManager.shared.getBorrowReturnData { [weak self] result in
+            switch result {
+            case .success(let records):
+                DispatchQueue.main.async {
+                    self?.borrowReturnRecords = records
+                    self?.tableView.reloadData()  // 需要加入這行
+                }
+                
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    // 處理錯誤情況
+                    print("Error fetching data: \(error)")
+                }
+            }
+        }
+    }
+    
+    private func configureTableView() {
         view.addSubview(tableView)
-        tableView.register(CartTableViewCell.self, forCellReuseIdentifier: CartTableViewCell.identifier)
-        tableView.refreshControl = refreshControl
-        tableView.delegate = self
-        tableView.dataSource = self
         
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -51,53 +89,178 @@ class CartViewController: UIViewController {
         ])
     }
     
-    func setNavigationView() {
-        let standardAppearance = UINavigationBarAppearance()
-        standardAppearance.configureWithDefaultBackground()
-        self.navigationController?.navigationBar.standardAppearance = standardAppearance
+    private func configureNavigationBar() {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithDefaultBackground()
         
-        let scrollAppearance = UINavigationBarAppearance()
-        scrollAppearance.configureWithDefaultBackground()
-        self.navigationController?.navigationBar.scrollEdgeAppearance = scrollAppearance
-        
-        let textAttributes = [NSAttributedString.Key.foregroundColor: Colors.darkGray]
-        self.navigationController?.navigationBar.titleTextAttributes = textAttributes
-        
-        // 使用客製化的標題視圖
-        let customTitleView = CustomNavigationTitleView(title: Constants.nav_title_cart)
-        navigationItem.titleView = customTitleView
-        self.navigationController?.navigationBar.isTranslucent = true
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        navigationController?.navigationBar.titleTextAttributes = [
+            .foregroundColor: Colors.darkGray
+        ]
+        navigationController?.navigationBar.isTranslucent = true
+        navigationItem.titleView = CustomNavigationTitleView(title: Constants.nav_title_cart)
+        let rightBarButtonItem = UIBarButtonItem(customView: refreshButton)
+        navigationItem.rightBarButtonItem = rightBarButtonItem
     }
     
-    @objc func refreshControlValueChanged(_ sender: Any) {
-        print("refresh Control Value Changed")
+    
+    @objc private func refreshButtonTapped(_ sender: UIButton) {
+        print("=== refreshButtonTapped ===")
+        let rotateAnimation = CABasicAnimation(keyPath: "transform.rotation")
+        rotateAnimation.fromValue = 0.0
+        rotateAnimation.toValue = Double.pi * 2 // Full rotation (360 degrees)
+        rotateAnimation.duration = 0.5
+        rotateAnimation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+        refreshButton.layer.add(rotateAnimation, forKey: nil)
+    }
+    
+    // MARK: - Actions
+    @objc private func handleRefresh() {
+        print("== Call API again ===")
+        // Implement refresh logic here
         refreshControl.endRefreshing()
+        fetchData()
     }
     
-    func fetchData () {
-        
+}
+
+// MARK: - UITableViewDelegate
+extension CartViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return Layout.rowHeight
     }
 }
 
-extension CartViewController: UITableViewDelegate, UITableViewDataSource {
+// MARK: - UITableViewDataSource
+extension CartViewController: UITableViewDataSource {
+    // MARK: - numberOfRowsInSection
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1 // Replace with your data count
+        updateTableViewBackground(tableView, isEmpty: borrowReturnRecords.isEmpty)
+        return borrowReturnRecords.count
     }
     
+    // MARK: - cellForRowAt
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: CartTableViewCell.identifier, for: indexPath) as? CartTableViewCell else {
-            fatalError("Unable to dequeuse Reusable Cell")
-        }
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: CartTableViewCell.identifier,
+            for: indexPath
+        ) as! CartTableViewCell
         
-        
+        let fields = borrowReturnRecords[indexPath.row].fields
+        cell.articleNumberLabel.text = fields.articleNumber ?? "N/A"
+        cell.productENNameLabel.text = fields.rackingDescription ?? "N/A"
+        cell.orderNumberLabel.text = fields.orderNumber ?? "N/A"
+        cell.dateLabel.text = fields.createdDate ?? "N/A"
+        cell.statusLabel.text = fields.status ?? "N/A"
+        cell.qtyLabel.text = String(fields.rackingQty ?? 0)
         return cell
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 180
+    /// 設定 TableView 的滑動刪除動作
+    // MARK: - trailingSwipeActionsConfigurationForRowAt
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+       // 建立刪除動作按鈕
+       let deleteAction = UIContextualAction(style: .destructive, title: Constants.delete) { [weak self] (action, view, completionHandler) in
+           // 檢查 self 是否存在，避免記憶體洩漏
+           guard let self = self else {
+               completionHandler(false)
+               return
+           }
+           
+           // 從資料陣列中獲取要刪除記錄的 ID
+           let recordId = self.borrowReturnRecords[indexPath.row].id
+           // 建立包含特定記錄 ID 的完整 URL
+           let deleteUrl = API.baseUrl.appendingPathComponent(recordId)
+           
+           // 設定 HTTP 請求
+           var request = URLRequest(url: deleteUrl)
+           request.httpMethod = "DELETE"
+           request.setValue("Bearer \(API.apiKey)", forHTTPHeaderField: "Authorization")
+           
+           // 發送網路請求
+           URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
+               // 在主線程處理回應
+               DispatchQueue.main.async {
+                   // 檢查 HTTP 回應狀態碼
+                   if let httpResponse = response as? HTTPURLResponse,
+                      httpResponse.statusCode == 200 {
+                       
+                       // 刪除成功：更新本地資料和 UI
+                       self?.borrowReturnRecords.remove(at: indexPath.row)
+                       tableView.deleteRows(at: [IndexPath(row: indexPath.row, section: 0)], with: .automatic)
+                       completionHandler(true)
+                   } else {
+                       guard let self = self else {
+                           completionHandler(false)
+                           return
+                       }
+                       AlertManager.showButtonAlert(on: self,
+                                                 title: Constants.error,
+                                                 message: Constants.deleteFailed)
+                       completionHandler(false)
+                   }
+               }
+           }.resume()
+       }
+       // 設定刪除按鈕的背景顏色
+       deleteAction.backgroundColor = .red
+       
+       // 建立並返回滑動動作配置
+       let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+       return configuration
     }
 }
 
+// MARK: - setupEmptyTableViewBackground
+extension UIViewController {
+    func setupEmptyTableViewBackground(_ tableView: UITableView) {
+        // 建立一個容器視圖
+        let containerView = UIView()
+        
+        // 建立圖片視圖
+        let imageView = UIImageView()
+        imageView.image = Images.folderBadgePlus
+        imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = Colors.darkGray
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        // 創建標籤
+        let label = UILabel()
+        label.text = "No data"
+        label.textAlignment = .center
+        label.textColor = Colors.darkGray
+        label.font = UIFont.boldSystemFont(ofSize: 25)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        // 將圖片視圖和標籤添加到容器中
+        containerView.addSubview(imageView)
+        containerView.addSubview(label)
+        
+        // 設置約束
+        NSLayoutConstraint.activate([
+            imageView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+            imageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor, constant: -30),
+            imageView.widthAnchor.constraint(equalToConstant: 120),
+            imageView.heightAnchor.constraint(equalToConstant: 120),
+            
+            label.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+            label.topAnchor.constraint(equalTo: imageView.bottomAnchor)
+        ])
+        
+        tableView.backgroundView = containerView
+    }
+    
+    func updateTableViewBackground(_ tableView: UITableView, isEmpty: Bool) {
+        if isEmpty {
+            setupEmptyTableViewBackground(tableView)
+        } else {
+            tableView.backgroundView = nil
+        }
+    }
+}
+        
+// MARK: - SwiftUI Preview
 #Preview {
     UINavigationController(rootViewController: CartViewController())
 }
