@@ -35,11 +35,8 @@ class CustomNavigationTitleView: UIView {
         
         NSLayoutConstraint.activate([
             // 設置標題標籤的約束
-            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor), // 靠左對齊
+            titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor), // 靠中對齊
             titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor), // 垂直置中
-            
-            // 設置視圖本身的寬度
-            self.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 50)
         ])
     }
     

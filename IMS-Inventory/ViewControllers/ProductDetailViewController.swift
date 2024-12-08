@@ -3,13 +3,20 @@ import UIKit
 class ProductDetailViewController: UIViewController {
     
     var qtyValue: Int = 0
+    private var selectedDate: Date?
+    private var selectedStatus: String?
+    private var quantity: Int = 1
+    
+    var imageUrl: String?
+    var productTitle: String?
+    var articleNumber: String?
+    var qty: String?
     
     // MARK: - UI Components
     private let tableView: UITableView = {
-        let table = UITableView(frame: .zero, style: .grouped)
+        let table = UITableView(frame: .zero, style: .insetGrouped)
         table.backgroundColor = UIColor.systemGray6
         table.translatesAutoresizingMaskIntoConstraints = false
-        table.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         return table
     }()
     
@@ -32,10 +39,6 @@ class ProductDetailViewController: UIViewController {
         return btn
     }()
     
-    private var selectedDate: Date?
-    private var selectedStatus: String?
-    private var quantity: Int = 1
-    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,7 +55,7 @@ class ProductDetailViewController: UIViewController {
         self.view.addSubview(sendBtn)
         
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: sendBtn.topAnchor, constant: -20),
@@ -73,6 +76,7 @@ class ProductDetailViewController: UIViewController {
         tableView.register(ProductQuantityCell.self, forCellReuseIdentifier: ProductQuantityCell.identifier)
         tableView.register(DateTableViewCell.self, forCellReuseIdentifier: DateTableViewCell.identifier)
         tableView.register(StatusTableViewCell.self, forCellReuseIdentifier: StatusTableViewCell.identifier)
+        tableView.register(NameFillCell.self, forCellReuseIdentifier: NameFillCell.identifier)
     }
     
     private func setNavigationView() {
@@ -100,9 +104,13 @@ class ProductDetailViewController: UIViewController {
     }
     
     @objc func confirmBtnTapped(_ sender: UIButton) {
-        let shoppingCartVC = CartViewController()
-        shoppingCartVC.modalPresentationStyle = .overFullScreen
-        navigationController?.pushViewController(shoppingCartVC, animated: true)
+        if qtyValue == 0 {
+            AlertManager.showButtonAlert(on: ProductDetailViewController(), title: Constants.error, message: AlertConstants.emptyQty)
+        } else {
+            let shoppingCartVC = CartViewController()
+            shoppingCartVC.modalPresentationStyle = .overFullScreen
+            navigationController?.pushViewController(shoppingCartVC, animated: true)
+        }
     }
     
 }
@@ -130,23 +138,27 @@ extension ProductDetailViewController: UITableViewDataSource {
             return cell
             
         case 1:
+            let cell = tableView.dequeueReusableCell(withIdentifier: NameFillCell.identifier, for: indexPath) as! NameFillCell
+            return cell
+            
+        case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: ProductInfoCell.identifier, for: indexPath) as! ProductInfoCell
             cell.configure(articleNumber: "15525", rackingText: "BASKET F MULTIUSE W300 D800MM GALV", qtyText: "Qty: 10 pcs")
             return cell
             
-        case 2:
+        case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: DateTableViewCell.identifier, for: indexPath) as! DateTableViewCell
             cell.configure(title: "Using Date")
             return cell
             
-        case 3:
+        case 4:
             let cell = tableView.dequeueReusableCell(withIdentifier: ProductQuantityCell.identifier, for: indexPath) as! ProductQuantityCell
             cell.configureWithStepper(title: "Require Qty", value: qtyValue) { [weak self] stepper in
                 self?.qtyValue = Int(stepper.value)
                 self?.tableView.reloadRows(at: [indexPath], with: .none)
             }
             return cell
-        case 4:
+        case 5:
             let cell = tableView.dequeueReusableCell(withIdentifier: StatusTableViewCell.identifier, for: indexPath) as! StatusTableViewCell
             
             return cell
@@ -164,9 +176,9 @@ extension ProductDetailViewController: UITableViewDelegate {
         switch indexPath.row {
         case 0:
             return 260
-        case 1:
-            return 150
-        case 2, 3, 4:
+        case 2:
+            return 160
+        case 1, 3, 4, 5:
             return 90
         default:
             return UITableView.automaticDimension
