@@ -99,7 +99,7 @@ class CartViewController: UIViewController {
             .foregroundColor: Colors.darkGray
         ]
         navigationController?.navigationBar.isTranslucent = true
-        navigationItem.titleView = CustomNavigationTitleView(title: Constants.nav_title_cart)
+        navigationItem.titleView = CustomNavigationTitleView(title: (String(localized: "Cart")))
         let rightBarButtonItem = UIBarButtonItem(customView: refreshButton)
         navigationItem.rightBarButtonItem = rightBarButtonItem
     }
@@ -148,11 +148,11 @@ extension CartViewController: UITableViewDataSource {
         ) as! CartTableViewCell
         
         let fields = borrowReturnRecords[indexPath.row].fields
-        cell.articleNumberLabel.text = fields.articleNumber ?? "N/A"
-        cell.productENNameLabel.text = fields.rackingDescription ?? "N/A"
-        cell.orderNumberLabel.text = fields.orderNumber ?? "N/A"
-        cell.dateLabel.text = fields.createdDate ?? "N/A"
-        cell.statusLabel.text = fields.status ?? "N/A"
+        cell.articleNumberLabel.text = fields.articleNumber ?? String(localized: "N/A")
+        cell.productENNameLabel.text = fields.rackingDescription ?? String(localized: "N/A")
+        cell.orderNumberLabel.text = fields.orderNumber ?? String(localized: "N/A")
+        cell.dateLabel.text = fields.createdDate ?? String(localized: "N/A")
+        cell.statusLabel.text = fields.status ?? String(localized: "N/A")
         cell.qtyLabel.text = String(fields.rackingQty ?? 0)
         return cell
     }
@@ -227,7 +227,7 @@ extension UIViewController {
         
         // 創建標籤
         let label = UILabel()
-        label.text = "No data"
+        label.text = String(localized: "No Data")
         label.textAlignment = .center
         label.textColor = Colors.darkGray
         label.font = UIFont.boldSystemFont(ofSize: 25)

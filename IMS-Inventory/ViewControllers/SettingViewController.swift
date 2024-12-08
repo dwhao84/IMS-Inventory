@@ -4,7 +4,7 @@ import MessageUI
 
 class SettingViewController: UIViewController {
     
-    let navigationItemTitle: String = Constants.nav_title_settings
+    let navigationItemTitle: String = String(localized: "Settings")
     
     // MARK: - Properties
     private let tableView: UITableView = {
@@ -19,19 +19,19 @@ class SettingViewController: UIViewController {
         SettingsSection(items: [
             Service(
                 image: Images.bookPages,
-                title: Constants.disclaimer,
+                title: String(localized: "Disclaimer"),
                 url: "https://dwhao84.blogspot.com/2024/07/blog-post.html?m=1",
                 color: .systemRed
             ),
             Service(
                 image: Images.gear,
-                title: Constants.version,
+                title: String(localized: "Version V 1.1.0"),
                 url: "",
                 color: .blue
             ),
             Service(
                 image: Images.mail,
-                title: Constants.report,
+                title: String(localized: "Problem Report"),
                 url: "",
                 color: Colors.black
             )

@@ -104,7 +104,7 @@ class ProductListViewController: UIViewController {
         self.navigationController?.navigationBar.titleTextAttributes = textAttributes
         
         // 使用客製化的標題視圖
-        let customTitleView = CustomNavigationTitleView(title: Constants.nav_title_list)
+        let customTitleView = CustomNavigationTitleView(title: String(localized: "List"))
         navigationItem.titleView = customTitleView
         
         self.navigationController?.navigationBar.isTranslucent = true

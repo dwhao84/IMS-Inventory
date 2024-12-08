@@ -31,25 +31,25 @@ class MainTabBarViewController: ESTabBarController {
     private func setupViewControllers() {
         let productListNC = createNavigationController(
             for: ProductListViewController(),
-            title: Constants.list,
+            title: String(localized: "List"),
             image: Images.server
         )
         
         let calculationNC = createNavigationController(
             for: CalculationViewController(),
-            title: Constants.calculation,
+            title: String(localized: "Calculation"),
             image: Images.calculation
         )
         
         let cartNC = createNavigationController(
             for: CartViewController(),
-            title: Constants.cart,
+            title: String(localized: "Cart"),
             image: Images.shippingbox
         )
         
         let settingNC = createNavigationController(
             for: SettingViewController(),
-            title: Constants.settings,
+            title: String(localized: "Settings"),
             image: Images.gear
         )
         
@@ -126,6 +126,6 @@ class CustomAnimatedTabBarContentView: ESTabBarItemContentView {
     }
 }
 
-#Preview {
+#Preview("Japanese") {
     MainTabBarViewController()
 }

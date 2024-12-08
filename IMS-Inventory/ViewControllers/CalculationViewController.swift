@@ -63,7 +63,7 @@ class CalculationViewController: UIViewController {
         self.navigationController?.navigationBar.titleTextAttributes = textAttributes
         
         // 使用客製化的標題視圖
-        let customTitleView = CustomNavigationTitleView(title: Constants.nav_title_calculation)
+        let customTitleView = CustomNavigationTitleView(title: String(localized: "Calculation"))
         navigationItem.titleView = customTitleView
         
         self.navigationController?.navigationBar.isTranslucent = true

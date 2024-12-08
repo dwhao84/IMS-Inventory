@@ -92,7 +92,7 @@ class ProductDetailViewController: UIViewController {
         self.navigationController?.navigationBar.titleTextAttributes = textAttributes
         
         // 使用客製化的標題視圖
-        let customTitleView = CustomNavigationTitleView(title: Constants.nav_title_detail)
+        let customTitleView = CustomNavigationTitleView(title: String(localized: "Product name"))
         navigationItem.titleView = customTitleView
         
         self.navigationController?.navigationBar.isTranslucent = true
@@ -148,12 +148,12 @@ extension ProductDetailViewController: UITableViewDataSource {
             
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: DateTableViewCell.identifier, for: indexPath) as! DateTableViewCell
-            cell.configure(title: "Using Date")
+            cell.configure(title: String(localized: "Using Date"))
             return cell
             
         case 4:
             let cell = tableView.dequeueReusableCell(withIdentifier: ProductQuantityCell.identifier, for: indexPath) as! ProductQuantityCell
-            cell.configureWithStepper(title: "Require Qty", value: qtyValue) { [weak self] stepper in
+            cell.configureWithStepper(title: String(localized:"Require Qty"), value: qtyValue) { [weak self] stepper in
                 self?.qtyValue = Int(stepper.value)
                 self?.tableView.reloadRows(at: [indexPath], with: .none)
             }

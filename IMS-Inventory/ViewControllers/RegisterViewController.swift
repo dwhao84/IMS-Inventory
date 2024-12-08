@@ -18,7 +18,7 @@ class RegisterViewController: UIViewController {
     private let accountTextField: UITextField = {
         let tf = UITextField()
         tf.borderStyle = .roundedRect
-        tf.placeholder = Constants.email
+        tf.placeholder = String(localized: "E-mail")
         tf.font = .systemFont(ofSize: 16)
         tf.autocapitalizationType = .none
         tf.keyboardType = .emailAddress
@@ -31,7 +31,7 @@ class RegisterViewController: UIViewController {
     private let passwordTextField: UITextField = {
         let tf = UITextField()
         tf.borderStyle = .roundedRect
-        tf.placeholder = Constants.password
+        tf.placeholder = String(localized: "Password")
         tf.font = .systemFont(ofSize: 16)
         tf.rightViewMode = .whileEditing
         tf.textColor = .customBlack
@@ -50,7 +50,7 @@ class RegisterViewController: UIViewController {
             .font: UIFont.systemFont(ofSize: 16, weight: .semibold),
             .foregroundColor: UIColor.customWhite
         ]
-        config.attributedTitle = AttributedString(Constants.register, attributes: AttributeContainer(attributes))
+        config.attributedTitle = AttributedString(String(localized: "Register"), attributes: AttributeContainer(attributes))
         config.cornerStyle = .capsule
         
         button.configuration = config
@@ -180,7 +180,7 @@ class RegisterViewController: UIViewController {
                 
                 AlertManager.showButtonAlert(
                     on: self,
-                    title: "註冊失敗",
+                    title: String(localized: "註冊失敗"),
                     message: errorMessage
                 )
                 return
@@ -189,8 +189,8 @@ class RegisterViewController: UIViewController {
             // Success case
             AlertManager.showButtonAlert(
                 on: self,
-                title: "Reigster Success",
-                message: "Account has been successfully created"
+                title: String(localized: "Reigster Success"),
+                message: String(localized: "Account has been successfully created")
             )
             
             // Clear text fields
