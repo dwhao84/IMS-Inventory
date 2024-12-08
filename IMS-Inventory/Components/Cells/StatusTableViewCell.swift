@@ -1,4 +1,5 @@
 import UIKit
+
 class StatusTableViewCell: UITableViewCell {
     static let identifier: String = "StatusTableViewCell"
     
@@ -16,11 +17,9 @@ class StatusTableViewCell: UITableViewCell {
     
     private let statusButton: UIButton = {
         let button = UIButton(type: .system)
-        var config = UIButton.Configuration.bordered()
+        var config = UIButton.Configuration.gray()
         config.title = "Return"
-        config.baseBackgroundColor = Colors.white
         config.baseForegroundColor = Colors.black
-        config.background.strokeColor = Colors.black
         config.cornerStyle = .large
         config.background.strokeWidth = 1
         config.titleAlignment = .automatic
