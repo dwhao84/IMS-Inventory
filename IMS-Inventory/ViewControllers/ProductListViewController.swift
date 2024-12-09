@@ -40,7 +40,7 @@ class ProductListViewController: UIViewController {
         let controller = UISearchController()
         controller.searchBar.sizeToFit()
         controller.automaticallyShowsCancelButton = true
-        controller.searchBar.placeholder = Constants.searchBar_placeHolder
+        controller.searchBar.placeholder = String(localized: "Item, Article No, Description")
         controller.isActive = true
         controller.searchBar.searchTextField.returnKeyType = .search
         controller.hidesNavigationBarDuringPresentation = false
@@ -151,7 +151,7 @@ class ProductListViewController: UIViewController {
         filterBtn.showsMenuAsPrimaryAction = true
         filterBtn.menu = UIMenu(children: [
             // 貨號排序
-            UIAction(title: Constants.sortByArticleNoAsc, image: Images.arrowUp, handler: { [weak self] _ in
+            UIAction(title: String(localized: "Article No: Ascending"), image: Images.arrowUp, handler: { [weak self] _ in
                 guard let self = self else { return }
                 // 直接設定 records
                 self.records = self.records.sorted { (record1: Record, record2: Record) in
@@ -160,7 +160,7 @@ class ProductListViewController: UIViewController {
                 }
             }),
             
-            UIAction(title: Constants.sortByArticleNoDesc, image: Images.arrowDown, handler: { [weak self] _ in
+            UIAction(title: String(localized: "Article No: Descending"), image: Images.arrowDown, handler: { [weak self] _ in
                 guard let self = self else { return }
                 self.records = self.records.sorted { (record1: Record, record2: Record) in
                     return record1.fields.articleNumber.compare(record2.fields.articleNumber,
@@ -169,13 +169,13 @@ class ProductListViewController: UIViewController {
             }),
             
             // 名稱排序
-            UIAction(title: Constants.sortByNameAZ, image: Images.textFormatAbc, handler: { [weak self] _ in
+            UIAction(title: String(localized: "Name: A to Z"), image: Images.textFormatAbc, handler: { [weak self] _ in
                 guard let self = self else { return }
                 self.records = self.records.sorted { $0.fields.articleName < $1.fields.articleName }
             }),
             
             // 數量排序
-            UIAction(title: Constants.sortByQuantityDesc, image: Images.number, handler: { [weak self] _ in
+            UIAction(title: String(localized: "Quantity: High to Low"), image: Images.number, handler: { [weak self] _ in
                 guard let self = self else { return }
                 self.records = self.records.sorted { $0.fields.Qty > $1.fields.Qty }
             })
@@ -227,7 +227,8 @@ extension ProductListViewController: UITableViewDelegate, UITableViewDataSource 
         let record = searchController.isActive ? filteredRecords[indexPath.row] : records[indexPath.row]
         cell.articleNumberLabel.text = record.fields.articleNumber
         cell.productENNameLabel.text = record.fields.articleName
-        cell.qtyLabel.text = "Stock Qty: \(record.fields.Qty)"
+        cell.productENNameLabel.text = record.fields.articleName
+        cell.qtyLabel.text = String(localized:"Stock Qty: \(record.fields.Qty)")
         
         if let imageUrlString = record.fields.image.last?.url,
            let url = URL(string: imageUrlString) {

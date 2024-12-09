@@ -17,7 +17,7 @@
 		D30A6BB82CD34CC5003AC00A /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30A6BB72CD34CC5003AC00A /* MainTabBarViewController.swift */; };
 		D30A6BBB2CD34F95003AC00A /* ESTabBarController in Frameworks */ = {isa = PBXBuildFile; productRef = D30A6BBA2CD34F95003AC00A /* ESTabBarController */; };
 		D30A6BBD2CD36E12003AC00A /* LaunchSceenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30A6BBC2CD36E12003AC00A /* LaunchSceenViewController.swift */; };
-		D30A6BBF2CD36F13003AC00A /* ConfirmButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30A6BBE2CD36F13003AC00A /* ConfirmButton.swift */; };
+		D30A6BBF2CD36F13003AC00A /* SendButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30A6BBE2CD36F13003AC00A /* SendButton.swift */; };
 		D31D88312D05CEFD006392C9 /* NameFillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31D88302D05CEFD006392C9 /* NameFillCell.swift */; };
 		D31D885F2D0614C4006392C9 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = D31D885E2D0614C4006392C9 /* Localizable.xcstrings */; };
 		D389120B2CFB6A470043295A /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D389120A2CFB6A470043295A /* IQKeyboardManagerSwift */; };
@@ -87,7 +87,7 @@
 		D30A6BB52CD346F8003AC00A /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
 		D30A6BB72CD34CC5003AC00A /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
 		D30A6BBC2CD36E12003AC00A /* LaunchSceenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchSceenViewController.swift; sourceTree = "<group>"; };
-		D30A6BBE2CD36F13003AC00A /* ConfirmButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmButton.swift; sourceTree = "<group>"; };
+		D30A6BBE2CD36F13003AC00A /* SendButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendButton.swift; sourceTree = "<group>"; };
 		D31D88302D05CEFD006392C9 /* NameFillCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameFillCell.swift; sourceTree = "<group>"; };
 		D31D885E2D0614C4006392C9 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		D399A8242CC568430074738D /* PrivateData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateData.swift; sourceTree = "<group>"; };
@@ -173,7 +173,7 @@
 				D3D6CB9E2CFA13BD0019CBA5 /* AnimatedGearView.swift */,
 				D3D6CBC42CFADEE60019CBA5 /* PersonalAnimatedView.swift */,
 				D30A6BB52CD346F8003AC00A /* PaddingLabel.swift */,
-				D30A6BBE2CD36F13003AC00A /* ConfirmButton.swift */,
+				D30A6BBE2CD36F13003AC00A /* SendButton.swift */,
 				D3EDD7482CFCC5B1000999E8 /* CustomNavigationTitleView.swift */,
 			);
 			path = Components;
@@ -432,6 +432,7 @@
 				"zh-Hant",
 				ja,
 				"zh-Hans",
+				ko,
 			);
 			mainGroup = D3E2B6752AFB7E9D00C932E7;
 			packageReferences = (
@@ -495,7 +496,7 @@
 				D3E2EF1B2D020095009A2E03 /* Cart.swift in Sources */,
 				D3E2B6822AFB7E9D00C932E7 /* AppDelegate.swift in Sources */,
 				D3D6CB972CF8B6620019CBA5 /* AlertManager.swift in Sources */,
-				D30A6BBF2CD36F13003AC00A /* ConfirmButton.swift in Sources */,
+				D30A6BBF2CD36F13003AC00A /* SendButton.swift in Sources */,
 				D3FADE2B2BF8596C00185477 /* Colors.swift in Sources */,
 				D399C3AE2BFA257600DBBC78 /* Images.swift in Sources */,
 				D3D6CBC52CFADEE60019CBA5 /* PersonalAnimatedView.swift in Sources */,

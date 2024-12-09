@@ -33,8 +33,8 @@ class ProductDetailViewController: UIViewController {
         return imageView
     }()
     
-    private let sendBtn: ConfirmButton = {
-        let btn = ConfirmButton()
+    private let sendBtn: SendButton = {
+        let btn = SendButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()

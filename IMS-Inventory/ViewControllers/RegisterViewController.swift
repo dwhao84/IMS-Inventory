@@ -147,8 +147,8 @@ class RegisterViewController: UIViewController {
               let password = passwordTextField.text, !password.isEmpty else {
             AlertManager.showButtonAlert(
                 on: self,
-                title: Constants.error,
-                message: Constants.fill_in_info
+                title: String(localized: "Error"),
+                message: String(localized: "Please fill in the information")
             )
             return
         }
@@ -169,13 +169,13 @@ class RegisterViewController: UIViewController {
                 
                 switch error.localizedDescription {
                     case let str where str.contains("email address is badly formatted"):
-                        errorMessage = LocalizedString.invalid_email
+                        errorMessage = String(localized: "Please enter a valid email address")
                     case let str where str.contains("email address is already in use"):
-                        errorMessage = LocalizedString.email_already_exists
+                    errorMessage = String(localized: "This email has already been registered")
                     case let str where str.contains("Password should be at least 6 characters"):
-                        errorMessage = LocalizedString.password_too_short
+                        errorMessage = String(localized: "Password must be at least 6 characters")
                     default:
-                        errorMessage = LocalizedString.register_error
+                        errorMessage = String(localized: "An error occurred during registration, please try again later")
                 }
                 
                 AlertManager.showButtonAlert(

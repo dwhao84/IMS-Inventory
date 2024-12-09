@@ -16,6 +16,12 @@
             "value" : "登録中にエラーが発生しました。後でもう一度お試しください"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "등록 중 오류가 발생했습니다. 나중에 다시 시도해 주세요."
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -26,6 +32,76 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "註冊過程中發生錯誤，請稍後再試"
+          }
+        }
+      }
+    },
+    "Article No: Ascending" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Article No: Ascending"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "品番：昇順"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "품번：오름차순"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "物料编号：升序"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "料號：由小至大"
+          }
+        }
+      }
+    },
+    "Article No: Descending" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Article No: Descending"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "品番：降順"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "품번：내림차순"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "物料编号：降序"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "料號：由大至小"
           }
         }
       }
@@ -44,6 +120,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "計算"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "계산"
           }
         },
         "zh-Hans" : {
@@ -76,6 +158,12 @@
             "value" : "カート"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "장바구니"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -102,6 +190,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "アカウントを作成"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "계정 만들기"
           }
         },
         "zh-Hans" : {
@@ -134,6 +228,12 @@
             "value" : "免責事項"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "면책 조항"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -164,6 +264,12 @@
             "value" : "メールアドレス"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이메일"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -192,6 +298,12 @@
             "value" : "メールアドレスを入力してください"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이메일을 입력하세요"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -218,6 +330,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "パスワードを入力してください"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "비밀번호를 입력하세요"
           }
         },
         "zh-Hans" : {
@@ -249,6 +367,12 @@
             "value" : "エラー"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "오류"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -259,6 +383,76 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "錯誤"
+          }
+        }
+      }
+    },
+    "Fill your name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fill your name"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "お名前を入力してください"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이름을 입력하세요"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "填写您的姓名"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "填寫您的姓名"
+          }
+        }
+      }
+    },
+    "Item, Article No, Description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Item, Article No, Description"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アイテム, 品番, 製品説明"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "아이템, 품번, 제품 설명"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "项目, 物料编号, 产品说明"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "產品, 貨號, 產品描述"
           }
         }
       }
@@ -276,6 +470,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "リスト"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "목록"
           }
         },
         "zh-Hans" : {
@@ -308,6 +508,12 @@
             "value" : "読み込み中..."
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "로딩 중..."
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -336,6 +542,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "ログイン"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "로그인"
           }
         },
         "zh-Hans" : {
@@ -367,6 +579,12 @@
             "value" : "ログインに失敗しました"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "로그인 실패"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -384,10 +602,22 @@
     "NA" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "NA"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "該当なし"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "N/A (또는 해당 없음)"
           }
         },
         "zh-Hans" : {
@@ -400,6 +630,41 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "NA"
+          }
+        }
+      }
+    },
+    "Name: A to Z" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name: A to Z"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "名前：A から Z"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이름：A to Z"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "名称：A 到 Z"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "名稱：A 到 Z"
           }
         }
       }
@@ -417,6 +682,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "データなし"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "데이터 없음"
           }
         },
         "zh-Hans" : {
@@ -448,6 +719,12 @@
             "value" : "パスワード"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "비밀번호"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -475,6 +752,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "パスワードは6文字以上である必要があります"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "비밀번호는 최소 6자 이상이어야 합니다"
           }
         },
         "zh-Hans" : {
@@ -507,6 +790,12 @@
             "value" : "有効なメールアドレスを入力してください"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "유효한 이메일 주소를 입력해 주세요"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -536,6 +825,12 @@
             "value" : "情報を入力してください"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "정보를 입력해 주세요"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -563,6 +858,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "問題報告"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "문제 보고"
           }
         },
         "zh-Hans" : {
@@ -595,6 +896,12 @@
             "value" : "商品名"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "제품명"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -609,6 +916,41 @@
         }
       }
     },
+    "Quantity: High to Low" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quantity: High to Low"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "数量：多い順"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "수량：많은 순"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "数量：从多到少"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "數量：由多至少"
+          }
+        }
+      }
+    },
     "Racking Status" : {
       "comment" : "MARK: - TabBar Items**MARK: - Product List VC**",
       "extractionState" : "manual",
@@ -616,25 +958,31 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rack Status"
+            "value" : "Article No: Ascending"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "棚卸状態"
+            "value" : "ラッキング状況"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "래킹 상태"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "上架状态"
+            "value" : "貨架状态"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "上架狀態"
+            "value" : "貨架狀態"
           }
         }
       }
@@ -652,6 +1000,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "登録"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "회원가입"
           }
         },
         "zh-Hans" : {
@@ -683,6 +1037,12 @@
             "value" : "登録に失敗しました"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "등록 실패"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -710,6 +1070,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "要求数量"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "필수 수량"
           }
         },
         "zh-Hans" : {
@@ -741,6 +1107,12 @@
             "value" : "送信"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "보내기"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -768,6 +1140,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "送信済み"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "전송됨"
           }
         },
         "zh-Hans" : {
@@ -800,6 +1178,12 @@
             "value" : "設定"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "설정"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -829,6 +1213,12 @@
             "value" : "在庫数量"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "재고 수량"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -839,6 +1229,41 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "庫存數"
+          }
+        }
+      }
+    },
+    "Stock Qty:" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stock Qty:"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在庫数量："
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "재고 수량:"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "库存数量："
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "庫存數："
           }
         }
       }
@@ -858,6 +1283,12 @@
             "value" : "このメールアドレスは既に登録されています"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이미 등록된 이메일입니다."
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -868,6 +1299,41 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "此電子郵件已被註冊"
+          }
+        }
+      }
+    },
+    "Using Date" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Using Date"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用日"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사용일자"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用日期"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用日期"
           }
         }
       }
@@ -885,6 +1351,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "バージョン V 1.1.0"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "버전 V 1.1.0"
           }
         },
         "zh-Hans" : {
@@ -913,6 +1385,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在庫管理アプリへようこそ！"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "재고 관리 앱에 오신 것을 환영합니다!"
           }
         },
         "zh-Hans" : {

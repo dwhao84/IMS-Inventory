@@ -197,8 +197,8 @@ class LoginViewController: UIViewController {
                 if error != nil {
                     AlertManager.showButtonAlert(
                         on: self,
-                        title: Constants.error,
-                        message: Constants.loginFailed
+                        title: String(localized: "Error"),
+                        message: String(localized: "Login Failed")
                     )
                     return
                 }

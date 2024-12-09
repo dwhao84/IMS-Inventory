@@ -13,7 +13,7 @@ class NameFillCell: UITableViewCell {
     
     private let statusTitleLabel: UILabel = {
         let label: UILabel = UILabel()
-        label.text = Constants.fillYourName
+        label.text = String(localized: "Fill your name")
         label.textColor = Colors.black
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 20, weight: .regular)
@@ -23,7 +23,7 @@ class NameFillCell: UITableViewCell {
     
     private let nameTextField = {
         let tf: UITextField = UITextField()
-        tf.placeholder = Constants.fillYourName
+        tf.placeholder = String(localized: "Fill your name")
         tf.borderStyle = .roundedRect
         tf.textColor = Colors.black
         tf.rightViewMode = .always

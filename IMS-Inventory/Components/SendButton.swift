@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ConfirmButton: UIButton {
+class SendButton: UIButton {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -23,7 +23,7 @@ class ConfirmButton: UIButton {
         var config = UIButton.Configuration.filled()
         config.baseBackgroundColor = Colors.black
         config.baseForegroundColor = Colors.white
-        config.title = Constants.send
+        config.title = String(localized: "Send")
         config.cornerStyle = .capsule
         self.configuration = config
         self.translatesAutoresizingMaskIntoConstraints = false
