@@ -146,23 +146,23 @@ func calculateShelvingSystem(
             print("50216 Left side unit f shelving system D600 H854MM whi * \(sixtySection)")
             print("50217 Middle unit f shelving system D600 H854MM whi * \(sixtySection)")
             print("50218 Right side unit f shelving system D600 H854MM whi * \(sixtySection)")
-            print("")
+            print(" =========== ")
             print("50166 Crossbeam f shelving system L560MM whi * \(sixtySection * 3)")
             
         case 1340:
             print("50213 Left side unit f shelving system D600 H1304MM whi * \(sixtySection)")
             print("50214 Middle unit f shelving system D600 H1304MM whi * \(sixtySection)")
             print("50215 Right side unit f shelving system D600 H1304MM whi * \(sixtySection)")
-            print("")
+            print(" =========== ")
             print("50166 Crossbeam f shelving system L560MM whi * \(sixtySection * 3)")
             
         case 2480:
             print("50210 Left side unit f shelving system D600 H2480 whi * \(sixtySection)")
             print("50211 Middle unit f shelving system D600 H2480 whi * \(sixtySection)")
             print("50212 Right side unit f shelving system D600 H2480 whi * \(sixtySection)")
-            print("")
+            print(" =========== ")
             print("50166 Crossbeam f shelving system L560MM whi * \(sixtySection * 3)")
-            print("")
+            print(" =========== ")
             print("50190 Ceiling support 680MM f shelving system whi * 2")
             print("50188 Ceiling support clamp f shelving system whi * 2")
             
@@ -181,21 +181,21 @@ func calculateShelvingSystem(
             print("50216 Left side unit f shelving system D600 H854MM whi * 1")
             print("50217 Middle unit f shelving system D600 H854MM whi * \(nintySection)")
             print("50218 Right side unit f shelving system D600 H854MM whi * 1")
-            print("")
+            print(" =========== ")
             print("50183 Crossbeam f shelving system L860mm whi * \(nintySection * 3)")
             
         case 1340:
             print("50213 Left side unit f shelving system D600 H1304MM whi * 1")
             print("50214 Middle unit f shelving system D600 H1304MM whi * \(sixtySection)")
             print("50215 Right side unit f shelving system D600 H1304MM whi * 1")
-            print("")
+            print(" =========== ")
             print("50166 Crossbeam f shelving system L560MM whi * \(sixtySection * 3)")
             
         case 2480:
             print("50210 Left side unit f shelving system D600 H2480 whi * 1")
             print("50211 Middle unit f shelving system D600 H2480 whi * \(nintySection)")
             print("50212 Right side unit f shelving system D600 H2480 whi * 1")
-            print("")
+            print(" =========== ")
             print("50190 Ceiling support 680MM f shelving system whi * 2")
             print("50188 Ceiling support clamp f shelving system whi * 2")
             
