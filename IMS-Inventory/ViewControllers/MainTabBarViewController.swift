@@ -12,9 +12,9 @@ class MainTabBarViewController: ESTabBarController {
     private func setupTabBar() {
         self.view.overrideUserInterfaceStyle = .light
         self.view.backgroundColor = Colors.white
-        tabBar.tintColor = Colors.IKEA_Blue
-        tabBar.isTranslucent = true
-        selectedIndex = 1
+        tabBar.tintColor          = Colors.IKEA_Blue
+        tabBar.isTranslucent      = true
+        selectedIndex             = 1
         
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
@@ -126,6 +126,6 @@ class CustomAnimatedTabBarContentView: ESTabBarItemContentView {
     }
 }
 
-#Preview("Japanese") {
+#Preview {
     MainTabBarViewController()
 }
