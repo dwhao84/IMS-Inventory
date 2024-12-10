@@ -11,10 +11,10 @@ class CalculationViewController: UIViewController {
 
     let segmentControl: UISegmentedControl = {
         let segmentControl = UISegmentedControl()
-        segmentControl.insertSegment(withTitle: "Bins", at: 0, animated: true)
-        segmentControl.insertSegment(withTitle: "Gondola", at: 1, animated: true)
-        segmentControl.insertSegment(withTitle: "Backwall", at: 2, animated: true)
-        segmentControl.insertSegment(withTitle: "Shelving System", at: 3, animated: true)
+        segmentControl.insertSegment(withTitle: String(localized:"Bins"), at: 0, animated: true)
+        segmentControl.insertSegment(withTitle: String(localized:"Gondola"), at: 1, animated: true)
+        segmentControl.insertSegment(withTitle: String(localized:"Backwall"), at: 2, animated: true)
+        segmentControl.insertSegment(withTitle: String(localized:"Shelving System"), at: 3, animated: true)
         segmentControl.selectedSegmentIndex = 0
         
         let segmentWidths = [80, 90, 90, 150]
