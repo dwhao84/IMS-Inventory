@@ -196,11 +196,12 @@ extension BinsViewController: UITextFieldDelegate {
     }
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        
+        print("textField Should Begin Editing")
         return true
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        print("textField Should Return")
         return true
     }
 }

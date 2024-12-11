@@ -501,7 +501,7 @@ public func calculateStandardBins(qtyOfBin_forty_By_Sixty: Int, qtyOfBinSixty_By
         print("Bin數量大於1")
         print("12483 CORNER POST F BIN H850MM WHI * \(qtyOfBin_forty_By_Sixty * 4 + qtyOfBinSixty_By_Eighty * 4)")
         print("17740 SIDE F BIN L400 H700MM WHI * \(qtyOfBin_forty_By_Sixty * 2)")
-        print("17739 SIDE F BIN L600 H700MM WHI * \(qtyOfBin_forty_By_Sixty * 2 + qtyOfBinSixty_By_Eighty * 2)")
+        print("17739 SIDE F BIN L60 H700MM WHI * \(qtyOfBin_forty_By_Sixty * 2 + qtyOfBinSixty_By_Eighty * 2)")
         print("17743 SIDE F BIN L800 H700MM WHI * \(qtyOfBinSixty_By_Eighty * 2)")
         
     } else if qtyOfBin_forty_By_Sixty > 0 && qtyOfBinSixty_By_Eighty == 0 {
