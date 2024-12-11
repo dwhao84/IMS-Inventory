@@ -497,24 +497,27 @@ public func calculationBracketsAndShelfs () {
 // MARK: - Bins:
 // Function for calculating standard bins
 public func calculateStandardBins(qtyOfBin_forty_By_Sixty: Int, qtyOfBinSixty_By_Eighty: Int) {
+    // Create a mutable string to store all the output
+    var outputText = ""
+    
     if qtyOfBin_forty_By_Sixty > 0 && qtyOfBinSixty_By_Eighty > 0 {
-        print("Bin數量大於1")
-        print("12483 CORNER POST F BIN H850MM WHI * \(qtyOfBin_forty_By_Sixty * 4 + qtyOfBinSixty_By_Eighty * 4)")
-        print("17740 SIDE F BIN L400 H700MM WHI * \(qtyOfBin_forty_By_Sixty * 2)")
-        print("17739 SIDE F BIN L60 H700MM WHI * \(qtyOfBin_forty_By_Sixty * 2 + qtyOfBinSixty_By_Eighty * 2)")
-        print("17743 SIDE F BIN L800 H700MM WHI * \(qtyOfBinSixty_By_Eighty * 2)")
+        outputText += "Bin數量大於1\n"
+        outputText += "12483 CORNER POST F BIN H850MM WHI * \(qtyOfBin_forty_By_Sixty * 4 + qtyOfBinSixty_By_Eighty * 4)\n"
+        outputText += "17740 SIDE F BIN L400 H700MM WHI * \(qtyOfBin_forty_By_Sixty * 2)\n"
+        outputText += "17739 SIDE F BIN L60 H700MM WHI * \(qtyOfBin_forty_By_Sixty * 2 + qtyOfBinSixty_By_Eighty * 2)\n"
+        outputText += "17743 SIDE F BIN L800 H700MM WHI * \(qtyOfBinSixty_By_Eighty * 2)\n"
         
     } else if qtyOfBin_forty_By_Sixty > 0 && qtyOfBinSixty_By_Eighty == 0 {
-        print("40 * 60的Bin 大於 1")
-        print("12483 CORNER POST F BIN H850MM WHI * \(qtyOfBin_forty_By_Sixty * 4)")
-        print("17740 SIDE F BIN L400 H700MM WHI * \(qtyOfBin_forty_By_Sixty * 2)")
-        print("17739 SIDE F BIN L600 H700MM WHI * \(qtyOfBin_forty_By_Sixty * 2)")
+        outputText += "40 * 60的Bin 大於 1\n"
+        outputText += "12483 CORNER POST F BIN H850MM WHI * \(qtyOfBin_forty_By_Sixty * 4)\n"
+        outputText += "17740 SIDE F BIN L400 H700MM WHI * \(qtyOfBin_forty_By_Sixty * 2)\n"
+        outputText += "17739 SIDE F BIN L600 H700MM WHI * \(qtyOfBin_forty_By_Sixty * 2)\n"
         
     } else if qtyOfBin_forty_By_Sixty == 0 && qtyOfBinSixty_By_Eighty > 0 {
-        print("60 * 80的Bin 大於 1")
-        print("12483 CORNER POST F BIN H850MM WHI * \(qtyOfBinSixty_By_Eighty * 4)")
-        print("17739 SIDE F BIN L600 H700MM WHI * \(qtyOfBinSixty_By_Eighty * 2)")
-        print("17743 SIDE F BIN L800 H700MM WHI * \(qtyOfBinSixty_By_Eighty * 2)")
+        outputText += "60 * 80的Bin 大於 1\n"
+        outputText += "12483 CORNER POST F BIN H850MM WHI * \(qtyOfBinSixty_By_Eighty * 4)\n"
+        outputText += "17739 SIDE F BIN L600 H700MM WHI * \(qtyOfBinSixty_By_Eighty * 2)\n"
+        outputText += "17743 SIDE F BIN L800 H700MM WHI * \(qtyOfBinSixty_By_Eighty * 2)\n"
     }
 }
 

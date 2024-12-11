@@ -16,6 +16,8 @@ class BinsViewController: UIViewController {
     let sizePickerView: UIPickerView = UIPickerView()
     let typePickerView: UIPickerView = UIPickerView()
     
+    private let calculator: BinCalculatable = BinCalculator()
+    
     private lazy var calculationBtn: UIButton = {
         let button = UIButton(type: .system)
         var config = UIButton.Configuration.filled()
@@ -59,6 +61,17 @@ class BinsViewController: UIViewController {
         return tf
     } ()
     
+    let  qtyTextField: UITextField = {
+        let tf: UITextField = UITextField()
+        tf.placeholder = String(localized: "Enter your Qty")
+        tf.font = UIFont.systemFont(ofSize: 16)
+        tf.borderStyle = .roundedRect
+        tf.keyboardType = .numberPad
+        tf.textColor = Colors.darkGray
+        tf.translatesAutoresizingMaskIntoConstraints = false
+        return tf
+    } ()
+    
     let stackView: UIStackView = {
         let sv: UIStackView = UIStackView()
         sv.axis = .vertical
@@ -69,12 +82,15 @@ class BinsViewController: UIViewController {
         return sv
     } ()
     
-    let textView: UITextView = {
+    public var outputTextView: UITextView = {
         let tv: UITextView = UITextView()
-        tv.text = "xxx"
         tv.isSelectable = true
+        tv.text = String(localized: "尚未輸入任何內容") // 還沒加上多國語系
+        tv.font = .systemFont(ofSize: 23, weight: .bold)
         tv.textColor = Colors.darkGray
-        tv.font = UIFont.systemFont(ofSize: 23)
+        tv.textAlignment = .center
+        tv.textContainerInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        tv.isScrollEnabled = true
         tv.translatesAutoresizingMaskIntoConstraints = false
         return tv
     } ()
@@ -86,6 +102,11 @@ class BinsViewController: UIViewController {
         setupUI()
     }
     
+    private func setupOutputTextView () {
+        outputTextView.textAlignment = .left
+        outputTextView.font = .systemFont(ofSize: 12, weight: .regular)
+    }
+    
     func setupUI () {
         self.view.overrideUserInterfaceStyle = .light
         configStackView()
@@ -94,21 +115,36 @@ class BinsViewController: UIViewController {
         setupPickerViews()
     }
     
-    func addDelegates () {
+    func addDelegates() {
+        // Set up delegates
         sizePickerView.delegate = self
         typePickerView.delegate = self
         binSizeTextField.delegate = self
         typeOfBinTextField.delegate = self
         
+        // Connect picker views to text fields
         typeOfBinTextField.inputAccessoryView = typePickerView
         binSizeTextField.inputAccessoryView = sizePickerView
         
-        // Optional: Add toolbar as input accessory view
+        // Create and configure toolbar
         let toolbar = UIToolbar()
         toolbar.sizeToFit()
-        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissPicker))
-        toolbar.setItems([doneButton], animated: false)
         
+        let doneButton = UIBarButtonItem(
+            barButtonSystemItem: .done,
+            target: self,
+            action: #selector(dismissPicker)
+        )
+        
+        let cancelButton = UIBarButtonItem(
+            barButtonSystemItem: .done,
+            target: self,
+            action: #selector(dismissPicker)
+        )
+        
+        toolbar.setItems([cancelButton, doneButton], animated: false)
+        
+        // Add toolbar as input accessory view
         binSizeTextField.inputAccessoryView = toolbar
         typeOfBinTextField.inputAccessoryView = toolbar
     }
@@ -120,8 +156,9 @@ class BinsViewController: UIViewController {
     func configStackView () {
         stackView.addArrangedSubview(typeOfBinTextField)
         stackView.addArrangedSubview(binSizeTextField)
+        stackView.addArrangedSubview(qtyTextField)
         stackView.addArrangedSubview(calculationBtn)
-        stackView.addArrangedSubview(textView)
+        stackView.addArrangedSubview(outputTextView)
     }
     
     func setupPickerViews () {
@@ -130,10 +167,10 @@ class BinsViewController: UIViewController {
     }
     
     func addConstraints () {
-        [ binSizeTextField, typeOfBinTextField].forEach {
+        [ binSizeTextField, typeOfBinTextField, qtyTextField].forEach {
             $0.heightAnchor.constraint(equalToConstant: 50).isActive = true
         }
-        textView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        outputTextView.heightAnchor.constraint(equalToConstant: 200).isActive = true
         calculationBtn.heightAnchor.constraint(equalToConstant: 50).isActive = true
         self.view.addSubview(stackView)
         NSLayoutConstraint.activate([
@@ -143,44 +180,70 @@ class BinsViewController: UIViewController {
         ])
     }
     
-    @objc func calculationBtnTapped(_ sender: UIButton) {
+    @IBAction func calculationBtnTapped(_ sender: UIButton) {
         print("calculation Btn Tapped")
         
+        setupOutputTextView()
+        
         guard let selectedType = typeOfBinTextField.text,
-              let selectedSize = binSizeTextField.text else {
-            // Show alert for invalid input
-            AlertManager.showButtonAlert(on: self, title: String(localized: "Error"), message: String(localized:"Please select both Bin type and size"))
+              let selectedSize = binSizeTextField.text,
+              let qtyText = qtyTextField.text,
+              let qty = Int(qtyText) else {
+            AlertManager.showButtonAlert(on: self,
+                                      title: String(localized: "Error"),
+                                      message: String(localized:"Please select both Bin type and size"))
             return
         }
+        
+        let result: BinCalculationResult
         
         switch selectedType {
         case "Pallet Bin":
             switch selectedSize {
             case "60 * 80":
-                calculatePalletBins(qtyOfPalletBin_sixty_By_Eighty: 1, qtyOfPalletBin_Eighty_By_OneHundredTwenty: 1)
+                result = calculator.calculatePalletBins(qtyOfPalletBin_sixty_By_Eighty: qty,
+                                                      qtyOfPalletBin_Eighty_By_OneHundredTwenty: 0)
             case "80 * 120":
-                calculatePalletBins(qtyOfPalletBin_sixty_By_Eighty: 1, qtyOfPalletBin_Eighty_By_OneHundredTwenty: 1)
-                
+                result = calculator.calculatePalletBins(qtyOfPalletBin_sixty_By_Eighty: 0,
+                                                      qtyOfPalletBin_Eighty_By_OneHundredTwenty: qty)
             default:
-                AlertManager.showButtonAlert(on: self, title: String(localized: "Error"), message: String(localized: "Invalid size selection for Pallet Bin"))
+                AlertManager.showButtonAlert(on: self,
+                                          title: String(localized: "Error"),
+                                          message: String(localized: "Invalid size selection for Pallet Bin"))
+                return
             }
             
         case "Bins":
             switch selectedSize {
             case "40 * 60":
-                // Handle regular Bins 40*60 calculation
-                calculateStandardBins(qtyOfBin_forty_By_Sixty: 1, qtyOfBinSixty_By_Eighty: 1)
+                result = calculator.calculateStandardBins(qtyOfBin_forty_By_Sixty: qty,
+                                                        qtyOfBinSixty_By_Eighty: 0)
             case "60 * 80":
-                // Handle regular Bins 60*80 calculation
-                calculateStandardBins(qtyOfBin_forty_By_Sixty: 1, qtyOfBinSixty_By_Eighty: 1)
-                
+                result = calculator.calculateStandardBins(qtyOfBin_forty_By_Sixty: 0,
+                                                        qtyOfBinSixty_By_Eighty: qty)
             default:
-                AlertManager.showButtonAlert(on: self, title: String(localized: "Error"), message: String(localized: "Invalid size selection for Bins"))
+                AlertManager.showButtonAlert(on: self,
+                                          title: String(localized: "Error"),
+                                          message: String(localized: "Invalid size selection for Bins"))
+                return
             }
             
         default:
-            AlertManager.showButtonAlert(on: self, title: String(localized: "Error"), message: String(localized: "Please select a valid Bin type"))
+            AlertManager.showButtonAlert(on: self,
+                                      title: String(localized: "Error"),
+                                      message: String(localized: "Please select a valid Bin type"))
+            return
         }
+        
+        displayCalculationResult(result)
+    }
+    
+    private func displayCalculationResult(_ result: BinCalculationResult) {
+        var displayText = "\n"
+        for component in result.components {
+            displayText += "\(component.partNumber) \(component.description) * \(component.quantity)\n"
+        }
+        outputTextView.text = displayText
     }
 }
 
