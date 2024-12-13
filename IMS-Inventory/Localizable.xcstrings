@@ -1,6 +1,16 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "Account has been successfully created" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Account has been successfully created"
+          }
+        }
+      }
+    },
     "An error occurred during registration, please try again later" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -248,6 +258,17 @@
         }
       }
     },
+    "Choose you have base or not" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose you have base or not"
+          }
+        }
+      }
+    },
     "Choose your bins size" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -314,6 +335,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "選擇您的 Bin 類型"
+          }
+        }
+      }
+    },
+    "Choose your height" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose your height"
+          }
+        }
+      }
+    },
+    "Clear" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clear"
           }
         }
       }
@@ -495,6 +538,12 @@
     "Enter your Qty" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter your Qty"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -626,9 +675,37 @@
         }
       }
     },
+    "How many 60's section" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How many 60's section"
+          }
+        }
+      }
+    },
+    "How many 90's section" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How many 90's section"
+          }
+        }
+      }
+    },
     "Invalid size selection for Bins" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Invalid size selection for Bins"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -658,6 +735,12 @@
     "Invalid size selection for Pallet Bin" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Invalid size selection for Pallet Bin"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -861,6 +944,12 @@
         }
       }
     },
+    "Missing Content" : {
+      "extractionState" : "manual"
+    },
+    "N/A" : {
+
+    },
     "NA" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -927,6 +1016,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "名稱：A 到 Z"
+          }
+        }
+      }
+    },
+    "No content has been entered" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "内容が入力されていません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "아무 내용도 입력되지 않았습니다"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尚未输入任何内容"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尚未輸入任何內容"
           }
         }
       }
@@ -1377,6 +1495,9 @@
         }
       }
     },
+    "Reigster Success" : {
+
+    },
     "Require Qty" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1623,6 +1744,9 @@
         }
       }
     },
+    "Stock Qty: %lld" : {
+
+    },
     "This email has already been registered" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1761,6 +1885,9 @@
           }
         }
       }
+    },
+    "註冊失敗" : {
+
     }
   },
   "version" : "1.0"
