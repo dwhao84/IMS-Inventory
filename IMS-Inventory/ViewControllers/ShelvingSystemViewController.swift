@@ -8,22 +8,347 @@
 import UIKit
 
 class ShelvingSystemViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+    let shelvingHeight: [String] = ["854", "1304", "2480"]
+    let withBase : [String] = [String(localized: "True"), String(localized: "False")] // 記得加多國語係
+    
+    let shelvingHeightPickerView: UIPickerView = UIPickerView()
+    let withBaseOrNotPickerView: UIPickerView = UIPickerView()
+    
+    enum Section: String {
+        case ninty = "ninty"
+        case sixty = "sixty"
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    enum ShelvingSystemHeight: String {
+        case height854  = "854"
+        case height1304 = "1304"
+        case height2480 = "2480"
     }
-    */
+    
+    private lazy var calculationBtn: UIButton = {
+        let button = UIButton(type: .system)
+        var config = UIButton.Configuration.filled()
+        config.baseBackgroundColor = .customBlack
+        config.baseForegroundColor = .customWhite
+        
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.systemFont(ofSize: 16, weight: .semibold),
+            .foregroundColor: UIColor.customWhite
+        ]
+        config.attributedTitle = AttributedString(String(localized: "Calculation"), attributes: AttributeContainer(attributes))
+        config.cornerStyle = .capsule
+        
+        button.configuration = config
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(calculationBtnTapped), for: .touchUpInside)
+        
+        button.configurationUpdateHandler = { button in
+            button.alpha = button.isHighlighted ? 0.7 : 1.0
+        }
+        return button
+    }()
+    
+    private lazy var clearBtn: UIButton = {
+        let button = UIButton(type: .system)
+        var config = UIButton.Configuration.borderless()
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.systemFont(ofSize: 16, weight: .semibold),
+            .foregroundColor: Colors.lightGray
+        ]
+        config.attributedTitle = AttributedString(String(localized: "Clear"), attributes: AttributeContainer(attributes))
+        config.cornerStyle = .capsule
+        button.configuration = config
+        button.addTarget(self, action: #selector(clearBtnTapped), for: .touchUpInside)
+        button.configurationUpdateHandler = { button in
+            button.alpha = button.isHighlighted ? 0.7 : 1.0
+        }
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    } ()
+    
+    let sixtySectionTextField: UITextField = {
+        let tf: UITextField = UITextField()
+        tf.placeholder = String(localized: "How many 60's section")  // 要加多國語系
+        tf.font = UIFont.systemFont(ofSize: 16)
+        tf.keyboardType = .numberPad
+        tf.borderStyle = .roundedRect
+        tf.textColor = Colors.darkGray
+        tf.translatesAutoresizingMaskIntoConstraints = false
+        return tf
+    } ()
+    
+    let nintySectionTextField: UITextField = {
+        let tf: UITextField = UITextField()
+        tf.placeholder = String(localized: "How many 90's section") // 要加多國語系
+        tf.font = UIFont.systemFont(ofSize: 16)
+        tf.keyboardType = .numberPad
+        tf.borderStyle = .roundedRect
+        tf.textColor = Colors.darkGray
+        tf.translatesAutoresizingMaskIntoConstraints = false
+        return tf
+    } ()
+    
+    let shelvingHeightTextField: UITextField = {
+        let tf: UITextField = UITextField()
+        tf.placeholder = String(localized: "Choose your height") // 要加多國語系
+        tf.font = UIFont.systemFont(ofSize: 16)
+        tf.borderStyle = .roundedRect
+        tf.textColor = Colors.darkGray
+        tf.translatesAutoresizingMaskIntoConstraints = false
+        return tf
+    } ()
+    
+    let withBaseOrNotTextField: UITextField = {
+        let tf: UITextField = UITextField()
+        tf.placeholder = String(localized: "Choose you have base or not") // 要加多國語系
+        tf.font = UIFont.systemFont(ofSize: 16)
+        tf.borderStyle = .roundedRect
+        tf.textColor = Colors.darkGray
+        tf.translatesAutoresizingMaskIntoConstraints = false
+        return tf
+    } ()
+    
+    let qtyTextField: UITextField = {
+        let tf: UITextField = UITextField()
+        tf.placeholder = String(localized: "Enter your Qty") // 要加多國語系
+        tf.font = UIFont.systemFont(ofSize: 16)
+        tf.borderStyle = .roundedRect
+        tf.keyboardType = .numberPad
+        tf.textColor = Colors.darkGray
+        tf.translatesAutoresizingMaskIntoConstraints = false
+        return tf
+    } ()
+    
+    let stackView: UIStackView = {
+        let sv: UIStackView = UIStackView()
+        sv.axis = .vertical
+        sv.alignment = .fill
+        sv.distribution = .fill
+        sv.spacing = 20
+        sv.translatesAutoresizingMaskIntoConstraints = false
+        return sv
+    } ()
+    
+    let buttonsStackView: UIStackView = {
+        let sv: UIStackView = UIStackView()
+        sv.axis = .vertical
+        sv.alignment = .fill
+        sv.distribution = .fill
+        sv.spacing = 20
+        sv.translatesAutoresizingMaskIntoConstraints = false
+        return sv
+    } ()
+    
+    public var outputTextView: UITextView = {
+        let tv: UITextView = UITextView()
+        tv.isSelectable = true
+        tv.text = String(localized: "No content has been entered") // 還沒加上多國語系
+        tv.font = .systemFont(ofSize: 23, weight: .bold)
+        tv.textColor = Colors.darkGray
+        tv.textAlignment = .center
+        tv.textContainerInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        tv.isScrollEnabled = true
+        tv.translatesAutoresizingMaskIntoConstraints = false
+        return tv
+    } ()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        print("Switching Shelving System VC")
+        
+        setupUI()
+    }
+    
+    private func setupOutputTextView () {
+        outputTextView.textAlignment = .left
+        outputTextView.font = .systemFont(ofSize: 12, weight: .regular)
+    }
+    
+    func setupUI () {
+        self.view.overrideUserInterfaceStyle = .light
+        configStackView()
+        addConstraints()
+        addDelegates()
+        setupPickerViews()
+    }
+    
+    func addDelegates() {
+        // Set up delegates
+        shelvingHeightPickerView.delegate = self
+        withBaseOrNotPickerView.delegate = self
+        
+        shelvingHeightTextField.delegate = self
+        sixtySectionTextField.delegate = self
+        nintySectionTextField.delegate = self
+        withBaseOrNotTextField.delegate = self
+        qtyTextField.delegate = self
+        
+        // Connect picker views to text fields
+        withBaseOrNotTextField.inputAccessoryView = withBaseOrNotPickerView
+        shelvingHeightTextField.inputAccessoryView = shelvingHeightPickerView
+        
+        // Create and configure toolbar
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+        
+        let doneButton = UIBarButtonItem(
+            barButtonSystemItem: .done,
+            target: self,
+            action: #selector(dismissPicker)
+        )
+        
+        let cancelButton = UIBarButtonItem(
+            barButtonSystemItem: .done,
+            target: self,
+            action: #selector(dismissPicker)
+        )
+        
+        toolbar.setItems([cancelButton, doneButton], animated: false)
+        
+        // Add toolbar as input accessory view
+        shelvingHeightTextField.inputAccessoryView = toolbar
+        withBaseOrNotTextField.inputAccessoryView = toolbar
+    }
+    
+    @objc private func dismissPicker() {
+        view.endEditing(true)
+    }
+    
+    func configStackView () {
+        stackView.addArrangedSubview(sixtySectionTextField)
+        stackView.addArrangedSubview(nintySectionTextField)
+        stackView.addArrangedSubview(shelvingHeightTextField)
+        stackView.addArrangedSubview(withBaseOrNotTextField)
+        stackView.addArrangedSubview(qtyTextField)
+        
+        buttonsStackView.addArrangedSubview(calculationBtn)
+        buttonsStackView.addArrangedSubview(clearBtn)
+    }
+    
+    func setupPickerViews () {
+        withBaseOrNotTextField.inputAccessoryView = withBaseOrNotPickerView
+        shelvingHeightTextField.inputAccessoryView   = shelvingHeightPickerView
+    }
+    
+    func addConstraints () {
+        [ shelvingHeightTextField, sixtySectionTextField, nintySectionTextField, withBaseOrNotTextField, qtyTextField].forEach {
+            $0.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        }
+        outputTextView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        calculationBtn.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        view.addSubview(stackView)
+        view.addSubview(buttonsStackView)
+        view.addSubview(outputTextView)
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 10),
+            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            buttonsStackView.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 20),
+            buttonsStackView.widthAnchor.constraint(equalToConstant: 300),
+            buttonsStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            outputTextView.topAnchor.constraint(equalTo: buttonsStackView.bottomAnchor, constant: 20),
+            outputTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            outputTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+        ])
+    }
+    
+    
+    // MARK: - Actions
+    @objc func calculationBtnTapped (_ sender: UIButton) {
+        print("calculation Btn Tapped")
+        
+        guard let nintySectionQty = Int(nintySectionTextField.text!),
+              let sixtySectionQty = Int(sixtySectionTextField.text!),
+              let height = Int(shelvingHeightTextField.text!),
+              let qtyOfShelf = Int(qtyTextField.text!)
+        else { print("Missing Content")
+            AlertManager.showButtonAlert(on: self, title: String(localized: "Error"), message: String(localized: "Missing Content"))
+            return
+        }
+        setupOutputTextView()
+        calculateShelvingSystem(nintySection: nintySectionQty, sixtySection: sixtySectionQty, height: height, qtyOfShelf: qtyOfShelf)
+        
 
+    }
+    
+    @objc func clearBtnTapped (_ sender: UIButton) {
+        print("clearButton Tapped")
+        [nintySectionTextField, sixtySectionTextField, qtyTextField, shelvingHeightTextField].forEach {
+            $0.text = ""
+        }
+        outputTextView.text = String(localized: "No content has been entered")
+    }
+    
+}
+
+    // MARK: - 計算函數
+
+extension ShelvingSystemViewController: UITextFieldDelegate {
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        print("textField Should Clear")
+        return true
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        print("textField Did Begin Editing")
+        textField.becomeFirstResponder()
+    }
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        print("textField Should Begin Editing")
+        return true
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        print("textField Should Return")
+        return true
+    }
+}
+
+extension ShelvingSystemViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    
+    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+        return 40
+    }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        switch pickerView {
+        case shelvingHeightPickerView:
+            return shelvingHeight.count
+        case withBaseOrNotPickerView:
+            return withBase.count
+        default:
+            return 0
+        }
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        switch pickerView {
+        case shelvingHeightPickerView:
+            return shelvingHeight[row]
+        case withBaseOrNotPickerView:
+            return withBase[row]
+        default:
+            return nil
+        }
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        switch pickerView {
+        case shelvingHeightPickerView:
+            shelvingHeightTextField.text = shelvingHeight[row]        
+        case withBaseOrNotPickerView:
+            withBaseOrNotTextField.text = withBase[row]
+        default:
+            break
+        }
+    }
+}
+
+#Preview {
+    UINavigationController(rootViewController: ShelvingSystemViewController())
 }

@@ -16,7 +16,23 @@ class BinViewController: UIViewController {
     let sizePickerView: UIPickerView = UIPickerView()
     let typePickerView: UIPickerView = UIPickerView()
     
-    private let calculator: BinCalculatable = BinCalculator()
+    let calculator = BinCalculator()
+    
+    enum BinType: String {
+        case palletBin = "Pallet Bin"
+        case bin = "Bin"
+    }
+    
+    enum PalletBinSize: String {
+        case sixtyByEighty = "60 * 80"
+        case eightyByOneTwenty = "80 * 120"
+    }
+    
+    enum BinSize: String {
+        case fortyBySixty = "40 * 60"
+        case sixtyByEighty = "60 * 80"
+    }
+    
     
     private lazy var calculationBtn: UIButton = {
         let button = UIButton(type: .system)
@@ -34,12 +50,29 @@ class BinViewController: UIViewController {
         button.configuration = config
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(calculationBtnTapped), for: .touchUpInside)
-        
         button.configurationUpdateHandler = { button in
             button.alpha = button.isHighlighted ? 0.7 : 1.0
         }
         return button
     }()
+    
+    private lazy var clearBtn: UIButton = {
+        let button = UIButton(type: .system)
+        var config = UIButton.Configuration.borderless()
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.systemFont(ofSize: 16, weight: .semibold),
+            .foregroundColor: Colors.lightGray
+        ]
+        config.attributedTitle = AttributedString(String(localized: "Clear"), attributes: AttributeContainer(attributes))
+        config.cornerStyle = .capsule
+        button.configuration = config
+        button.addTarget(self, action: #selector(clearButtonTapped), for: .touchUpInside)
+        button.configurationUpdateHandler = { button in
+            button.alpha = button.isHighlighted ? 0.7 : 1.0
+        }
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    } ()
     
     let typeOfBinTextField: UITextField = {
         let tf: UITextField = UITextField()
@@ -82,10 +115,20 @@ class BinViewController: UIViewController {
         return sv
     } ()
     
+    let buttonsStackView: UIStackView = {
+        let sv: UIStackView = UIStackView()
+        sv.axis = .vertical
+        sv.alignment = .fill
+        sv.distribution = .fill
+        sv.spacing = 20
+        sv.translatesAutoresizingMaskIntoConstraints = false
+        return sv
+    } ()
+    
     public var outputTextView: UITextView = {
         let tv: UITextView = UITextView()
         tv.isSelectable = true
-        tv.text = String(localized: "尚未輸入任何內容") // 還沒加上多國語系
+        tv.text = String(localized: "No content has been entered") // 還沒加上多國語系
         tv.font = .systemFont(ofSize: 23, weight: .bold)
         tv.textColor = Colors.darkGray
         tv.textAlignment = .center
@@ -107,14 +150,17 @@ class BinViewController: UIViewController {
         outputTextView.font = .systemFont(ofSize: 12, weight: .regular)
     }
     
+    // MARK: - Set up UI
     func setupUI () {
         self.view.overrideUserInterfaceStyle = .light
         configStackView()
+        configButtonsStackView()
         addConstraints()
         addDelegates()
         setupPickerViews()
     }
     
+    // MARK: - Add Delegatea
     func addDelegates() {
         // Set up delegates
         sizePickerView.delegate = self
@@ -143,109 +189,77 @@ class BinViewController: UIViewController {
         )
         
         toolbar.setItems([cancelButton, doneButton], animated: false)
-        
         // Add toolbar as input accessory view
-        binSizeTextField.inputAccessoryView = toolbar
+        binSizeTextField.inputAccessoryView   = toolbar
         typeOfBinTextField.inputAccessoryView = toolbar
     }
     
-    @objc private func dismissPicker() {
-        view.endEditing(true)
-    }
-    
+    // MARK: - Set up StackView
     func configStackView () {
         stackView.addArrangedSubview(typeOfBinTextField)
         stackView.addArrangedSubview(binSizeTextField)
         stackView.addArrangedSubview(qtyTextField)
-        stackView.addArrangedSubview(calculationBtn)
-        stackView.addArrangedSubview(outputTextView)
     }
     
+    // MARK: - Set up Button StackView
+    func configButtonsStackView () {
+        buttonsStackView.addArrangedSubview(calculationBtn)
+        buttonsStackView.addArrangedSubview(clearBtn)
+    }
+    
+    // MARK: - Set up PickerView
     func setupPickerViews () {
         typeOfBinTextField.inputAccessoryView = typePickerView
         binSizeTextField.inputAccessoryView   = sizePickerView
     }
     
+    // MARK: - Add Constraints
     func addConstraints () {
         [ binSizeTextField, typeOfBinTextField, qtyTextField].forEach {
             $0.heightAnchor.constraint(equalToConstant: 50).isActive = true
         }
         outputTextView.heightAnchor.constraint(equalToConstant: 200).isActive = true
-        calculationBtn.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        self.view.addSubview(stackView)
+        [calculationBtn, clearBtn].forEach {
+            $0.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        }
+        view.addSubview(stackView)
+        view.addSubview(buttonsStackView)
+        view.addSubview(outputTextView)
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
-            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 10),
+            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            buttonsStackView.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 20),
+            buttonsStackView.widthAnchor.constraint(equalToConstant: 300),
+            buttonsStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            outputTextView.topAnchor.constraint(equalTo: buttonsStackView.bottomAnchor, constant: 20),
+            outputTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            outputTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
         ])
     }
     
-    @IBAction func calculationBtnTapped(_ sender: UIButton) {
+    // MARK: - Actions
+    @objc func calculationBtnTapped (_ sender: UIButton) {
         print("calculation Btn Tapped")
-        
         setupOutputTextView()
         
-        guard let selectedType = typeOfBinTextField.text,
-              let selectedSize = binSizeTextField.text,
-              let qtyText = qtyTextField.text,
-              let qty = Int(qtyText) else {
-            AlertManager.showButtonAlert(on: self,
-                                      title: String(localized: "Error"),
-                                      message: String(localized:"Please select both Bin type and size"))
-            return
-        }
         
-        let result: BinCalculationResult
-        
-        switch selectedType {
-        case "Pallet Bin":
-            switch selectedSize {
-            case "60 * 80":
-                result = calculator.calculatePalletBins(qtyOfPalletBin_sixty_By_Eighty: qty,
-                                                      qtyOfPalletBin_Eighty_By_OneHundredTwenty: 0)
-            case "80 * 120":
-                result = calculator.calculatePalletBins(qtyOfPalletBin_sixty_By_Eighty: 0,
-                                                      qtyOfPalletBin_Eighty_By_OneHundredTwenty: qty)
-            default:
-                AlertManager.showButtonAlert(on: self,
-                                          title: String(localized: "Error"),
-                                          message: String(localized: "Invalid size selection for Pallet Bin"))
-                return
-            }
-            
-        case "Bins":
-            switch selectedSize {
-            case "40 * 60":
-                result = calculator.calculateStandardBins(qtyOfBin_forty_By_Sixty: qty,
-                                                        qtyOfBinSixty_By_Eighty: 0)
-            case "60 * 80":
-                result = calculator.calculateStandardBins(qtyOfBin_forty_By_Sixty: 0,
-                                                        qtyOfBinSixty_By_Eighty: qty)
-            default:
-                AlertManager.showButtonAlert(on: self,
-                                          title: String(localized: "Error"),
-                                          message: String(localized: "Invalid size selection for Bins"))
-                return
-            }
-            
-        default:
-            AlertManager.showButtonAlert(on: self,
-                                      title: String(localized: "Error"),
-                                      message: String(localized: "Please select a valid Bin type"))
-            return
-        }
-        
-        displayCalculationResult(result)
     }
     
-    private func displayCalculationResult(_ result: BinCalculationResult) {
-        var displayText = "\n"
-        for component in result.components {
-            displayText += "\(component.partNumber) \(component.description) * \(component.quantity)\n"
+    @objc func clearButtonTapped(_ sender: UIButton) {
+        print("clearButtonTapped")
+        [binSizeTextField, typeOfBinTextField, qtyTextField].forEach {
+            $0.text = ""
         }
-        outputTextView.text = displayText
+        outputTextView.text = String(localized: "No content has been entered")
+    }
+    
+    @objc private func dismissPicker() {
+        view.endEditing(true)
     }
 }
+
+    // MARK: - 計算函數
 
 extension BinViewController: UITextFieldDelegate {
     func textFieldShouldClear(_ textField: UITextField) -> Bool {

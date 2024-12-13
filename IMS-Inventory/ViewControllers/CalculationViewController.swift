@@ -8,20 +8,13 @@
 import UIKit
 
 class CalculationViewController: UIViewController {
-
-    let segmentControl: UISegmentedControl = {
+    
+    let segmentedControl: UISegmentedControl = {
         let segmentControl = UISegmentedControl()
-        segmentControl.insertSegment(withTitle: String(localized:"Bins"), at: 0, animated: true)
-        segmentControl.insertSegment(withTitle: String(localized:"Gondola"), at: 1, animated: true)
-        segmentControl.insertSegment(withTitle: String(localized:"Backwall"), at: 2, animated: true)
-        segmentControl.insertSegment(withTitle: String(localized:"Shelving System"), at: 3, animated: true)
+        segmentControl.insertSegment(withTitle: "Bins", at: 0, animated: true)
+        segmentControl.insertSegment(withTitle: "Shelving System", at: 1, animated: true)
+
         segmentControl.selectedSegmentIndex = 0
-        
-        let segmentWidths = [80, 90, 90, 150]
-        for (index, width) in segmentWidths.enumerated() {
-            segmentControl.setWidth(CGFloat(width), forSegmentAt: index)
-        }
-        
         // 設定正常狀態(未選中)的外觀
         segmentControl.setTitleTextAttributes([
             .foregroundColor: Colors.black,
@@ -33,24 +26,51 @@ class CalculationViewController: UIViewController {
             .backgroundColor: Colors.black
         ], for: .selected)
         
-        // 設定選中時的背景顏色
+        // 設定選中時的背景顏色和移除分隔線
         segmentControl.selectedSegmentTintColor = Colors.black
         segmentControl.setDividerImage(UIImage(), forLeftSegmentState: .normal, rightSegmentState: .normal, barMetrics: .default)
         segmentControl.translatesAutoresizingMaskIntoConstraints = false
         return segmentControl
     }()
     
+    private let containerView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private var currentViewController: UIViewController?
+    
+    // View Controllers
+    private lazy var binVC: UIViewController = {
+        let vc = BinViewController()
+        return vc
+    }()
+    
+    private lazy var shelvingVC: UIViewController = {
+        let vc = ShelvingSystemViewController()
+        return vc
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-    }
-    func setupUI () {
-        self.view.backgroundColor = Colors.white
-        setNavigationView()
-        addConstraints()
+        switchToViewController(binVC) // 初始顯示 BinViewController
     }
     
-    func setNavigationView() {
+    private func setupUI() {
+        self.view.backgroundColor = Colors.white
+        setNavigationView()
+        
+        // 添加視圖
+        view.addSubview(segmentedControl)
+        view.addSubview(containerView)
+        
+        addConstraints()
+        segmentedControl.addTarget(self, action: #selector(segmentedControlValueChanged), for: .valueChanged)
+    }
+    
+    private func setNavigationView() {
         let standardAppearance = UINavigationBarAppearance()
         standardAppearance.configureWithDefaultBackground()
         self.navigationController?.navigationBar.standardAppearance = standardAppearance
@@ -65,18 +85,49 @@ class CalculationViewController: UIViewController {
         // 使用客製化的標題視圖
         let customTitleView = CustomNavigationTitleView(title: String(localized: "Calculation"))
         navigationItem.titleView = customTitleView
-        
         self.navigationController?.navigationBar.isTranslucent = true
     }
     
-    func addConstraints () {
-        self.view.addSubview(segmentControl)
+    private func addConstraints() {
         NSLayoutConstraint.activate([
-            segmentControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
-            segmentControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-            segmentControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
-            segmentControl.heightAnchor.constraint(equalToConstant: 35)
+            // Segmented Control 約束
+            segmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
+            segmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            segmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+            segmentedControl.heightAnchor.constraint(equalToConstant: 35),
+            
+            // Container View 約束
+            containerView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 10),
+            containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
+            containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
+            containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+    
+    @objc func segmentedControlValueChanged(_ sender: UISegmentedControl) {
+        switch segmentedControl.selectedSegmentIndex {
+        case 0:
+            switchToViewController(binVC)
+        case 1:
+            switchToViewController(shelvingVC)
+        default:
+            break
+        }
+    }
+    
+    private func switchToViewController(_ viewController: UIViewController) {
+        // 移除當前的 ViewController
+        currentViewController?.willMove(toParent: nil)
+        currentViewController?.view.removeFromSuperview()
+        currentViewController?.removeFromParent()
+        
+        // 添加新的 ViewController
+        addChild(viewController)
+        containerView.addSubview(viewController.view)
+        viewController.view.frame = containerView.bounds
+        viewController.didMove(toParent: self)
+        
+        currentViewController = viewController
     }
 }
 
