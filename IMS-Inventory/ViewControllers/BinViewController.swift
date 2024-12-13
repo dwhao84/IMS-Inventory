@@ -7,7 +7,7 @@
 
 import UIKit
 
-class BinsViewController: UIViewController {
+class BinViewController: UIViewController {
     
     let bins: [String] = ["Pallet Bin", "Bins"]
     let palletBinSize: [String] = ["60 * 80", "80 * 120"]
@@ -247,7 +247,7 @@ class BinsViewController: UIViewController {
     }
 }
 
-extension BinsViewController: UITextFieldDelegate {
+extension BinViewController: UITextFieldDelegate {
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
         print("textField Should Clear")
         return true
@@ -269,7 +269,7 @@ extension BinsViewController: UITextFieldDelegate {
     }
 }
 
-extension BinsViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+extension BinViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     
     // 計算屬性來獲取當前應該顯示的size array
     private var currentSizeArray: [String] {
@@ -321,5 +321,5 @@ extension BinsViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 }
 
 #Preview {
-    UINavigationController(rootViewController: BinsViewController())
+    UINavigationController(rootViewController: BinViewController())
 }
