@@ -7,9 +7,9 @@
 
 import UIKit
 
-struct Constants {
+public struct Constants {
     // MARK: - Login VC
-    static let login: String                = "Login"
+    static let login: String                = String(localized: "Login")
     static let register: String             = "Register"
     static let welcome_quote: String        = "Welcome to Inventory App!"
     static let enter_your_mail: String      = "Enter your email"

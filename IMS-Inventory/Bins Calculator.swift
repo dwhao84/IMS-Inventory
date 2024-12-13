@@ -1,67 +1,40 @@
-// MARK: - 定義資料結構
-struct BinCalculationResult {
-    let components: [BinComponent]
-    
-    struct BinComponent {
-        let partNumber: String
-        let description: String
-        let quantity: Int
-    }
-}
 
-// MARK: - Protocol
+import UIKit
+
+// 定義基本的 Bin 計算協議
 protocol BinCalculatable {
-    func calculateStandardBins(qtyOfBin_forty_By_Sixty: Int, qtyOfBinSixty_By_Eighty: Int) -> BinCalculationResult
-    func calculatePalletBins(qtyOfPalletBin_sixty_By_Eighty: Int, qtyOfPalletBin_Eighty_By_OneHundredTwenty: Int) -> BinCalculationResult
+    func calculate(bin40By60: Int, bin60x80: Int) -> String
 }
 
-// MARK: - Calculator 實作
-class BinCalculator: BinCalculatable {
-    func calculateStandardBins(qtyOfBin_forty_By_Sixty: Int, qtyOfBinSixty_By_Eighty: Int) -> BinCalculationResult {
-        var components: [BinCalculationResult.BinComponent] = []
+// 實現計算邏輯
+struct BinCalculator: BinCalculatable {
+    func calculate(bin40By60: Int, bin60x80: Int) -> String {
+        var outputText = ""
         
-        if qtyOfBin_forty_By_Sixty > 0 && qtyOfBinSixty_By_Eighty > 0 {
-            components = [
-                .init(partNumber: "12483", description: "CORNER POST F BIN H850MM WHI",
-                     quantity: qtyOfBin_forty_By_Sixty * 4 + qtyOfBinSixty_By_Eighty * 4),
-                .init(partNumber: "17740", description: "SIDE F BIN L400 H700MM WHI",
-                     quantity: qtyOfBin_forty_By_Sixty * 2),
-                .init(partNumber: "17739", description: "SIDE F BIN L60 H700MM WHI",
-                     quantity: qtyOfBin_forty_By_Sixty * 2 + qtyOfBinSixty_By_Eighty * 2),
-                .init(partNumber: "17743", description: "SIDE F BIN L800 H700MM WHI",
-                     quantity: qtyOfBinSixty_By_Eighty * 2)
-            ]
-        } else if qtyOfBin_forty_By_Sixty > 0 {
-            components = [
-                .init(partNumber: "12483", description: "CORNER POST F BIN H850MM WHI",
-                     quantity: qtyOfBin_forty_By_Sixty * 4),
-                .init(partNumber: "17740", description: "SIDE F BIN L400 H700MM WHI",
-                     quantity: qtyOfBin_forty_By_Sixty * 2),
-                .init(partNumber: "17739", description: "SIDE F BIN L600 H700MM WHI",
-                     quantity: qtyOfBin_forty_By_Sixty * 2)
-            ]
-        } else {
-            components = [
-                .init(partNumber: "12483", description: "CORNER POST F BIN H850MM WHI",
-                     quantity: qtyOfBinSixty_By_Eighty * 4),
-                .init(partNumber: "17739", description: "SIDE F BIN L600 H700MM WHI",
-                     quantity: qtyOfBinSixty_By_Eighty * 2),
-                .init(partNumber: "17743", description: "SIDE F BIN L800 H700MM WHI",
-                     quantity: qtyOfBinSixty_By_Eighty * 2)
-            ]
+        if bin40By60 > 0 && bin60x80 > 0 {
+            outputText += "Bin數量大於1\n"
+            outputText += "12483 CORNER POST F BIN H850MM WHI * \(bin40By60 * 4 + bin60x80 * 4)\n"
+            outputText += "17740 SIDE F BIN L400 H700MM WHI * \(bin40By60 * 2)\n"
+            outputText += "17739 SIDE F BIN L600 H700MM WHI * \(bin40By60 * 2 + bin60x80 * 2)\n"
+            outputText += "17743 SIDE F BIN L800 H700MM WHI * \(bin60x80 * 2)\n"
+        } else if bin40By60 > 0 {
+            outputText += "40 * 60的Bin 大於 1\n"
+            outputText += "12483 CORNER POST F BIN H850MM WHI * \(bin40By60 * 4)\n"
+            outputText += "17740 SIDE F BIN L400 H700MM WHI * \(bin40By60 * 2)\n"
+            outputText += "17739 SIDE F BIN L600 H700MM WHI * \(bin40By60 * 2)\n"
+        } else if bin60x80 > 0 {
+            outputText += "60 * 80的Bin 大於 1\n"
+            outputText += "12483 CORNER POST F BIN H850MM WHI * \(bin60x80 * 4)\n"
+            outputText += "17739 SIDE F BIN L600 H700MM WHI * \(bin60x80 * 2)\n"
+            outputText += "17743 SIDE F BIN L800 H700MM WHI * \(bin60x80 * 2)\n"
         }
         
-        return BinCalculationResult(components: components)
+        return outputText
     }
-    
-    func calculatePalletBins(qtyOfPalletBin_sixty_By_Eighty: Int,
-                           qtyOfPalletBin_Eighty_By_OneHundredTwenty: Int) -> BinCalculationResult {
-        // 實作 Pallet Bins 的計算邏輯
-        // 這裡需要加入實際的計算邏輯
-        var components: [BinCalculationResult.BinComponent] = []
-        
-        // 根據不同情況加入組件...
-        
-        return BinCalculationResult(components: components)
-    }
+}
+
+// 使用方式
+func calculateStandardBins(qtyOfBin_forty_By_Sixty: Int, qtyOfBinSixty_By_Eighty: Int) -> String {
+    let calculator = BinCalculator()
+    return calculator.calculate(bin40By60: qtyOfBin_forty_By_Sixty, bin60x80: qtyOfBinSixty_By_Eighty)
 }
