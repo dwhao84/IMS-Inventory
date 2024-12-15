@@ -11,11 +11,10 @@ class BinViewController: UIViewController {
     
     let bins: [String] = ["Pallet Bin", "Bins"]
     let palletBinSize: [String] = ["60 * 80", "80 * 120"]
-    let binSize: [String] = ["40 * 60", "60 * 80"]
+    let binSize: [String] = ["40 * 60", "60 * 80", "40 * 60 & 60 * 80"]
     
     let sizePickerView: UIPickerView = UIPickerView()
     let typePickerView: UIPickerView = UIPickerView()
-    
     
     enum BinType: String {
         case palletBin = "Pallet Bin"
@@ -30,8 +29,8 @@ class BinViewController: UIViewController {
     enum BinSize: String {
         case fortyBySixty = "40 * 60"
         case sixtyByEighty = "60 * 80"
+        case allSizes = "40 * 60 & 60 * 80"
     }
-    
     
     private lazy var calculationBtn: UIButton = {
         let button = UIButton(type: .system)
@@ -85,7 +84,7 @@ class BinViewController: UIViewController {
     
     let  binSizeTextField: UITextField = {
         let tf: UITextField = UITextField()
-        tf.placeholder = String(localized: "Choose your bins size")
+        tf.placeholder = String(localized: "Choose your bins size") // Add localization
         tf.font = UIFont.systemFont(ofSize: 16)
         tf.borderStyle = .roundedRect
         tf.textColor = Colors.darkGray
@@ -96,6 +95,18 @@ class BinViewController: UIViewController {
     let  qtyTextField: UITextField = {
         let tf: UITextField = UITextField()
         tf.placeholder = String(localized: "Enter your Qty")
+        tf.font = UIFont.systemFont(ofSize: 16)
+        tf.borderStyle = .roundedRect
+        tf.keyboardType = .numberPad
+        tf.textColor = Colors.darkGray
+        tf.translatesAutoresizingMaskIntoConstraints = false
+        return tf
+    } ()
+    
+    // MARK: - 當選擇多個尺寸的時候，顯示這個textField
+    let  secQtyTextField: UITextField = {
+        let tf: UITextField = UITextField()
+        tf.placeholder = String(localized: "Enter your 40 * 60 Qty") // Add localization
         tf.font = UIFont.systemFont(ofSize: 16)
         tf.borderStyle = .roundedRect
         tf.keyboardType = .numberPad
@@ -127,7 +138,7 @@ class BinViewController: UIViewController {
     public var outputTextView: UITextView = {
         let tv: UITextView = UITextView()
         tv.isSelectable = true
-        tv.text = String(localized: "No content has been entered") // 還沒加上多國語系
+        tv.text = String(localized: "No content has been entered")
         tv.font = .systemFont(ofSize: 23, weight: .bold)
         tv.textColor = Colors.darkGray
         tv.textAlignment = .center
@@ -137,6 +148,7 @@ class BinViewController: UIViewController {
         return tv
     } ()
     
+    // MARK: - Life Cycle:
     override func viewDidLoad() {
         super.viewDidLoad()
         print("Switching Bin VC")
@@ -149,6 +161,11 @@ class BinViewController: UIViewController {
         outputTextView.font = .systemFont(ofSize: 12, weight: .regular)
     }
     
+    private func tapGesture () {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissPicker))
+        self.view.addGestureRecognizer(tap)
+    }
+    
     // MARK: - Set up UI
     func setupUI () {
         self.view.overrideUserInterfaceStyle = .light
@@ -157,6 +174,7 @@ class BinViewController: UIViewController {
         addConstraints()
         addDelegates()
         setupPickerViews()
+        tapGesture()
     }
     
     // MARK: - Add Delegatea
@@ -197,6 +215,7 @@ class BinViewController: UIViewController {
     func configStackView () {
         stackView.addArrangedSubview(typeOfBinTextField)
         stackView.addArrangedSubview(binSizeTextField)
+        stackView.addArrangedSubview(secQtyTextField)
         stackView.addArrangedSubview(qtyTextField)
     }
     
@@ -214,7 +233,7 @@ class BinViewController: UIViewController {
     
     // MARK: - Add Constraints
     func addConstraints () {
-        [ binSizeTextField, typeOfBinTextField, qtyTextField].forEach {
+        [ binSizeTextField, typeOfBinTextField, qtyTextField, secQtyTextField].forEach {
             $0.heightAnchor.constraint(equalToConstant: 50).isActive = true
         }
         outputTextView.heightAnchor.constraint(equalToConstant: 200).isActive = true
@@ -241,25 +260,29 @@ class BinViewController: UIViewController {
     @objc func calculationBtnTapped (_ sender: UIButton) {
         print("calculation Btn Tapped")
         setupOutputTextView()
-        
-        
+//            AlertManager.showButtonAlert(on: self,
+//                title: String(localized: "Error"),
+//                message: String(localized: "Missing Content"))
     }
     
     @objc func clearButtonTapped(_ sender: UIButton) {
-        print("clearButtonTapped")
-        [binSizeTextField, typeOfBinTextField, qtyTextField].forEach {
+        print("DEBUG PRINT: clearButtonTapped")
+        
+        [binSizeTextField, typeOfBinTextField, qtyTextField, secQtyTextField].forEach {
             $0.text = ""
         }
         outputTextView.text = String(localized: "No content has been entered")
     }
     
-    @objc private func dismissPicker() {
-        view.endEditing(true)
+    @objc func dismissPicker(_ sender: UITapGestureRecognizer) {
+        print("DEBUG PRINT: dismiss Picker")
+        self.view.endEditing(true)
     }
 }
 
-    // MARK: - 計算函數
 
+
+    // MARK: - 計算函數
 extension BinViewController: UITextFieldDelegate {
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
         print("textField Should Clear")
@@ -337,31 +360,35 @@ extension BinViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     UINavigationController(rootViewController: BinViewController())
 }
 
+// MARK: - Extension for Bin View Controller
 extension BinViewController {
-    // MARK: - Bins:
     // Function for calculating standard bins
-    public func calculateStandardBins(qtyOfBin_forty_By_Sixty: Int, qtyOfBinSixty_By_Eighty: Int) {
-        // Create a mutable string to store all the output
-        var outputText = ""
-        
-        if qtyOfBin_forty_By_Sixty > 0 && qtyOfBinSixty_By_Eighty > 0 {
-            outputText += "Bin數量大於1\n"
-            outputText += "12483 CORNER POST F BIN H850MM WHI * \(qtyOfBin_forty_By_Sixty * 4 + qtyOfBinSixty_By_Eighty * 4)\n"
-            outputText += "17740 SIDE F BIN L400 H700MM WHI * \(qtyOfBin_forty_By_Sixty * 2)\n"
-            outputText += "17739 SIDE F BIN L60 H700MM WHI * \(qtyOfBin_forty_By_Sixty * 2 + qtyOfBinSixty_By_Eighty * 2)\n"
-            outputText += "17743 SIDE F BIN L800 H700MM WHI * \(qtyOfBinSixty_By_Eighty * 2)\n"
-            
-        } else if qtyOfBin_forty_By_Sixty > 0 && qtyOfBinSixty_By_Eighty == 0 {
-            outputText += "40 * 60的Bin 大於 1\n"
-            outputText += "12483 CORNER POST F BIN H850MM WHI * \(qtyOfBin_forty_By_Sixty * 4)\n"
-            outputText += "17740 SIDE F BIN L400 H700MM WHI * \(qtyOfBin_forty_By_Sixty * 2)\n"
-            outputText += "17739 SIDE F BIN L600 H700MM WHI * \(qtyOfBin_forty_By_Sixty * 2)\n"
-            
-        } else if qtyOfBin_forty_By_Sixty == 0 && qtyOfBinSixty_By_Eighty > 0 {
-            outputText += "60 * 80的Bin 大於 1\n"
-            outputText += "12483 CORNER POST F BIN H850MM WHI * \(qtyOfBinSixty_By_Eighty * 4)\n"
-            outputText += "17739 SIDE F BIN L600 H700MM WHI * \(qtyOfBinSixty_By_Eighty * 2)\n"
-            outputText += "17743 SIDE F BIN L800 H700MM WHI * \(qtyOfBinSixty_By_Eighty * 2)\n"
+    public func calculateStandardBins(qtyOfBin_40_by_60: Int, qtyOfBin_60_by_80: Int) {
+        if qtyOfBin_40_by_60 > 0 && qtyOfBin_60_by_80 > 0 {
+            outputTextView.text =
+            """
+            12483 CORNER POST F BIN H850MM WHI * \(qtyOfBin_40_by_60 * 4 + qtyOfBin_60_by_80 * 4)
+            17740 SIDE F BIN L400 H700MM WHI * \(qtyOfBin_40_by_60 * 2)
+            17739 SIDE F BIN L60 H700MM WHI * \(qtyOfBin_40_by_60 * 2 + qtyOfBin_60_by_80 * 2)
+            17743 SIDE F BIN L800 H700MM WHI * \(qtyOfBin_60_by_80 * 2)
+            缺少兩個底的貨號
+            """
+        } else if qtyOfBin_40_by_60 > 0 && qtyOfBin_60_by_80 == 0 {
+            outputTextView.text =
+            """
+            12483 CORNER POST F BIN H850MM WHI * \(qtyOfBin_40_by_60 * 4)
+            17740 SIDE F BIN L400 H700MM WHI * \(qtyOfBin_40_by_60 * 2)
+            17739 SIDE F BIN L600 H700MM WHI * \(qtyOfBin_40_by_60 * 2)
+            缺少底的貨號
+            """
+        } else if qtyOfBin_40_by_60 == 0 && qtyOfBin_60_by_80 > 0 {
+            outputTextView.text =
+            """
+            12483 CORNER POST F BIN H850MM WHI * \(qtyOfBin_60_by_80 * 4)
+            17739 SIDE F BIN L600 H700MM WHI * \(qtyOfBin_60_by_80 * 2)
+            17743 SIDE F BIN L800 H700MM WHI * \(qtyOfBin_60_by_80 * 2)
+            缺少底的貨號
+            """
         }
     }
 

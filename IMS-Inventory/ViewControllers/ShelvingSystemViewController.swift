@@ -290,7 +290,6 @@ class ShelvingSystemViewController: UIViewController {
             return
         }
         setupOutputTextView()
-        
         // MARK: 傳入shelving system的算法
         calculateShelvingSystem(nintySection: nintySectionQty, sixtySection: sixtySectionQty, height: height, qtyOfShelf: qtyOfShelf)
         
