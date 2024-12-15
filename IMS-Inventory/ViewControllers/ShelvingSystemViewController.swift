@@ -71,6 +71,7 @@ class ShelvingSystemViewController: UIViewController {
         tf.placeholder = String(localized: "How many 60's section")  // 要加多國語系
         tf.font = UIFont.systemFont(ofSize: 16)
         tf.keyboardType = .numberPad
+        tf.clearButtonMode = .whileEditing
         tf.borderStyle = .roundedRect
         tf.textColor = Colors.darkGray
         tf.translatesAutoresizingMaskIntoConstraints = false
@@ -82,6 +83,7 @@ class ShelvingSystemViewController: UIViewController {
         tf.placeholder = String(localized: "How many 90's section") // 要加多國語系
         tf.font = UIFont.systemFont(ofSize: 16)
         tf.keyboardType = .numberPad
+        tf.clearButtonMode = .whileEditing
         tf.borderStyle = .roundedRect
         tf.textColor = Colors.darkGray
         tf.translatesAutoresizingMaskIntoConstraints = false
@@ -92,6 +94,7 @@ class ShelvingSystemViewController: UIViewController {
         let tf: UITextField = UITextField()
         tf.placeholder = String(localized: "Choose your height") // 要加多國語系
         tf.font = UIFont.systemFont(ofSize: 16)
+        tf.clearButtonMode = .whileEditing
         tf.borderStyle = .roundedRect
         tf.textColor = Colors.darkGray
         tf.translatesAutoresizingMaskIntoConstraints = false
@@ -102,6 +105,7 @@ class ShelvingSystemViewController: UIViewController {
         let tf: UITextField = UITextField()
         tf.placeholder = String(localized: "Choose you have base or not") // 要加多國語系
         tf.font = UIFont.systemFont(ofSize: 16)
+        tf.clearButtonMode = .whileEditing
         tf.borderStyle = .roundedRect
         tf.textColor = Colors.darkGray
         tf.translatesAutoresizingMaskIntoConstraints = false
@@ -152,6 +156,14 @@ class ShelvingSystemViewController: UIViewController {
         return tv
     } ()
     
+    lazy var scrollView: UIScrollView = {
+        let scrollView: UIScrollView = UIScrollView()
+        scrollView.showsVerticalScrollIndicator = true
+        scrollView.isScrollEnabled = true
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    } ()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         print("Switching Shelving System VC")
@@ -161,7 +173,7 @@ class ShelvingSystemViewController: UIViewController {
     
     private func setupOutputTextView () {
         outputTextView.textAlignment = .left
-        outputTextView.font = .systemFont(ofSize: 12, weight: .regular)
+        outputTextView.font = .systemFont(ofSize: 20, weight: .regular)
     }
     
     func setupUI () {
@@ -230,28 +242,40 @@ class ShelvingSystemViewController: UIViewController {
         shelvingHeightTextField.inputAccessoryView   = shelvingHeightPickerView
     }
     
-    func addConstraints () {
+    func addConstraints() {
         [ shelvingHeightTextField, sixtySectionTextField, nintySectionTextField, withBaseOrNotTextField, qtyTextField].forEach {
             $0.heightAnchor.constraint(equalToConstant: 50).isActive = true
         }
         outputTextView.heightAnchor.constraint(equalToConstant: 200).isActive = true
         calculationBtn.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        view.addSubview(stackView)
-        view.addSubview(buttonsStackView)
-        view.addSubview(outputTextView)
+        view.addSubview(scrollView)
+        scrollView.addSubview(stackView)
+        scrollView.addSubview(buttonsStackView)
+        scrollView.addSubview(outputTextView)
+
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 10),
-            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
-            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            // ScrollView constraints
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            // Content constraints
+            stackView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 10),
+            stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            
             buttonsStackView.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 20),
             buttonsStackView.widthAnchor.constraint(equalToConstant: 300),
-            buttonsStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            buttonsStackView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
+            
             outputTextView.topAnchor.constraint(equalTo: buttonsStackView.bottomAnchor, constant: 20),
-            outputTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            outputTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            outputTextView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            outputTextView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            outputTextView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -20)
         ])
     }
-    
     
     // MARK: - Actions
     @objc func calculationBtnTapped (_ sender: UIButton) {
@@ -266,17 +290,19 @@ class ShelvingSystemViewController: UIViewController {
             return
         }
         setupOutputTextView()
+        
+        // MARK: 傳入shelving system的算法
         calculateShelvingSystem(nintySection: nintySectionQty, sixtySection: sixtySectionQty, height: height, qtyOfShelf: qtyOfShelf)
         
-
     }
     
     @objc func clearBtnTapped (_ sender: UIButton) {
         print("clearButton Tapped")
-        [nintySectionTextField, sixtySectionTextField, qtyTextField, shelvingHeightTextField].forEach {
+        [nintySectionTextField, sixtySectionTextField, qtyTextField, shelvingHeightTextField, withBaseOrNotTextField].forEach {
             $0.text = ""
         }
         outputTextView.text = String(localized: "No content has been entered")
+        outputTextView.textAlignment = .center
     }
     
 }
@@ -345,6 +371,150 @@ extension ShelvingSystemViewController: UIPickerViewDelegate, UIPickerViewDataSo
             withBaseOrNotTextField.text = withBase[row]
         default:
             break
+        }
+    }
+}
+
+extension ShelvingSystemViewController {
+    public func calculateShelvingSystem(nintySection: Int, sixtySection: Int, height: Int, qtyOfShelf: Int) {
+        // 只有 60 sections
+        if nintySection == 0 && sixtySection >= 1 {
+            outputTextView.text = 
+            """
+            50167 SHELF PERFORATED METAL F SHELVING SYSTEM D598 W618MM WHI * \(qtyOfShelf)
+            50168 SHELF SUPPORT F SHELF PERFORATED METAL F SHELVING SYSTEM L584MM GALV * \(qtyOfShelf * 2 - sixtySection * 2)
+            """
+            
+            switch height {
+            case 854:
+                outputTextView.text = 
+                """
+                50216 Left side unit f shelving system D600 H854MM whi * \(sixtySection)
+                50217 Middle unit f shelving system D600 H854MM whi * \(sixtySection)
+                50218 Right side unit f shelving system D600 H854MM whi * \(sixtySection)
+                ===========
+                50166 Crossbeam f shelving system L560MM whi * \(sixtySection * 3)
+                """
+                
+            case 1340:
+                outputTextView.text = 
+                """
+                50213 Left side unit f shelving system D600 H1304MM whi * \(sixtySection)
+                50214 Middle unit f shelving system D600 H1304MM whi * \(sixtySection)
+                50215 Right side unit f shelving system D600 H1304MM whi * \(sixtySection)
+                ===========
+                50166 Crossbeam f shelving system L560MM whi * \(sixtySection * 3)
+                """
+            case 2480:
+                outputTextView.text = 
+                """
+                50210 Left side unit f shelving system D600 H2480 whi * \(sixtySection)
+                50211 Middle unit f shelving system D600 H2480 whi * \(sixtySection)
+                50212 Right side unit f shelving system D600 H2480 whi * \(sixtySection)
+                 ===========
+                50166 Crossbeam f shelving system L560MM whi * \(sixtySection * 3)
+                 ===========
+                50190 Ceiling support 680MM f shelving system whi * 2 \n
+                50188 Ceiling support clamp f shelving system whi * 2 \n
+                """
+                
+            default:
+                break
+            }
+        }
+        
+        // 只有 90 sections
+        else if sixtySection == 0 && nintySection >= 1 {
+            outputTextView.text =
+            """
+            50187 SHELF MESH F SHELVING SYSTEM D898 W618MM WHI * \(qtyOfShelf)
+            50184 SHELF SUPPORT F SHELVING SYSTEM L884MM WHI * \(qtyOfShelf * 2 - nintySection * 2)
+            """
+            
+            switch height {
+            case 854:
+                outputTextView.text =
+                """
+                50216 Left side unit f shelving system D600 H854MM whi * 1
+                50217 Middle unit f shelving system D600 H854MM whi * \(nintySection)
+                50218 Right side unit f shelving system D600 H854MM whi * 1
+                 ===========
+                50183 Crossbeam f shelving system L860mm whi * \(nintySection * 3)
+                """
+                
+            case 1340:
+                outputTextView.text =
+                """
+                50213 Left side unit f shelving system D600 H1304MM whi * 1
+                50214 Middle unit f shelving system D600 H1304MM whi * \(sixtySection)
+                50215 Right side unit f shelving system D600 H1304MM whi * 1
+                 ===========
+                50166 Crossbeam f shelving system L560MM whi * \(sixtySection * 3)
+                """
+                
+            case 2480:
+                outputTextView.text =
+                """
+                50210 Left side unit f shelving system D600 H2480 whi * 1
+                50211 Middle unit f shelving system D600 H2480 whi * \(nintySection)
+                50212 Right side unit f shelving system D600 H2480 whi * 1
+                 ===========
+                50190 Ceiling support 680MM f shelving system whi * 2
+                50188 Ceiling support clamp f shelving system whi * 2
+                """
+                
+            default:
+                break
+            }
+        }
+        
+        // 同時有 90 和 60 sections
+        else if nintySection >= 1 && sixtySection >= 1 {
+            outputTextView.text =
+            """
+            50167 SHELF PERFORATED METAL F SHELVING SYSTEM D598 W618MM WHI * \(qtyOfShelf)
+            50168 SHELF SUPPORT F SHELF PERFORATED METAL F SHELVING SYSTEM L584MM GALV * \(qtyOfShelf * 2 - sixtySection * 2)
+            50187 SHELF MESH F SHELVING SYSTEM D898 W618MM WHI * \(qtyOfShelf)
+            50184 SHELF SUPPORT F SHELVING SYSTEM L884MM WHI \(qtyOfShelf * 2 - nintySection * 2)
+            """
+            
+            switch height {
+            case 854:
+                outputTextView.text =
+                """
+                50216 Left side unit f shelving system D600 H854MM whi * \(sixtySection)
+                50217 Middle unit f shelving system D600 H854MM whi * \(sixtySection)
+                50218 Right side unit f shelving system D600 H854MM whi * \(sixtySection)
+                 ===========
+                50183 Crossbeam f shelving system L860mm whi * \(nintySection * 3)
+                50166 Crossbeam f shelving system L560MM whi * \(sixtySection * 3)
+                """
+                
+            case 1340:
+                outputTextView.text = """
+                50213 Left side unit f shelving system D600 H1304MM whi * \(sixtySection)
+                50214 Middle unit f shelving system D600 H1304MM whi * \(sixtySection)
+                50215 Right side unit f shelving system D600 H1304MM whi * \(sixtySection)
+                ===========
+                50183 Crossbeam f shelving system L860mm whi * \(nintySection * 3)
+                50166 Crossbeam f shelving system L560MM whi * \(sixtySection * 3)
+                """
+            case 2480:
+                outputTextView.text =
+                """
+                50210 Left side unit f shelving system D600 H2480 whi * 1
+                50211 Middle unit f shelving system D600 H2480 whi * \(sixtySection + nintySection)
+                50212 Right side unit f shelving system D600 H2480 whi * 1
+                 ===========
+                50183 Crossbeam f shelving system L860mm whi * \(nintySection * 3)
+                50166 Crossbeam f shelving system L560MM whi * \(sixtySection * 3)
+                 ===========
+                50190 Ceiling support 680MM f shelving system whi * 2
+                50188 Ceiling support clamp f shelving system whi * 2
+                """
+            default:
+                break
+            }
         }
     }
 }
