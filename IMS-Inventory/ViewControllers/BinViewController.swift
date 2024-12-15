@@ -16,7 +16,6 @@ class BinViewController: UIViewController {
     let sizePickerView: UIPickerView = UIPickerView()
     let typePickerView: UIPickerView = UIPickerView()
     
-    let calculator = BinCalculator()
     
     enum BinType: String {
         case palletBin = "Pallet Bin"
@@ -336,4 +335,46 @@ extension BinViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 
 #Preview {
     UINavigationController(rootViewController: BinViewController())
+}
+
+extension BinViewController {
+    // MARK: - Bins:
+    // Function for calculating standard bins
+    public func calculateStandardBins(qtyOfBin_forty_By_Sixty: Int, qtyOfBinSixty_By_Eighty: Int) {
+        // Create a mutable string to store all the output
+        var outputText = ""
+        
+        if qtyOfBin_forty_By_Sixty > 0 && qtyOfBinSixty_By_Eighty > 0 {
+            outputText += "Bin數量大於1\n"
+            outputText += "12483 CORNER POST F BIN H850MM WHI * \(qtyOfBin_forty_By_Sixty * 4 + qtyOfBinSixty_By_Eighty * 4)\n"
+            outputText += "17740 SIDE F BIN L400 H700MM WHI * \(qtyOfBin_forty_By_Sixty * 2)\n"
+            outputText += "17739 SIDE F BIN L60 H700MM WHI * \(qtyOfBin_forty_By_Sixty * 2 + qtyOfBinSixty_By_Eighty * 2)\n"
+            outputText += "17743 SIDE F BIN L800 H700MM WHI * \(qtyOfBinSixty_By_Eighty * 2)\n"
+            
+        } else if qtyOfBin_forty_By_Sixty > 0 && qtyOfBinSixty_By_Eighty == 0 {
+            outputText += "40 * 60的Bin 大於 1\n"
+            outputText += "12483 CORNER POST F BIN H850MM WHI * \(qtyOfBin_forty_By_Sixty * 4)\n"
+            outputText += "17740 SIDE F BIN L400 H700MM WHI * \(qtyOfBin_forty_By_Sixty * 2)\n"
+            outputText += "17739 SIDE F BIN L600 H700MM WHI * \(qtyOfBin_forty_By_Sixty * 2)\n"
+            
+        } else if qtyOfBin_forty_By_Sixty == 0 && qtyOfBinSixty_By_Eighty > 0 {
+            outputText += "60 * 80的Bin 大於 1\n"
+            outputText += "12483 CORNER POST F BIN H850MM WHI * \(qtyOfBinSixty_By_Eighty * 4)\n"
+            outputText += "17739 SIDE F BIN L600 H700MM WHI * \(qtyOfBinSixty_By_Eighty * 2)\n"
+            outputText += "17743 SIDE F BIN L800 H700MM WHI * \(qtyOfBinSixty_By_Eighty * 2)\n"
+        }
+    }
+
+    // Function for calculating pallet bins
+    public func calculatePalletBins(qtyOfPalletBin_sixty_By_Eighty: Int, qtyOfPalletBin_Eighty_By_OneHundredTwenty: Int) {
+        if qtyOfPalletBin_sixty_By_Eighty > 0 && qtyOfPalletBin_Eighty_By_OneHundredTwenty > 0 {
+            print("12482 BIN F HALF PALLET L600 W800 H760MM WHI \(qtyOfPalletBin_sixty_By_Eighty)")
+            print("12484 BIN F PALLET L1200 W800 H760MMWHI \(qtyOfPalletBin_Eighty_By_OneHundredTwenty)")
+        } else if qtyOfPalletBin_sixty_By_Eighty > 0 && qtyOfPalletBin_Eighty_By_OneHundredTwenty == 0 {
+            print("12482 BIN F HALF PALLET L600 W800 H760MM WHI \(qtyOfPalletBin_sixty_By_Eighty)")
+        } else if qtyOfPalletBin_sixty_By_Eighty == 0 && qtyOfPalletBin_Eighty_By_OneHundredTwenty > 0 {
+            print("12484 BIN F PALLET L1200 W800 H760MMWHI \(qtyOfPalletBin_Eighty_By_OneHundredTwenty)")
+        }
+    }
+
 }
