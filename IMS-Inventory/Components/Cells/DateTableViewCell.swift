@@ -13,8 +13,9 @@ class DateTableViewCell: UITableViewCell {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 20, weight: .regular)
+        label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         label.text = "Using Date"
+        label.lineBreakMode = .byTruncatingTail
         label.textColor = Colors.black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
