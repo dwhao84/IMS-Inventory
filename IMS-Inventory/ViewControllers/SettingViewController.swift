@@ -15,19 +15,23 @@ class SettingViewController: UIViewController {
         return tableView
     }()
     
-    private var sections: [SettingsSection] = [
+    private let versionLabel: UILabel = {
+        let label = UILabel()
+        label.text = String(localized: "Version V 1.1.0")
+        label.textColor = .systemGray
+        label.font = .systemFont(ofSize: 14, weight: .regular)
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let sections: [SettingsSection] = [
         SettingsSection(items: [
             Service(
                 image: Images.bookPages,
                 title: String(localized: "Disclaimer"),
                 url: "https://dwhao84.blogspot.com/2024/07/blog-post.html?m=1",
                 color: .systemRed
-            ),
-            Service(
-                image: Images.gear,
-                title: String(localized: "Version V 1.1.0"),
-                url: "",
-                color: .blue
             ),
             Service(
                 image: Images.mail,
@@ -51,12 +55,17 @@ class SettingViewController: UIViewController {
     }
     
     private func setupTableView() {
-        self.view.addSubview(tableView)
+        self.view.addSubview(versionLabel) // add versions
+        self.view.addSubview(tableView) // add tableView
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            versionLabel.leadingAnchor.constraint(lessThanOrEqualTo: view.leadingAnchor, constant: 16),
+            versionLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -16),
+            versionLabel.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 10)
         ])
         
         tableView.delegate = self
@@ -78,7 +87,7 @@ class SettingViewController: UIViewController {
         self.navigationController?.navigationBar.isTranslucent = true
     }
     
-    func sendEmail() {
+    private func sendEmail() {
         if MFMailComposeViewController.canSendMail() {
             let mail = MFMailComposeViewController()
             mail.mailComposeDelegate = self
@@ -124,9 +133,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource, MFM
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
         let service = sections[indexPath.section].items[indexPath.row]
-        
         if service.title == Constants.report {
             sendEmail()
         } else if !service.url.isEmpty, let url = URL(string: service.url) {
@@ -139,8 +146,6 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource, MFM
             // Handle the mail composition result if needed
         }
 }
-
-
 
 // MARK: - Models
 struct SettingsSection {
