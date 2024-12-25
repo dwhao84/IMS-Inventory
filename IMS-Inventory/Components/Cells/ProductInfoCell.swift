@@ -28,8 +28,8 @@ class ProductInfoCell: UITableViewCell {
         let label = UILabel()
         label.textAlignment = .left
         label.numberOfLines = 2
-        label.showsExpansionTextWhenTruncated = true
-        label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        label.lineBreakMode = .byTruncatingHead
+        label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         label.textColor = Colors.black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -48,7 +48,7 @@ class ProductInfoCell: UITableViewCell {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .leading
-        stackView.spacing = 10
+        stackView.spacing = 20
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -87,8 +87,8 @@ class ProductInfoCell: UITableViewCell {
         // Define constraints
         NSLayoutConstraint.activate([
             // Main stack view constraints
-            mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
-            mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
+            mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             mainStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             
             // Article number label width constraint

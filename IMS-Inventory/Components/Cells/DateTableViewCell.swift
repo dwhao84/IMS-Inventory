@@ -13,10 +13,12 @@ class DateTableViewCell: UITableViewCell {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+        label.font = UIFont.systemFont(ofSize: 20, weight: .regular)
         label.text = "Using Date"
         label.lineBreakMode = .byTruncatingTail
         label.textColor = Colors.black
+//        label.layer.borderColor = UIColor.black.cgColor
+//        label.layer.borderWidth = 0.2
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -26,8 +28,20 @@ class DateTableViewCell: UITableViewCell {
         datePicker.date = .now
         datePicker.locale = .current
         datePicker.minimumDate = .now
+//        datePicker.layer.borderColor = UIColor.black.cgColor
+//        datePicker.layer.borderWidth = 0.2
         datePicker.translatesAutoresizingMaskIntoConstraints = false
         return datePicker
+    } ()
+    
+    private let stackView: UIStackView = {
+        let stackView: UIStackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .leading
+        stackView.spacing = 20
+        stackView.distribution = .fill
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
     } ()
         
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -41,15 +55,18 @@ class DateTableViewCell: UITableViewCell {
     }
     
     func setupUI () {
-        contentView.addSubview(datePicker)
-        contentView.addSubview(titleLabel)
+        stackView.addArrangedSubview(titleLabel)
+        stackView.addArrangedSubview(datePicker)
         
+        datePicker.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        titleLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
+        contentView.addSubview(stackView)
         NSLayoutConstraint.activate([
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            
-            datePicker.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            datePicker.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+            stackView.topAnchor.constraint(lessThanOrEqualTo: contentView.topAnchor, constant: 20),
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
+            stackView.leadingAnchor.constraint(lessThanOrEqualTo: contentView.leadingAnchor, constant: 10),
+            stackView.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -10),
         ])
     }
     

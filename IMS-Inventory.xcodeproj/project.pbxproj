@@ -233,6 +233,7 @@
 			isa = PBXGroup;
 			children = (
 				D30A6BB32CD32AAC003AC00A /* SettingTableViewCell.swift */,
+				D31D88302D05CEFD006392C9 /* NameFillCell.swift */,
 				D3D6CBC62CFB57F10019CBA5 /* ProductTableViewCell.swift */,
 				D3A1F8322CD7D3660035AF93 /* ProductImageCell.swift */,
 				D3B30BD22CE859FB001F2484 /* ProductInfoCell.swift */,
@@ -240,7 +241,6 @@
 				D3E2EF142CFDDF7E009A2E03 /* CartTableViewCell.swift */,
 				D3E2EF162CFE07E6009A2E03 /* DateTableViewCell.swift */,
 				D3E2EF182CFF4515009A2E03 /* StatusTableViewCell.swift */,
-				D31D88302D05CEFD006392C9 /* NameFillCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";

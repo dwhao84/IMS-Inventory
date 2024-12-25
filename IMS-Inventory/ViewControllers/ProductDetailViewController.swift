@@ -1,8 +1,9 @@
 import UIKit
 
 class ProductDetailViewController: UIViewController {
+    private var nameCell: NameFillCell?
     
-    var qtyValue: Int = 0
+    var qtyValue: Int = 1
     private var selectedDate: Date?
     private var selectedStatus: String?
     private var quantity: Int = 1
@@ -104,15 +105,16 @@ class ProductDetailViewController: UIViewController {
     }
     
     @objc func confirmBtnTapped(_ sender: UIButton) {
-        if qtyValue == 0 {
-            AlertManager.showButtonAlert(on: ProductDetailViewController(), title: Constants.error, message: AlertConstants.emptyQty)
+        guard let nameTextField = view.findSubview(ofType: NameFillCell.self)?.nameTextField else { return }
+        
+        if nameTextField.text?.isEmpty == true {
+            AlertManager.showButtonAlert(on: self, title: Constants.error, message: AlertConstants.emptyQty)
         } else {
             let shoppingCartVC = CartViewController()
             shoppingCartVC.modalPresentationStyle = .overFullScreen
             navigationController?.pushViewController(shoppingCartVC, animated: true)
         }
     }
-    
 }
 
 // MARK: - UITableViewDataSource
@@ -136,14 +138,14 @@ extension ProductDetailViewController: UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: ProductImageCell.identifier, for: indexPath) as! ProductImageCell
             cell.configure(with: Images.photoLibrary)
             return cell
-            
+                        
         case 1:
-            let cell = tableView.dequeueReusableCell(withIdentifier: NameFillCell.identifier, for: indexPath) as! NameFillCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: ProductInfoCell.identifier, for: indexPath) as! ProductInfoCell
+            cell.configure(articleNumber: "15525", rackingText: "BASKET F MULTIUSE W300 D800MM GALV", qtyText: "Qty: 10 pcs")
             return cell
             
         case 2:
-            let cell = tableView.dequeueReusableCell(withIdentifier: ProductInfoCell.identifier, for: indexPath) as! ProductInfoCell
-            cell.configure(articleNumber: "15525", rackingText: "BASKET F MULTIUSE W300 D800MM GALV", qtyText: "Qty: 10 pcs")
+            let cell = tableView.dequeueReusableCell(withIdentifier: NameFillCell.identifier, for: indexPath) as! NameFillCell
             return cell
             
         case 3:
@@ -160,7 +162,6 @@ extension ProductDetailViewController: UITableViewDataSource {
             return cell
         case 5:
             let cell = tableView.dequeueReusableCell(withIdentifier: StatusTableViewCell.identifier, for: indexPath) as! StatusTableViewCell
-            
             return cell
             
         default:
@@ -176,9 +177,13 @@ extension ProductDetailViewController: UITableViewDelegate {
         switch indexPath.row {
         case 0:
             return 260
+        case 1:
+            return 150
         case 2:
-            return 160
-        case 1, 3, 4, 5:
+            return 150
+        case 3:
+            return 150
+        case 4, 5:
             return 90
         default:
             return UITableView.automaticDimension
@@ -191,6 +196,13 @@ extension ProductDetailViewController: UITableViewDelegate {
     }
 }
 
+
 #Preview {
     UINavigationController(rootViewController: ProductDetailViewController())
+}
+
+extension UIView {
+    func findSubview<T: UIView>(ofType type: T.Type) -> T? {
+        return subviews.compactMap { $0 as? T ?? $0.findSubview(ofType: type) }.first
+    }
 }
