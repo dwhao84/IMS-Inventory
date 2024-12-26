@@ -101,17 +101,6 @@ class ShelvingSystemViewController: UIViewController {
         return tf
     } ()
     
-    let withBaseOrNotTextField: UITextField = {
-        let tf: UITextField = UITextField()
-        tf.placeholder = String(localized: "Choose you have base or not") // 要加多國語系
-        tf.font = UIFont.systemFont(ofSize: 16)
-        tf.clearButtonMode = .whileEditing
-        tf.borderStyle = .roundedRect
-        tf.textColor = Colors.darkGray
-        tf.translatesAutoresizingMaskIntoConstraints = false
-        return tf
-    } ()
-    
     let qtyTextField: UITextField = {
         let tf: UITextField = UITextField()
         tf.placeholder = String(localized: "Enter your Qty") // 要加多國語系
@@ -192,11 +181,9 @@ class ShelvingSystemViewController: UIViewController {
         shelvingHeightTextField.delegate = self
         sixtySectionTextField.delegate = self
         nintySectionTextField.delegate = self
-        withBaseOrNotTextField.delegate = self
         qtyTextField.delegate = self
         
         // Connect picker views to text fields
-        withBaseOrNotTextField.inputAccessoryView = withBaseOrNotPickerView
         shelvingHeightTextField.inputAccessoryView = shelvingHeightPickerView
         
         // Create and configure toolbar
@@ -219,7 +206,6 @@ class ShelvingSystemViewController: UIViewController {
         
         // Add toolbar as input accessory view
         shelvingHeightTextField.inputAccessoryView = toolbar
-        withBaseOrNotTextField.inputAccessoryView = toolbar
     }
     
     @objc private func dismissPicker() {
@@ -230,7 +216,6 @@ class ShelvingSystemViewController: UIViewController {
         stackView.addArrangedSubview(sixtySectionTextField)
         stackView.addArrangedSubview(nintySectionTextField)
         stackView.addArrangedSubview(shelvingHeightTextField)
-        stackView.addArrangedSubview(withBaseOrNotTextField)
         stackView.addArrangedSubview(qtyTextField)
         
         buttonsStackView.addArrangedSubview(calculationBtn)
@@ -238,12 +223,11 @@ class ShelvingSystemViewController: UIViewController {
     }
     
     func setupPickerViews () {
-        withBaseOrNotTextField.inputAccessoryView = withBaseOrNotPickerView
         shelvingHeightTextField.inputAccessoryView   = shelvingHeightPickerView
     }
     
     func addConstraints() {
-        [ shelvingHeightTextField, sixtySectionTextField, nintySectionTextField, withBaseOrNotTextField, qtyTextField].forEach {
+        [ shelvingHeightTextField, sixtySectionTextField, nintySectionTextField, qtyTextField].forEach {
             $0.heightAnchor.constraint(equalToConstant: 50).isActive = true
         }
         outputTextView.heightAnchor.constraint(equalToConstant: 200).isActive = true
@@ -297,7 +281,7 @@ class ShelvingSystemViewController: UIViewController {
     
     @objc func clearBtnTapped (_ sender: UIButton) {
         print("clearButton Tapped")
-        [nintySectionTextField, sixtySectionTextField, qtyTextField, shelvingHeightTextField, withBaseOrNotTextField].forEach {
+        [nintySectionTextField, sixtySectionTextField, qtyTextField, shelvingHeightTextField].forEach {
             $0.text = ""
         }
         outputTextView.text = String(localized: "No content has been entered")
@@ -365,9 +349,7 @@ extension ShelvingSystemViewController: UIPickerViewDelegate, UIPickerViewDataSo
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         switch pickerView {
         case shelvingHeightPickerView:
-            shelvingHeightTextField.text = shelvingHeight[row]        
-        case withBaseOrNotPickerView:
-            withBaseOrNotTextField.text = withBase[row]
+            shelvingHeightTextField.text = shelvingHeight[row]
         default:
             break
         }
