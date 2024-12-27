@@ -13,6 +13,7 @@ class CalculationViewController: UIViewController {
         let segmentControl = UISegmentedControl()
         segmentControl.insertSegment(withTitle: "Bins", at: 0, animated: true)
         segmentControl.insertSegment(withTitle: "Shelving System", at: 1, animated: true)
+        segmentControl.insertSegment(withTitle: "Backwall", at: 2, animated: true)
 
         segmentControl.selectedSegmentIndex = 0
         // 設定正常狀態(未選中)的外觀
@@ -49,6 +50,11 @@ class CalculationViewController: UIViewController {
     
     private lazy var shelvingVC: UIViewController = {
         let vc = ShelvingSystemViewController()
+        return vc
+    }()
+    
+    private lazy var rackingVC: UIViewController = {
+        let vc = RackingCalculatorViewController()
         return vc
     }()
     
@@ -109,7 +115,9 @@ class CalculationViewController: UIViewController {
         case 0:
             switchToViewController(binVC)
         case 1:
-            switchToViewController(shelvingVC)
+            switchToViewController(shelvingVC)        
+        case 2:
+            switchToViewController(rackingVC)
         default:
             break
         }
