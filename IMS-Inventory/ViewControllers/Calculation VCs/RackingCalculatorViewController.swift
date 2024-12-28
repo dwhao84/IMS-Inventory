@@ -10,9 +10,7 @@ import UIKit
 class RackingCalculatorViewController: UIViewController {
     
     let singleSidePickerView: UIPickerView = UIPickerView()
-    let options: [String] = [
-        "True", "False"
-    ]
+    let options: [String] = [ String(localized: "True"), String(localized: "False")]
     
     private lazy var calculationBtn: UIButton = {
         let button = UIButton(type: .system)
@@ -38,26 +36,29 @@ class RackingCalculatorViewController: UIViewController {
     }()
     
     private lazy var clearBtn: UIButton = {
-        let button = UIButton(type: .system)
-        var config = UIButton.Configuration.borderless()
+        let btn = UIButton(type: .system)
+        var config = UIButton.Configuration.plain()
+        config.baseForegroundColor = Colors.black
         let attributes: [NSAttributedString.Key: Any] = [
-            .font: UIFont.systemFont(ofSize: 16, weight: .semibold),
-            .foregroundColor: Colors.lightGray
+            .font: UIFont.systemFont(ofSize: 16, weight: .light),
+            .foregroundColor: Colors.black
         ]
         config.attributedTitle = AttributedString(String(localized: "Clear"), attributes: AttributeContainer(attributes))
         config.cornerStyle = .capsule
-        button.configuration = config
-        button.addTarget(self, action: #selector(clearnBtnTapped), for: .touchUpInside)
-        button.configurationUpdateHandler = { button in
-            button.alpha = button.isHighlighted ? 0.7 : 1.0
+        config.background.strokeColor = Colors.black
+        btn.configuration = config
+        btn.addTarget(self, action: #selector(clearnBtnTapped), for: .touchUpInside)
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.configurationUpdateHandler = { btn in
+            btn.alpha = btn.isHighlighted ? 0.5 : 1
+            btn.configuration = config
         }
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    } ()
+        return btn
+    }()
     
     let nintySecQtyTextField: UITextField = {
         let tf: UITextField = UITextField()
-        tf.placeholder = String(localized: "Enter ninty section qty")
+        tf.placeholder = String(localized: "Enter 90 section qty")
         tf.font = UIFont.systemFont(ofSize: 16)
         tf.borderStyle = .roundedRect
         tf.keyboardType = .numberPad
@@ -68,7 +69,7 @@ class RackingCalculatorViewController: UIViewController {
     
     let sixtySecQtyTextField: UITextField = {
         let tf: UITextField = UITextField()
-        tf.placeholder = String(localized: "Enter sixty section qty")
+        tf.placeholder = String(localized: "Enter 60 section qty")
         tf.font = UIFont.systemFont(ofSize: 16)
         tf.borderStyle = .roundedRect
         tf.keyboardType = .numberPad
