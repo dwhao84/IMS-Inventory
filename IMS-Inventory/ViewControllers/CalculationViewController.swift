@@ -104,8 +104,8 @@ class CalculationViewController: UIViewController {
             
             // Container View 約束
             containerView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 10),
-            containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
-            containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
+            containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
@@ -136,6 +136,16 @@ class CalculationViewController: UIViewController {
         viewController.didMove(toParent: self)
         
         currentViewController = viewController
+    }
+    
+    private func tapGesture () {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissPicker))
+        self.view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissPicker (_ sender: UITapGestureRecognizer) {
+        print("DEBUG PRIN: dismissPicker")
+        view.endEditing(true)
     }
 }
 
