@@ -180,7 +180,7 @@ class RegisterViewController: UIViewController {
                 
                 AlertManager.showButtonAlert(
                     on: self,
-                    title: String(localized: "註冊失敗"),
+                    title: String(localized: "Register Failed"),
                     message: errorMessage
                 )
                 return
