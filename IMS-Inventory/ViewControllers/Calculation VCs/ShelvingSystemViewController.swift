@@ -136,11 +136,12 @@ class ShelvingSystemViewController: UIViewController {
         let tv: UITextView = UITextView()
         tv.isSelectable = true
         tv.text = String(localized: "No content has been entered") // 還沒加上多國語系
-        tv.font = .systemFont(ofSize: 23, weight: .bold)
+        tv.font = UIFont.systemFont(ofSize: 20, weight: .regular)
         tv.textColor = Colors.darkGray
-        tv.textAlignment = .center
+        tv.textAlignment = .left
         tv.textContainerInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         tv.isScrollEnabled = true
+        tv.isEditable = false
         tv.translatesAutoresizingMaskIntoConstraints = false
         return tv
     } ()
@@ -171,41 +172,38 @@ class ShelvingSystemViewController: UIViewController {
         addConstraints()
         addDelegates()
         setupPickerViews()
+        setToolBar()
     }
     
-    func addDelegates() {
-        // Set up delegates
-        shelvingHeightPickerView.delegate = self
-        withBaseOrNotPickerView.delegate = self
-        
-        shelvingHeightTextField.delegate = self
-        sixtySectionTextField.delegate = self
-        nintySectionTextField.delegate = self
-        qtyTextField.delegate = self
-        
-        // Connect picker views to text fields
-        shelvingHeightTextField.inputAccessoryView = shelvingHeightPickerView
-        
-        // Create and configure toolbar
+    fileprivate func setToolBar() {
         let toolbar = UIToolbar()
         toolbar.sizeToFit()
+        
+        let flexibleSpace = UIBarButtonItem(
+            barButtonSystemItem: .flexibleSpace,
+            target: nil,
+            action: nil
+        )
         
         let doneButton = UIBarButtonItem(
             barButtonSystemItem: .done,
             target: self,
             action: #selector(dismissPicker)
         )
-        
-        let cancelButton = UIBarButtonItem(
-            barButtonSystemItem: .done,
-            target: self,
-            action: #selector(dismissPicker)
-        )
-        
-        toolbar.setItems([cancelButton, doneButton], animated: false)
-        
+        toolbar.setItems([flexibleSpace, doneButton], animated: true)
         // Add toolbar as input accessory view
         shelvingHeightTextField.inputAccessoryView = toolbar
+    }
+    
+    func addDelegates() {
+        // Set up delegates
+        shelvingHeightPickerView.delegate = self
+        shelvingHeightPickerView.dataSource = self
+        
+        shelvingHeightTextField.delegate = self
+        sixtySectionTextField.delegate = self
+        nintySectionTextField.delegate = self
+        qtyTextField.delegate = self
     }
     
     @objc private func dismissPicker() {
@@ -223,41 +221,51 @@ class ShelvingSystemViewController: UIViewController {
     }
     
     func setupPickerViews () {
-        shelvingHeightTextField.inputAccessoryView   = shelvingHeightPickerView
+        shelvingHeightTextField.inputView   = shelvingHeightPickerView
     }
     
     func addConstraints() {
-        [ shelvingHeightTextField, sixtySectionTextField, nintySectionTextField, qtyTextField].forEach {
+        // Set fixed heights for UI elements
+        [shelvingHeightTextField, sixtySectionTextField, nintySectionTextField, qtyTextField].forEach {
             $0.heightAnchor.constraint(equalToConstant: 50).isActive = true
         }
-        outputTextView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        outputTextView.heightAnchor.constraint(equalToConstant: 400).isActive = true
         calculationBtn.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        // Add subviews
         view.addSubview(scrollView)
         scrollView.addSubview(stackView)
         scrollView.addSubview(buttonsStackView)
         scrollView.addSubview(outputTextView)
+        
+        // Enable translatesAutoresizingMaskIntoConstraints if needed
+        [scrollView, stackView, buttonsStackView, outputTextView].forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
 
         NSLayoutConstraint.activate([
             // ScrollView constraints
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             
-            // Content constraints
-            stackView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 10),
-            stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            // StackView constraints
+            stackView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: 16),
+            stackView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor, constant: 16),
+            stackView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor, constant: -16),
+            stackView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor, constant: -32),
             
+            // ButtonsStackView constraints
             buttonsStackView.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 20),
             buttonsStackView.widthAnchor.constraint(equalToConstant: 300),
-            buttonsStackView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
+            buttonsStackView.centerXAnchor.constraint(equalTo: scrollView.contentLayoutGuide.centerXAnchor),
             
+            // OutputTextView constraints
             outputTextView.topAnchor.constraint(equalTo: buttonsStackView.bottomAnchor, constant: 20),
-            outputTextView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            outputTextView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            outputTextView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -20)
+            outputTextView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor, constant: 16),
+            outputTextView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor, constant: -16),
+            outputTextView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -20)
         ])
     }
     
@@ -284,13 +292,10 @@ class ShelvingSystemViewController: UIViewController {
         [nintySectionTextField, sixtySectionTextField, qtyTextField, shelvingHeightTextField].forEach {
             $0.text = ""
         }
-        outputTextView.text = String(localized: "No content has been entered")
-        outputTextView.textAlignment = .center
+        outputTextView.text = ""
     }
     
 }
-
-    // MARK: - 計算函數
 
 extension ShelvingSystemViewController: UITextFieldDelegate {
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
@@ -328,8 +333,6 @@ extension ShelvingSystemViewController: UIPickerViewDelegate, UIPickerViewDataSo
         switch pickerView {
         case shelvingHeightPickerView:
             return shelvingHeight.count
-        case withBaseOrNotPickerView:
-            return withBase.count
         default:
             return 0
         }
@@ -339,8 +342,6 @@ extension ShelvingSystemViewController: UIPickerViewDelegate, UIPickerViewDataSo
         switch pickerView {
         case shelvingHeightPickerView:
             return shelvingHeight[row]
-        case withBaseOrNotPickerView:
-            return withBase[row]
         default:
             return nil
         }
@@ -392,9 +393,9 @@ extension ShelvingSystemViewController {
                 50210 Left side unit f shelving system D600 H2480 whi * \(sixtySection)
                 50211 Middle unit f shelving system D600 H2480 whi * \(sixtySection)
                 50212 Right side unit f shelving system D600 H2480 whi * \(sixtySection)
-                 ===========
+                ===========
                 50166 Crossbeam f shelving system L560MM whi * \(sixtySection * 3)
-                 ===========
+                ===========
                 50190 Ceiling support 680MM f shelving system whi * 2 \n
                 50188 Ceiling support clamp f shelving system whi * 2 \n
                 """
