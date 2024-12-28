@@ -49,22 +49,25 @@ class ShelvingSystemViewController: UIViewController {
     }()
     
     private lazy var clearBtn: UIButton = {
-        let button = UIButton(type: .system)
-        var config = UIButton.Configuration.borderless()
+        let btn = UIButton(type: .system)
+        var config = UIButton.Configuration.plain()
+        config.baseForegroundColor = Colors.black
         let attributes: [NSAttributedString.Key: Any] = [
-            .font: UIFont.systemFont(ofSize: 16, weight: .semibold),
-            .foregroundColor: Colors.lightGray
+            .font: UIFont.systemFont(ofSize: 16, weight: .light),
+            .foregroundColor: Colors.black
         ]
         config.attributedTitle = AttributedString(String(localized: "Clear"), attributes: AttributeContainer(attributes))
         config.cornerStyle = .capsule
-        button.configuration = config
-        button.addTarget(self, action: #selector(clearBtnTapped), for: .touchUpInside)
-        button.configurationUpdateHandler = { button in
-            button.alpha = button.isHighlighted ? 0.7 : 1.0
+        config.background.strokeColor = Colors.black
+        btn.configuration = config
+        btn.addTarget(self, action: #selector(clearBtnTapped), for: .touchUpInside)
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.configurationUpdateHandler = { btn in
+            btn.alpha = btn.isHighlighted ? 0.5 : 1
+            btn.configuration = config
         }
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    } ()
+        return btn
+    }()
     
     let sixtySectionTextField: UITextField = {
         let tf: UITextField = UITextField()
@@ -173,6 +176,7 @@ class ShelvingSystemViewController: UIViewController {
         addDelegates()
         setupPickerViews()
         setToolBar()
+        tapGesture ()
     }
     
     fileprivate func setToolBar() {
@@ -195,6 +199,11 @@ class ShelvingSystemViewController: UIViewController {
         shelvingHeightTextField.inputAccessoryView = toolbar
     }
     
+    private func tapGesture () {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissPicker))
+        self.view.addGestureRecognizer(tap)
+    }
+    
     func addDelegates() {
         // Set up delegates
         shelvingHeightPickerView.delegate = self
@@ -206,7 +215,7 @@ class ShelvingSystemViewController: UIViewController {
         qtyTextField.delegate = self
     }
     
-    @objc private func dismissPicker() {
+    @objc private func dismissPicker(_ sender: UITapGestureRecognizer) {
         view.endEditing(true)
     }
     
@@ -226,11 +235,10 @@ class ShelvingSystemViewController: UIViewController {
     
     func addConstraints() {
         // Set fixed heights for UI elements
-        [shelvingHeightTextField, sixtySectionTextField, nintySectionTextField, qtyTextField].forEach {
+        [shelvingHeightTextField, sixtySectionTextField, nintySectionTextField, qtyTextField, clearBtn, calculationBtn].forEach {
             $0.heightAnchor.constraint(equalToConstant: 50).isActive = true
         }
         outputTextView.heightAnchor.constraint(equalToConstant: 400).isActive = true
-        calculationBtn.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
         // Add subviews
         view.addSubview(scrollView)
@@ -242,7 +250,7 @@ class ShelvingSystemViewController: UIViewController {
         [scrollView, stackView, buttonsStackView, outputTextView].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
-
+        
         NSLayoutConstraint.activate([
             // ScrollView constraints
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -361,44 +369,44 @@ extension ShelvingSystemViewController {
     public func calculateShelvingSystem(nintySection: Int, sixtySection: Int, height: Int, qtyOfShelf: Int) {
         // 只有 60 sections
         if nintySection == 0 && sixtySection >= 1 {
-            outputTextView.text = 
-            """
-            50167 SHELF PERFORATED METAL F SHELVING SYSTEM D598 W618MM WHI * \(qtyOfShelf)
-            50168 SHELF SUPPORT F SHELF PERFORATED METAL F SHELVING SYSTEM L584MM GALV * \(qtyOfShelf * 2 - sixtySection * 2)
-            """
+            outputTextView.text =
+                """
+                50167 SHELF PERFORATED METAL F SHELVING SYSTEM D598 W618MM WHI * \(qtyOfShelf)
+                50168 SHELF SUPPORT F SHELF PERFORATED METAL F SHELVING SYSTEM L584MM GALV * \(qtyOfShelf * 2 - sixtySection * 2)
+                """
             
             switch height {
             case 854:
-                outputTextView.text = 
-                """
-                50216 Left side unit f shelving system D600 H854MM whi * \(sixtySection)
-                50217 Middle unit f shelving system D600 H854MM whi * \(sixtySection)
-                50218 Right side unit f shelving system D600 H854MM whi * \(sixtySection)
-                ===========
-                50166 Crossbeam f shelving system L560MM whi * \(sixtySection * 3)
-                """
+                outputTextView.text =
+                    """
+                    50216 LEFT SIDE UNIT F SHELVING SYSTEM D600 H854MM WHI * \(sixtySection)
+                    50217 MIDDLE UNIT F SHELVING SYSTEM D600 H854MM WHI * \(sixtySection)
+                    50218 RIGHT SIDE UNIT F SHELVING SYSTEM D600 H854MM WHI * \(sixtySection)
+                    ===========
+                    50166 CROSSBEAM F SHELVING SYSTEM L560MM WHI * \(sixtySection * 3)
+                    """
                 
             case 1340:
-                outputTextView.text = 
-                """
-                50213 Left side unit f shelving system D600 H1304MM whi * \(sixtySection)
-                50214 Middle unit f shelving system D600 H1304MM whi * \(sixtySection)
-                50215 Right side unit f shelving system D600 H1304MM whi * \(sixtySection)
-                ===========
-                50166 Crossbeam f shelving system L560MM whi * \(sixtySection * 3)
-                """
+                outputTextView.text =
+                    """
+                    50213 LEFT SIDE UNIT F SHELVING SYSTEM D600 H1304MM WHI * \(sixtySection)
+                    50214 MIDDLE UNIT F SHELVING SYSTEM D600 H1304MM WHI * \(sixtySection)
+                    50215 RIGHT SIDE UNIT F SHELVING SYSTEM D600 H1304MM WHI * \(sixtySection)
+                    ===========
+                    50166 CROSSBEAM F SHELVING SYSTEM L560MM WHI * \(sixtySection * 3)
+                    """
             case 2480:
-                outputTextView.text = 
-                """
-                50210 Left side unit f shelving system D600 H2480 whi * \(sixtySection)
-                50211 Middle unit f shelving system D600 H2480 whi * \(sixtySection)
-                50212 Right side unit f shelving system D600 H2480 whi * \(sixtySection)
-                ===========
-                50166 Crossbeam f shelving system L560MM whi * \(sixtySection * 3)
-                ===========
-                50190 Ceiling support 680MM f shelving system whi * 2 \n
-                50188 Ceiling support clamp f shelving system whi * 2 \n
-                """
+                outputTextView.text =
+                    """
+                    50210 LEFT SIDE UNIT F SHELVING SYSTEM D600 H2480 WHI * \(sixtySection)
+                    50211 MIDDLE UNIT F SHELVING SYSTEM D600 H2480 WHI * \(sixtySection)
+                    50212 RIGHT SIDE UNIT F SHELVING SYSTEM D600 H2480 WHI * \(sixtySection)
+                    ===========
+                    50166 CROSSBEAM F SHELVING SYSTEM L560MM WHI * \(sixtySection * 3)
+                    ===========
+                    50190 CEILING SUPPORT 680MM F SHELVING SYSTEM WHI * 2
+                    50188 CEILING SUPPORT CLAMP F SHELVING SYSTEM WHI * 2
+                    """
                 
             default:
                 break
@@ -408,42 +416,42 @@ extension ShelvingSystemViewController {
         // 只有 90 sections
         else if sixtySection == 0 && nintySection >= 1 {
             outputTextView.text =
-            """
-            50187 SHELF MESH F SHELVING SYSTEM D898 W618MM WHI * \(qtyOfShelf)
-            50184 SHELF SUPPORT F SHELVING SYSTEM L884MM WHI * \(qtyOfShelf * 2 - nintySection * 2)
-            """
+                """
+                50187 SHELF MESH F SHELVING SYSTEM D898 W618MM WHI * \(qtyOfShelf)
+                50184 SHELF SUPPORT F SHELVING SYSTEM L884MM WHI * \(qtyOfShelf * 2 - nintySection * 2)
+                """
             
             switch height {
             case 854:
                 outputTextView.text =
-                """
-                50216 Left side unit f shelving system D600 H854MM whi * 1
-                50217 Middle unit f shelving system D600 H854MM whi * \(nintySection)
-                50218 Right side unit f shelving system D600 H854MM whi * 1
-                 ===========
-                50183 Crossbeam f shelving system L860mm whi * \(nintySection * 3)
-                """
+                    """
+                    50216 LEFT SIDE UNIT F SHELVING SYSTEM D600 H854MM WHI * 1
+                    50217 MIDDLE UNIT F SHELVING SYSTEM D600 H854MM WHI * \(nintySection)
+                    50218 RIGHT SIDE UNIT F SHELVING SYSTEM D600 H854MM WHI * 1
+                    ===========
+                    50183 CROSSBEAM F SHELVING SYSTEM L860MM WHI * \(nintySection * 3)
+                    """
                 
             case 1340:
                 outputTextView.text =
-                """
-                50213 Left side unit f shelving system D600 H1304MM whi * 1
-                50214 Middle unit f shelving system D600 H1304MM whi * \(sixtySection)
-                50215 Right side unit f shelving system D600 H1304MM whi * 1
-                 ===========
-                50166 Crossbeam f shelving system L560MM whi * \(sixtySection * 3)
-                """
+                    """
+                    50213 LEFT SIDE UNIT F SHELVING SYSTEM D600 H1304MM WHI * 1
+                    50214 MIDDLE UNIT F SHELVING SYSTEM D600 H1304MM WHI * \(sixtySection)
+                    50215 RIGHT SIDE UNIT F SHELVING SYSTEM D600 H1304MM WHI * 1
+                    ===========
+                    50166 CROSSBEAM F SHELVING SYSTEM L560MM WHI * \(sixtySection * 3)
+                    """
                 
             case 2480:
                 outputTextView.text =
-                """
-                50210 Left side unit f shelving system D600 H2480 whi * 1
-                50211 Middle unit f shelving system D600 H2480 whi * \(nintySection)
-                50212 Right side unit f shelving system D600 H2480 whi * 1
-                 ===========
-                50190 Ceiling support 680MM f shelving system whi * 2
-                50188 Ceiling support clamp f shelving system whi * 2
-                """
+                    """
+                    50210 LEFT SIDE UNIT F SHELVING SYSTEM D600 H2480 WHI * 1
+                    50211 MIDDLE UNIT F SHELVING SYSTEM D600 H2480 WHI * \(nintySection)
+                    50212 RIGHT SIDE UNIT F SHELVING SYSTEM D600 H2480 WHI * 1
+                    ===========
+                    50190 CEILING SUPPORT 680MM F SHELVING SYSTEM WHI * 2
+                    50188 CEILING SUPPORT CLAMP F SHELVING SYSTEM WHI * 2
+                    """
                 
             default:
                 break
@@ -453,47 +461,47 @@ extension ShelvingSystemViewController {
         // 同時有 90 和 60 sections
         else if nintySection >= 1 && sixtySection >= 1 {
             outputTextView.text =
-            """
-            50167 SHELF PERFORATED METAL F SHELVING SYSTEM D598 W618MM WHI * \(qtyOfShelf)
-            50168 SHELF SUPPORT F SHELF PERFORATED METAL F SHELVING SYSTEM L584MM GALV * \(qtyOfShelf * 2 - sixtySection * 2)
-            50187 SHELF MESH F SHELVING SYSTEM D898 W618MM WHI * \(qtyOfShelf)
-            50184 SHELF SUPPORT F SHELVING SYSTEM L884MM WHI \(qtyOfShelf * 2 - nintySection * 2)
-            """
+                """
+                50167 SHELF PERFORATED METAL F SHELVING SYSTEM D598 W618MM WHI * \(qtyOfShelf)
+                50168 SHELF SUPPORT F SHELF PERFORATED METAL F SHELVING SYSTEM L584MM GALV * \(qtyOfShelf * 2 - sixtySection * 2)
+                50187 SHELF MESH F SHELVING SYSTEM D898 W618MM WHI * \(qtyOfShelf)
+                50184 SHELF SUPPORT F SHELVING SYSTEM L884MM WHI \(qtyOfShelf * 2 - nintySection * 2)
+                """
             
             switch height {
             case 854:
                 outputTextView.text =
-                """
-                50216 Left side unit f shelving system D600 H854MM whi * \(sixtySection)
-                50217 Middle unit f shelving system D600 H854MM whi * \(sixtySection)
-                50218 Right side unit f shelving system D600 H854MM whi * \(sixtySection)
-                 ===========
-                50183 Crossbeam f shelving system L860mm whi * \(nintySection * 3)
-                50166 Crossbeam f shelving system L560MM whi * \(sixtySection * 3)
-                """
+                    """
+                    50216 LEFT SIDE UNIT F SHELVING SYSTEM D600 H854MM WHI * \(sixtySection)
+                    50217 MIDDLE UNIT F SHELVING SYSTEM D600 H854MM WHI * \(sixtySection)
+                    50218 RIGHT SIDE UNIT F SHELVING SYSTEM D600 H854MM WHI * \(sixtySection)
+                    ===========
+                    50183 CROSSBEAM F SHELVING SYSTEM L860MM WHI * \(nintySection * 3)
+                    50166 CROSSBEAM F SHELVING SYSTEM L560MM WHI * \(sixtySection * 3)
+                    """
                 
             case 1340:
                 outputTextView.text = """
-                50213 Left side unit f shelving system D600 H1304MM whi * \(sixtySection)
-                50214 Middle unit f shelving system D600 H1304MM whi * \(sixtySection)
-                50215 Right side unit f shelving system D600 H1304MM whi * \(sixtySection)
-                ===========
-                50183 Crossbeam f shelving system L860mm whi * \(nintySection * 3)
-                50166 Crossbeam f shelving system L560MM whi * \(sixtySection * 3)
-                """
+                    50213 LEFT SIDE UNIT F SHELVING SYSTEM D600 H1304MM WHI * \(sixtySection)
+                    50214 MIDDLE UNIT F SHELVING SYSTEM D600 H1304MM WHI * \(sixtySection)
+                    50215 RIGHT SIDE UNIT F SHELVING SYSTEM D600 H1304MM WHI * \(sixtySection)
+                    ===========
+                    50183 CROSSBEAM F SHELVING SYSTEM L860MM WHI * \(nintySection * 3)
+                    50166 CROSSBEAM F SHELVING SYSTEM L560MM WHI * \(sixtySection * 3)
+                    """
             case 2480:
                 outputTextView.text =
-                """
-                50210 Left side unit f shelving system D600 H2480 whi * 1
-                50211 Middle unit f shelving system D600 H2480 whi * \(sixtySection + nintySection)
-                50212 Right side unit f shelving system D600 H2480 whi * 1
-                 ===========
-                50183 Crossbeam f shelving system L860mm whi * \(nintySection * 3)
-                50166 Crossbeam f shelving system L560MM whi * \(sixtySection * 3)
-                 ===========
-                50190 Ceiling support 680MM f shelving system whi * 2
-                50188 Ceiling support clamp f shelving system whi * 2
-                """
+                    """
+                    50210 LEFT SIDE UNIT F SHELVING SYSTEM D600 H2480 WHI * 1
+                    50211 MIDDLE UNIT F SHELVING SYSTEM D600 H2480 WHI * \(sixtySection + nintySection)
+                    50212 RIGHT SIDE UNIT F SHELVING SYSTEM D600 H2480 WHI * 1
+                    ===========
+                    50183 CROSSBEAM F SHELVING SYSTEM L860MM WHI * \(nintySection * 3)
+                    50166 CROSSBEAM F SHELVING SYSTEM L560MM WHI * \(sixtySection * 3)
+                    ===========
+                    50190 CEILING SUPPORT 680MM F SHELVING SYSTEM WHI * 2
+                    50188 CEILING SUPPORT CLAMP F SHELVING SYSTEM WHI * 2
+                    """
             default:
                 break
             }
