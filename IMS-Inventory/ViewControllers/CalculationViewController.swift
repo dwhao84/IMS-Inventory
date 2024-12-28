@@ -100,7 +100,7 @@ class CalculationViewController: UIViewController {
             segmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
             segmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
             segmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
-            segmentedControl.heightAnchor.constraint(equalToConstant: 35),
+            segmentedControl.heightAnchor.constraint(equalToConstant: 40),
             
             // Container View 約束
             containerView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 10),
@@ -114,10 +114,13 @@ class CalculationViewController: UIViewController {
         switch segmentedControl.selectedSegmentIndex {
         case 0:
             switchToViewController(binVC)
+            print("=== Switch to Bin VC ===")
         case 1:
-            switchToViewController(shelvingVC)        
+            switchToViewController(shelvingVC)  
+            print("=== Switch to Shelving VC ===")
         case 2:
             switchToViewController(rackingVC)
+            print("=== Switch to Racking VC ===")
         default:
             break
         }
