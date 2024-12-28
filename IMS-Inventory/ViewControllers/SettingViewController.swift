@@ -19,7 +19,7 @@ class SettingViewController: UIViewController {
         let label = UILabel()
         label.text = String(localized: "Version V 1.1.0")
         label.textColor = .systemGray
-        label.font = .systemFont(ofSize: 14, weight: .regular)
+        label.font = .systemFont(ofSize: 15, weight: .regular)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -50,24 +50,36 @@ class SettingViewController: UIViewController {
     
     // MARK: - Setup
     private func setupUI() {
+        view.backgroundColor = UIColor.systemGray6
         setupTableView()
         setNavigationView()
     }
     
     private func setupTableView() {
-        self.view.addSubview(versionLabel) // add versions
-        self.view.addSubview(tableView) // add tableView
+        // 確保 Auto Layout 正確運作
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        versionLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        // 添加 subviews
+        self.view.addSubview(versionLabel)
+        self.view.addSubview(tableView)
+        
+        // 設定 constraints
         NSLayoutConstraint.activate([
+            // TableView constraints
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            
-            versionLabel.leadingAnchor.constraint(lessThanOrEqualTo: view.leadingAnchor, constant: 16),
-            versionLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -16),
-            versionLabel.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 10)
+            tableView.heightAnchor.constraint(equalToConstant: 180),
+            // VersionLabel constraints
+            versionLabel.topAnchor.constraint(equalTo: tableView.bottomAnchor), // 直接連接到 tableView 的底部
+            versionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            versionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            versionLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            versionLabel.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 10) // 添加 8 點的間距
         ])
         
+        // 設定 TableView 相關配置
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(SettingTableViewCell.self, forCellReuseIdentifier: SettingTableViewCell.identifier)
