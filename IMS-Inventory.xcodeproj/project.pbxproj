@@ -344,8 +344,8 @@
 			isa = PBXGroup;
 			children = (
 				D3FBE5672D1EDCF400F8C477 /* RackingCalculatorViewController.swift */,
-				D3D2D5B42D088FF700575481 /* BinViewController.swift */,
 				D3D2D5B82D0B468900575481 /* ShelvingSystemViewController.swift */,
+				D3D2D5B42D088FF700575481 /* BinViewController.swift */,
 			);
 			path = "Calculation VCs";
 			sourceTree = "<group>";

@@ -9,29 +9,13 @@ import UIKit
 
 class BinViewController: UIViewController {
     
-    let bins: [String] = ["Pallet Bin", "Bins"]
-    let palletBinSize: [String] = ["60 * 80", "80 * 120"]
-    let binSize: [String] = ["40 * 60", "60 * 80", "40 * 60 & 60 * 80"]
+    let typeOfBins: [String] = ["Pallet Bin", "Bins"]
+    let sizeOfPalletBin: [String] = ["60 * 80", "80 * 120"]
+    let sizeOfBins: [String] = ["40 * 60", "60 * 80", "40 * 60 & 60 * 80"]
     
     let sizePickerView: UIPickerView = UIPickerView()
     let typePickerView: UIPickerView = UIPickerView()
     let binsPickerView: UIPickerView = UIPickerView()
-    
-    enum BinType: String {
-        case palletBin = "Pallet Bin"
-        case bin = "Bin"
-    }
-    
-    enum PalletBinSize: String {
-        case sixtyByEighty = "60 * 80"
-        case eightyByOneTwenty = "80 * 120"
-    }
-    
-    enum BinSize: String {
-        case fortyBySixty = "40 * 60"
-        case sixtyByEighty = "60 * 80"
-        case allSizes = "40 * 60 & 60 * 80"
-    }
     
     private lazy var calculationBtn: UIButton = {
         let button = UIButton(type: .system)
@@ -56,22 +40,25 @@ class BinViewController: UIViewController {
     }()
     
     private lazy var clearBtn: UIButton = {
-        let button = UIButton(type: .system)
-        var config = UIButton.Configuration.borderless()
+        let btn = UIButton(type: .system)
+        var config = UIButton.Configuration.plain()
+        config.baseForegroundColor = Colors.black
         let attributes: [NSAttributedString.Key: Any] = [
-            .font: UIFont.systemFont(ofSize: 16, weight: .semibold),
-            .foregroundColor: Colors.lightGray
+            .font: UIFont.systemFont(ofSize: 16, weight: .light),
+            .foregroundColor: Colors.black
         ]
         config.attributedTitle = AttributedString(String(localized: "Clear"), attributes: AttributeContainer(attributes))
         config.cornerStyle = .capsule
-        button.configuration = config
-        button.addTarget(self, action: #selector(clearButtonTapped), for: .touchUpInside)
-        button.configurationUpdateHandler = { button in
-            button.alpha = button.isHighlighted ? 0.7 : 1.0
+        config.background.strokeColor = Colors.black
+        btn.configuration = config
+        btn.addTarget(self, action: #selector(clearButtonTapped), for: .touchUpInside)
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.configurationUpdateHandler = { btn in
+            btn.alpha = btn.isHighlighted ? 0.5 : 1
+            btn.configuration = config
         }
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    } ()
+        return btn
+    }()
     
     let typeOfBinTextField: UITextField = {
         let tf: UITextField = UITextField()
@@ -83,7 +70,7 @@ class BinViewController: UIViewController {
         return tf
     } ()
     
-    let  binSizeTextField: UITextField = {
+    let binSizeTextField: UITextField = {
         let tf: UITextField = UITextField()
         tf.placeholder = String(localized: "Choose your bins size") // Add localization
         tf.font = UIFont.systemFont(ofSize: 16)
@@ -93,7 +80,7 @@ class BinViewController: UIViewController {
         return tf
     } ()
     
-    let  qtyTextField: UITextField = {
+    let qtyTextField: UITextField = {
         let tf: UITextField = UITextField()
         tf.placeholder = String(localized: "Enter your Qty")
         tf.font = UIFont.systemFont(ofSize: 16)
@@ -167,7 +154,6 @@ class BinViewController: UIViewController {
     
     private func setupOutputTextView () {
         outputTextView.textAlignment = .left
-        outputTextView.font = .systemFont(ofSize: 12, weight: .regular)
     }
     
     private func tapGesture () {
@@ -177,6 +163,7 @@ class BinViewController: UIViewController {
     
     // MARK: - Set up UI
     func setupUI () {
+        secQtyTextField.isHidden = true
         self.view.overrideUserInterfaceStyle = .light
         configStackView()
         configButtonsStackView()
@@ -218,21 +205,21 @@ class BinViewController: UIViewController {
         typePickerView.dataSource = self
         
         binSizeTextField.delegate = self
-        binSizeTextField.delegate = self
         typeOfBinTextField.delegate = self
+        secQtyTextField.delegate = self
+        qtyTextField.delegate = self
         
         // Connect picker views to text fields
         typeOfBinTextField.inputView = typePickerView
         binSizeTextField.inputView = sizePickerView
-        
     }
     
     // MARK: - Set up StackView
     func configStackView () {
         stackView.addArrangedSubview(typeOfBinTextField)
         stackView.addArrangedSubview(binSizeTextField)
-        stackView.addArrangedSubview(secQtyTextField)
         stackView.addArrangedSubview(qtyTextField)
+        stackView.addArrangedSubview(secQtyTextField)
     }
     
     // MARK: - Set up Button StackView
@@ -282,19 +269,80 @@ class BinViewController: UIViewController {
             buttonsStackView.centerXAnchor.constraint(equalTo: scrollView.contentLayoutGuide.centerXAnchor),
             
             outputTextView.topAnchor.constraint(equalTo: buttonsStackView.bottomAnchor, constant: 20),
-            outputTextView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor, constant: 16),
-            outputTextView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor, constant: -16),
+            outputTextView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor, constant: 10),
+            outputTextView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor, constant: -10),
             outputTextView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -20)
         ])
     }
-    
+
     // MARK: - Actions
-    @objc func calculationBtnTapped (_ sender: UIButton) {
+    @objc func calculationBtnTapped(_ sender: UIButton) {
         print("calculation Btn Tapped")
+        
+        // 先驗證輸入
+        guard let typeOfBin = typeOfBinTextField.text,
+              let binSize = binSizeTextField.text,
+              let qtyText = qtyTextField.text,
+              !typeOfBin.isEmpty,
+              !binSize.isEmpty,
+              !qtyText.isEmpty,
+              let qtyOne = Int(qtyText) else {
+            AlertManager.showButtonAlert(on: self,
+                                       title: String(localized: "Error"),
+                                       message: String(localized: "Missing Content"))
+            return
+        }
+        
         setupOutputTextView()
-//            AlertManager.showButtonAlert(on: self,
-//                title: String(localized: "Error"),
-//                message: String(localized: "Missing Content"))
+        
+        // 處理標準箱(Bins)的情況
+        if typeOfBin == "Bins" {
+            switch binSize {
+            case sizeOfBins[0]: // 40x60
+                calculateStandardBins(qtyOfBin_40_by_60: qtyOne, qtyOfBin_60_by_80: 0)
+                
+            case sizeOfBins[1]: // 60x80
+                calculateStandardBins(qtyOfBin_40_by_60: 0, qtyOfBin_60_by_80: qtyOne)
+                
+            case sizeOfBins[2]: // 兩種尺寸都有
+                guard let secQtyText = secQtyTextField.text,
+                      !secQtyText.isEmpty,
+                      let qtyTwo = Int(secQtyText) else {
+                    AlertManager.showButtonAlert(on: self,
+                                              title: String(localized: "Error"),
+                                              message: String(localized: "Missing Second Quantity"))
+                    return
+                }
+                calculateStandardBins(qtyOfBin_40_by_60: qtyOne, qtyOfBin_60_by_80: qtyTwo)
+                
+            default:
+                AlertManager.showButtonAlert(on: self,
+                                           title: String(localized: "Error"),
+                                           message: String(localized: "Invalid Bin Size"))
+            }
+        }
+        // 處理托盤箱(Pallet)的情況
+        else if typeOfBin == typeOfBins[0] {
+            switch binSize {
+            case sizeOfBins[0]: // 60x80
+                calculatePalletBins(qtyOfPalletBin_sixty_By_Eighty: qtyOne,
+                                  qtyOfPalletBin_Eighty_By_OneHundredTwenty: 0)
+                
+            case sizeOfBins[1]: // 80x120
+                calculatePalletBins(qtyOfPalletBin_sixty_By_Eighty: 0,
+                                  qtyOfPalletBin_Eighty_By_OneHundredTwenty: qtyOne)
+                
+            default:
+                AlertManager.showButtonAlert(on: self,
+                                           title: String(localized: "Error"),
+                                           message: String(localized: "Invalid Pallet Size"))
+            }
+        }
+        else {
+            AlertManager.showButtonAlert(on: self,
+                                       title: String(localized: "Error"),
+                                       message: String(localized: "Invalid Bin Type"))
+        }
     }
     
     @objc func clearButtonTapped(_ sender: UIButton) {
@@ -302,6 +350,9 @@ class BinViewController: UIViewController {
         [binSizeTextField, typeOfBinTextField, qtyTextField, secQtyTextField].forEach {
             $0.text = ""
         }
+        outputTextView.text = ""
+        secQtyTextField.isHidden = true
+        qtyTextField.placeholder = String(localized: "Enter your Qty")
     }
     
     @objc func dismissPicker(_ sender: UITapGestureRecognizer) {
@@ -310,12 +361,11 @@ class BinViewController: UIViewController {
     }
 }
 
-
-
-    // MARK: - 計算函數
+// MARK: - 計算函數
 extension BinViewController: UITextFieldDelegate {
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
         print("textField Should Clear")
+        textField.resignFirstResponder()
         return true
     }
     
@@ -339,7 +389,7 @@ extension BinViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     
     // 計算屬性來獲取當前應該顯示的size array
     private var currentSizeArray: [String] {
-        return typeOfBinTextField.text == "Bins" ? binSize : palletBinSize
+        return typeOfBinTextField.text == "Bins" ? sizeOfBins : sizeOfPalletBin
     }
     
     func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
@@ -355,9 +405,9 @@ extension BinViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         case sizePickerView:
             return currentSizeArray.count
         case typePickerView:
-            return bins.count
+            return typeOfBins.count
         case binsPickerView:
-            return binSize.count
+            return sizeOfBins.count
         default:
             return 0
         }
@@ -368,9 +418,9 @@ extension BinViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         case sizePickerView:
             return currentSizeArray[row]
         case typePickerView:
-            return bins[row]
+            return typeOfBins[row]
         case binsPickerView:
-            return binSize[row]
+            return sizeOfBins[row]
         default:
             return nil
         }
@@ -380,18 +430,28 @@ extension BinViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         switch pickerView {
         case sizePickerView:
             binSizeTextField.text = currentSizeArray[row]
+            // 檢查是否選擇了 "40 * 60 & 60 * 80"
+            if currentSizeArray[row] == "40 * 60 & 60 * 80" {
+                secQtyTextField.isHidden = false
+                qtyTextField.placeholder    = String(localized: "Choose 40 * 60 of Qty")
+                secQtyTextField.placeholder = String(localized: "Choose 60 * 80 of Qty")
+            } else {
+                secQtyTextField.isHidden = true
+            }
             sizePickerView.reloadAllComponents()
             
         case typePickerView:
-            typeOfBinTextField.text = bins[row]
+            binSizeTextField.text = currentSizeArray[0]
+            typeOfBinTextField.text = typeOfBins[row]
+            // 重置 secQtyTextField 的顯示狀態
+            secQtyTextField.isHidden = true
             sizePickerView.reloadAllComponents()
-            binSizeTextField.text = currentSizeArray[0]  // 設置默認值
             
         case binsPickerView:
-            secQtyTextField.text = binSize[row]
+            secQtyTextField.text = sizeOfBins[0]
+            secQtyTextField.text = sizeOfBins[row]
             sizePickerView.reloadAllComponents()
-            secQtyTextField.text = binSize[0]  // 設置默認值
-        
+            
         default:
             break
         }
@@ -433,17 +493,15 @@ extension BinViewController {
             """
         }
     }
-
+    
     // Function for calculating pallet bins
     public func calculatePalletBins(qtyOfPalletBin_sixty_By_Eighty: Int, qtyOfPalletBin_Eighty_By_OneHundredTwenty: Int) {
         if qtyOfPalletBin_sixty_By_Eighty > 0 && qtyOfPalletBin_Eighty_By_OneHundredTwenty > 0 {
-            print("12482 BIN F HALF PALLET L600 W800 H760MM WHI \(qtyOfPalletBin_sixty_By_Eighty)")
-            print("12484 BIN F PALLET L1200 W800 H760MMWHI \(qtyOfPalletBin_Eighty_By_OneHundredTwenty)")
+            outputTextView.text = "12482 BIN F HALF PALLET L600 W800 H760MM WHI *  \(qtyOfPalletBin_sixty_By_Eighty)\n12484 BIN F PALLET L1200 W800 H760MMWHI *  \(qtyOfPalletBin_Eighty_By_OneHundredTwenty)"
         } else if qtyOfPalletBin_sixty_By_Eighty > 0 && qtyOfPalletBin_Eighty_By_OneHundredTwenty == 0 {
-            print("12482 BIN F HALF PALLET L600 W800 H760MM WHI \(qtyOfPalletBin_sixty_By_Eighty)")
+            outputTextView.text = "12482 BIN F HALF PALLET L600 W800 H760MM WHI * \(qtyOfPalletBin_sixty_By_Eighty)"
         } else if qtyOfPalletBin_sixty_By_Eighty == 0 && qtyOfPalletBin_Eighty_By_OneHundredTwenty > 0 {
-            print("12484 BIN F PALLET L1200 W800 H760MMWHI \(qtyOfPalletBin_Eighty_By_OneHundredTwenty)")
+            outputTextView.text = "12484 BIN F PALLET L1200 W800 H760MMWHI * \(qtyOfPalletBin_Eighty_By_OneHundredTwenty)"
         }
     }
-
 }

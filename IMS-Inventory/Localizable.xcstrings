@@ -26,6 +26,12 @@
             "state" : "translated",
             "value" : "账户已成功创建"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "帳號建立成功"
+          }
         }
       }
     },
@@ -276,35 +282,6 @@
         }
       }
     },
-    "Choose you have base or not" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choose you have base or not"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "基礎があるかどうかを選択してください"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "기초가 있는지 선택하세요"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "选择您是否已有基础"
-          }
-        }
-      }
-    },
     "Choose your bins size" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -400,6 +377,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "选择您的高度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選擇高度"
           }
         }
       }
@@ -546,13 +529,52 @@
       }
     },
     "Enter ninty section qty" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter ninty section qty"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選擇寬度90的數量"
+          }
+        }
+      }
     },
     "Enter sixty section qty" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter sixty section qty"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選擇寬度60的數量"
+          }
+        }
+      }
     },
     "Enter your 40 * 60 Qty" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter your 40 * 60 Qty"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "輸入你的 40 * 60數量"
+          }
+        }
+      }
     },
     "Enter your email" : {
       "localizations" : {
@@ -693,7 +715,20 @@
       }
     },
     "False" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "False"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "否"
+          }
+        }
+      }
     },
     "Fill your name" : {
       "extractionState" : "manual",
@@ -791,6 +826,12 @@
             "state" : "translated",
             "value" : "有多少个60秒部分"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有多少寬度60 ?"
+          }
         }
       }
     },
@@ -819,6 +860,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "有多少个90秒部分"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有多少寬度90 ?"
           }
         }
       }
@@ -894,7 +941,20 @@
       }
     },
     "Is single side or not?" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Is single side of not?"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "是否為單面？"
+          }
+        }
+      }
     },
     "Item, Article No, Description" : {
       "extractionState" : "manual",
@@ -1076,6 +1136,12 @@
     "Missing Content" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Missing Content"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1103,7 +1169,20 @@
       }
     },
     "N/A" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "N/A"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "空白"
+          }
+        }
+      }
     },
     "NA" : {
       "extractionState" : "manual",
@@ -1178,6 +1257,12 @@
     "No content has been entered" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No content has been entered"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1383,6 +1468,12 @@
     "Please select a valid Bin type" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please select a valid Bin type"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1412,6 +1503,12 @@
     "Please select both Bin type and size" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please select both Bin type and size"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1652,6 +1749,12 @@
     },
     "Reigster Success" : {
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reigster Success"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1662,6 +1765,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "등록 성공"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "註冊成功"
           }
         }
       }
@@ -1842,41 +1951,6 @@
         }
       }
     },
-    "Stock Qty" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Stock Qty"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在庫数量"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "재고 수량"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "库存数量"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "庫存數"
-          }
-        }
-      }
-    },
     "Stock Qty:" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1913,7 +1987,20 @@
       }
     },
     "Stock Qty: %lld" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stock Qty: %lld"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "庫存數：%lld"
+          }
+        }
+      }
     },
     "This email has already been registered" : {
       "extractionState" : "manual",
@@ -1951,7 +2038,20 @@
       }
     },
     "True" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "True"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "是"
+          }
+        }
+      }
     },
     "Using Date" : {
       "extractionState" : "manual",
@@ -2061,20 +2161,14 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reigster Success"
+            "state" : "needs_review",
+            "value" : "Reigster Failed"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "注册成功"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
             "state" : "needs_review",
-            "value" : "註冊失敗"
+            "value" : "注册成功"
           }
         }
       }
