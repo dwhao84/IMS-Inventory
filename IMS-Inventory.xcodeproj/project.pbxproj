@@ -62,6 +62,7 @@
 		D3FADE272BF8478F00185477 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = D3FADE262BF8478F00185477 /* Kingfisher */; };
 		D3FADE2B2BF8596C00185477 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FADE2A2BF8596C00185477 /* Colors.swift */; };
 		D3FADE2D2BF85D5D00185477 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FADE2C2BF85D5D00185477 /* Product.swift */; };
+		D3FBE5682D1EDCF400F8C477 /* RackingCalculatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3FBE5672D1EDCF400F8C477 /* RackingCalculatorViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -134,6 +135,7 @@
 		D3EDD7482CFCC5B1000999E8 /* CustomNavigationTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationTitleView.swift; sourceTree = "<group>"; };
 		D3FADE2A2BF8596C00185477 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		D3FADE2C2BF85D5D00185477 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
+		D3FBE5672D1EDCF400F8C477 /* RackingCalculatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RackingCalculatorViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -333,10 +335,19 @@
 				D3A1F8302CD671E40035AF93 /* CartViewController.swift */,
 				D30A6BAF2CD130EC003AC00A /* CalculationViewController.swift */,
 				D30A6BAD2CD1208E003AC00A /* SettingViewController.swift */,
+				D3FBE5692D1EDCFE00F8C477 /* Calculation VCs */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		D3FBE5692D1EDCFE00F8C477 /* Calculation VCs */ = {
+			isa = PBXGroup;
+			children = (
+				D3FBE5672D1EDCF400F8C477 /* RackingCalculatorViewController.swift */,
 				D3D2D5B42D088FF700575481 /* BinViewController.swift */,
 				D3D2D5B82D0B468900575481 /* ShelvingSystemViewController.swift */,
 			);
-			path = ViewControllers;
+			path = "Calculation VCs";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -511,6 +522,7 @@
 				D3D6CBC52CFADEE60019CBA5 /* PersonalAnimatedView.swift in Sources */,
 				D3D6CB9D2CF8BE120019CBA5 /* NetworkManager.swift in Sources */,
 				D30A6BB22CD32339003AC00A /* ProductDetailViewController.swift in Sources */,
+				D3FBE5682D1EDCF400F8C477 /* RackingCalculatorViewController.swift in Sources */,
 				D3D6CB942CF772130019CBA5 /* LoginViewController.swift in Sources */,
 				D3E2EF172CFE07E6009A2E03 /* DateTableViewCell.swift in Sources */,
 				D399A8252CC568430074738D /* PrivateData.swift in Sources */,

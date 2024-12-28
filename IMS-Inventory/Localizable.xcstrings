@@ -545,6 +545,15 @@
         }
       }
     },
+    "Enter ninty section qty" : {
+
+    },
+    "Enter sixty section qty" : {
+
+    },
+    "Enter your 40 * 60 Qty" : {
+
+    },
     "Enter your email" : {
       "localizations" : {
         "en" : {
@@ -682,6 +691,9 @@
           }
         }
       }
+    },
+    "False" : {
+
     },
     "Fill your name" : {
       "extractionState" : "manual",
@@ -880,6 +892,9 @@
           }
         }
       }
+    },
+    "Is single side or not?" : {
+
     },
     "Item, Article No, Description" : {
       "extractionState" : "manual",
@@ -1934,6 +1949,9 @@
           }
         }
       }
+    },
+    "True" : {
+
     },
     "Using Date" : {
       "extractionState" : "manual",

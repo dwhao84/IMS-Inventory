@@ -15,6 +15,7 @@ class BinViewController: UIViewController {
     
     let sizePickerView: UIPickerView = UIPickerView()
     let typePickerView: UIPickerView = UIPickerView()
+    let binsPickerView: UIPickerView = UIPickerView()
     
     enum BinType: String {
         case palletBin = "Pallet Bin"
@@ -139,13 +140,21 @@ class BinViewController: UIViewController {
         let tv: UITextView = UITextView()
         tv.isSelectable = true
         tv.text = String(localized: "No content has been entered")
-        tv.font = .systemFont(ofSize: 23, weight: .bold)
+        tv.font = UIFont.systemFont(ofSize: 20, weight: .regular)
         tv.textColor = Colors.darkGray
-        tv.textAlignment = .center
+        tv.textAlignment = .left
         tv.textContainerInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-        tv.isScrollEnabled = true
+        tv.isEditable = false
         tv.translatesAutoresizingMaskIntoConstraints = false
         return tv
+    } ()
+    
+    lazy var scrollView: UIScrollView = {
+        let scrollView: UIScrollView = UIScrollView()
+        scrollView.showsVerticalScrollIndicator = true
+        scrollView.isScrollEnabled = true
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
     } ()
     
     // MARK: - Life Cycle:
@@ -175,40 +184,47 @@ class BinViewController: UIViewController {
         addDelegates()
         setupPickerViews()
         tapGesture()
+        setToolBar()
     }
     
     // MARK: - Add Delegatea
-    func addDelegates() {
-        // Set up delegates
-        sizePickerView.delegate = self
-        typePickerView.delegate = self
-        binSizeTextField.delegate = self
-        typeOfBinTextField.delegate = self
-        
-        // Connect picker views to text fields
-        typeOfBinTextField.inputAccessoryView = typePickerView
-        binSizeTextField.inputAccessoryView = sizePickerView
-        
-        // Create and configure toolbar
+    fileprivate func setToolBar() {
         let toolbar = UIToolbar()
         toolbar.sizeToFit()
+        
+        let flexibleSpace = UIBarButtonItem(
+            barButtonSystemItem: .flexibleSpace,
+            target: nil,
+            action: nil
+        )
         
         let doneButton = UIBarButtonItem(
             barButtonSystemItem: .done,
             target: self,
             action: #selector(dismissPicker)
         )
-        
-        let cancelButton = UIBarButtonItem(
-            barButtonSystemItem: .done,
-            target: self,
-            action: #selector(dismissPicker)
-        )
-        
-        toolbar.setItems([cancelButton, doneButton], animated: false)
+        toolbar.setItems([flexibleSpace, doneButton], animated: true)
         // Add toolbar as input accessory view
         binSizeTextField.inputAccessoryView   = toolbar
         typeOfBinTextField.inputAccessoryView = toolbar
+        typeOfBinTextField.inputAccessoryView = toolbar
+    }
+    
+    func addDelegates() {
+        // Set up delegates
+        sizePickerView.delegate = self
+        sizePickerView.dataSource = self
+        typePickerView.delegate = self
+        typePickerView.dataSource = self
+        
+        binSizeTextField.delegate = self
+        binSizeTextField.delegate = self
+        typeOfBinTextField.delegate = self
+        
+        // Connect picker views to text fields
+        typeOfBinTextField.inputView = typePickerView
+        binSizeTextField.inputView = sizePickerView
+        
     }
     
     // MARK: - Set up StackView
@@ -232,27 +248,43 @@ class BinViewController: UIViewController {
     }
     
     // MARK: - Add Constraints
-    func addConstraints () {
-        [ binSizeTextField, typeOfBinTextField, qtyTextField, secQtyTextField].forEach {
+    func addConstraints() {
+        // Set fixed heights for text fields and buttons
+        [binSizeTextField, typeOfBinTextField, qtyTextField, secQtyTextField].forEach {
             $0.heightAnchor.constraint(equalToConstant: 50).isActive = true
         }
-        outputTextView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        outputTextView.heightAnchor.constraint(equalToConstant: 400).isActive = true
         [calculationBtn, clearBtn].forEach {
             $0.heightAnchor.constraint(equalToConstant: 50).isActive = true
         }
-        view.addSubview(stackView)
-        view.addSubview(buttonsStackView)
-        view.addSubview(outputTextView)
+        
+        // Add scrollView
+        view.addSubview(scrollView)
+        scrollView.addSubview(stackView)
+        scrollView.addSubview(buttonsStackView)
+        scrollView.addSubview(outputTextView)
+        
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 10),
-            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
-            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            // ScrollView constraints
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            // Content constraints
+            stackView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: 10),
+            stackView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor, constant: 16),
+            stackView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor, constant: -16),
+            stackView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor, constant: -32),
+            
             buttonsStackView.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 20),
             buttonsStackView.widthAnchor.constraint(equalToConstant: 300),
-            buttonsStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            buttonsStackView.centerXAnchor.constraint(equalTo: scrollView.contentLayoutGuide.centerXAnchor),
+            
             outputTextView.topAnchor.constraint(equalTo: buttonsStackView.bottomAnchor, constant: 20),
-            outputTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            outputTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            outputTextView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor, constant: 16),
+            outputTextView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor, constant: -16),
+            outputTextView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -20)
         ])
     }
     
@@ -267,11 +299,9 @@ class BinViewController: UIViewController {
     
     @objc func clearButtonTapped(_ sender: UIButton) {
         print("DEBUG PRINT: clearButtonTapped")
-        
         [binSizeTextField, typeOfBinTextField, qtyTextField, secQtyTextField].forEach {
             $0.text = ""
         }
-        outputTextView.text = String(localized: "No content has been entered")
     }
     
     @objc func dismissPicker(_ sender: UITapGestureRecognizer) {
@@ -326,6 +356,8 @@ extension BinViewController: UIPickerViewDelegate, UIPickerViewDataSource {
             return currentSizeArray.count
         case typePickerView:
             return bins.count
+        case binsPickerView:
+            return binSize.count
         default:
             return 0
         }
@@ -337,6 +369,8 @@ extension BinViewController: UIPickerViewDelegate, UIPickerViewDataSource {
             return currentSizeArray[row]
         case typePickerView:
             return bins[row]
+        case binsPickerView:
+            return binSize[row]
         default:
             return nil
         }
@@ -346,10 +380,18 @@ extension BinViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         switch pickerView {
         case sizePickerView:
             binSizeTextField.text = currentSizeArray[row]
+            sizePickerView.reloadAllComponents()
+            
         case typePickerView:
             typeOfBinTextField.text = bins[row]
             sizePickerView.reloadAllComponents()
             binSizeTextField.text = currentSizeArray[0]  // 設置默認值
+            
+        case binsPickerView:
+            secQtyTextField.text = binSize[row]
+            sizePickerView.reloadAllComponents()
+            secQtyTextField.text = binSize[0]  // 設置默認值
+        
         default:
             break
         }
