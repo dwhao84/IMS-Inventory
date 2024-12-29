@@ -126,7 +126,7 @@ extension ProductDetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return 5  // 因為你有 ProductImageCell, ProductInfoCell, 和 ProductQuantityCell 三種
+            return 6  // 因為有 ProductImageCell, ProductInfoCell, 和 ProductQuantityCell 三種
         default:
             return 0
         }
@@ -154,16 +154,17 @@ extension ProductDetailViewController: UITableViewDataSource {
             return cell
             
         case 4:
+            let cell = tableView.dequeueReusableCell(withIdentifier: StatusTableViewCell.identifier, for: indexPath) as! StatusTableViewCell
+            return cell
+            
+        case 5:
             let cell = tableView.dequeueReusableCell(withIdentifier: ProductQuantityCell.identifier, for: indexPath) as! ProductQuantityCell
             cell.configureWithStepper(title: String(localized:"Require Qty"), value: qtyValue) { [weak self] stepper in
                 self?.qtyValue = Int(stepper.value)
                 self?.tableView.reloadRows(at: [indexPath], with: .none)
             }
             return cell
-        case 5:
-            let cell = tableView.dequeueReusableCell(withIdentifier: StatusTableViewCell.identifier, for: indexPath) as! StatusTableViewCell
-            return cell
-            
+
         default:
             return UITableViewCell()
         }
