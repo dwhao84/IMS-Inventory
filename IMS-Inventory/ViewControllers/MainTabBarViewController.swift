@@ -54,7 +54,7 @@ class MainTabBarViewController: ESTabBarController {
         )
         
         setViewControllers(
-            [productListNC, calculationNC, cartNC, settingNC],
+            [productListNC, cartNC, calculationNC, settingNC],
             animated: true
         )
     }
