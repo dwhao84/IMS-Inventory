@@ -338,30 +338,16 @@ extension ShelvingSystemViewController: UIPickerViewDelegate, UIPickerViewDataSo
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        switch pickerView {
-        case shelvingHeightPickerView:
-            return shelvingHeight.count
-        default:
-            return 0
-        }
+        return shelvingHeight.count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        switch pickerView {
-        case shelvingHeightPickerView:
-            return shelvingHeight[row]
-        default:
-            return nil
-        }
+        return shelvingHeight[row]
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        switch pickerView {
-        case shelvingHeightPickerView:
-            shelvingHeightTextField.text = shelvingHeight[row]
-        default:
-            break
-        }
+        shelvingHeightTextField.text = shelvingHeight[row]
+        
     }
 }
 
