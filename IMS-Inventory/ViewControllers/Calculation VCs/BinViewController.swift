@@ -127,7 +127,7 @@ class BinViewController: UIViewController {
         let tv: UITextView = UITextView()
         tv.isSelectable = true
         tv.text = String(localized: "No content has been entered")
-        tv.font = UIFont.systemFont(ofSize: 20, weight: .regular)
+        tv.font = UIFont.systemFont(ofSize: 18, weight: .regular)
         tv.textColor = Colors.darkGray
         tv.textAlignment = .left
         tv.textContainerInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
@@ -274,8 +274,8 @@ class BinViewController: UIViewController {
             outputTextView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -20)
         ])
     }
-
-    // MARK: - Actions
+    
+    // **MARK: - Actions**
     @objc func calculationBtnTapped(_ sender: UIButton) {
         print("calculation Btn Tapped")
         
@@ -288,8 +288,8 @@ class BinViewController: UIViewController {
               !qtyText.isEmpty,
               let qtyOne = Int(qtyText) else {
             AlertManager.showButtonAlert(on: self,
-                                       title: String(localized: "Error"),
-                                       message: String(localized: "Missing Content"))
+                                         title: String(localized: "Error"),
+                                         message: String(localized: "Missing Content"))
             return
         }
         
@@ -299,49 +299,49 @@ class BinViewController: UIViewController {
         if typeOfBin == "Bins" {
             switch binSize {
             case sizeOfBins[0]: // 40x60
-                calculateStandardBins(qtyOfBin_40_by_60: qtyOne, qtyOfBin_60_by_80: 0)
+                calculateStandardBins(binCount40x60: qtyOne, binCount60x80: 0)
                 
             case sizeOfBins[1]: // 60x80
-                calculateStandardBins(qtyOfBin_40_by_60: 0, qtyOfBin_60_by_80: qtyOne)
+                calculateStandardBins(binCount40x60: 0, binCount60x80: qtyOne)
                 
             case sizeOfBins[2]: // 兩種尺寸都有
                 guard let secQtyText = secQtyTextField.text,
                       !secQtyText.isEmpty,
                       let qtyTwo = Int(secQtyText) else {
                     AlertManager.showButtonAlert(on: self,
-                                              title: String(localized: "Error"),
-                                              message: String(localized: "Missing Second Quantity"))
+                                                 title: String(localized: "Error"),
+                                                 message: String(localized: "Missing Second Quantity"))
                     return
                 }
-                calculateStandardBins(qtyOfBin_40_by_60: qtyOne, qtyOfBin_60_by_80: qtyTwo)
+                calculateStandardBins(binCount40x60: qtyOne, binCount60x80: qtyTwo)
                 
             default:
                 AlertManager.showButtonAlert(on: self,
-                                           title: String(localized: "Error"),
-                                           message: String(localized: "Invalid Bin Size"))
+                                             title: String(localized: "Error"),
+                                             message: String(localized: "Invalid Bin Size"))
             }
         }
         // 處理托盤箱(Pallet)的情況
         else if typeOfBin == typeOfBins[0] {
             switch binSize {
             case sizeOfBins[0]: // 60x80
-                calculatePalletBins(qtyOfPalletBin_sixty_By_Eighty: qtyOne,
-                                  qtyOfPalletBin_Eighty_By_OneHundredTwenty: 0)
+                calculatePalletBins(palletCount60x80: qtyOne,
+                                    palletCount80x120: 0)
                 
             case sizeOfBins[1]: // 80x120
-                calculatePalletBins(qtyOfPalletBin_sixty_By_Eighty: 0,
-                                  qtyOfPalletBin_Eighty_By_OneHundredTwenty: qtyOne)
+                calculatePalletBins(palletCount60x80: 0,
+                                    palletCount80x120: qtyOne)
                 
             default:
                 AlertManager.showButtonAlert(on: self,
-                                           title: String(localized: "Error"),
-                                           message: String(localized: "Invalid Pallet Size"))
+                                             title: String(localized: "Error"),
+                                             message: String(localized: "Invalid Pallet Size"))
             }
         }
         else {
             AlertManager.showButtonAlert(on: self,
-                                       title: String(localized: "Error"),
-                                       message: String(localized: "Invalid Bin Type"))
+                                         title: String(localized: "Error"),
+                                         message: String(localized: "Invalid Bin Type"))
         }
     }
     
@@ -465,43 +465,44 @@ extension BinViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 // MARK: - Extension for Bin View Controller
 extension BinViewController {
     // Function for calculating standard bins
-    public func calculateStandardBins(qtyOfBin_40_by_60: Int, qtyOfBin_60_by_80: Int) {
-        if qtyOfBin_40_by_60 > 0 && qtyOfBin_60_by_80 > 0 {
+    public func calculateStandardBins(binCount40x60: Int, binCount60x80: Int) {
+        if binCount40x60 > 0 && binCount60x80 > 0 {
             outputTextView.text =
             """
-            12483 CORNER POST F BIN H850MM WHI * \(qtyOfBin_40_by_60 * 4 + qtyOfBin_60_by_80 * 4)
-            17740 SIDE F BIN L400 H700MM WHI * \(qtyOfBin_40_by_60 * 2)
-            17739 SIDE F BIN L60 H700MM WHI * \(qtyOfBin_40_by_60 * 2 + qtyOfBin_60_by_80 * 2)
-            17743 SIDE F BIN L800 H700MM WHI * \(qtyOfBin_60_by_80 * 2)
-            缺少兩個底的貨號
+            12483 CORNER POST F BIN H850MM WHI * \(binCount40x60 * 4 + binCount60x80 * 4)
+            17740 SIDE F BIN L400 H700MM WHI * \(binCount40x60 * 2)
+            17739 SIDE F BIN L60 H700MM WHI * \(binCount40x60 * 2 + binCount60x80 * 2)
+            17743 SIDE F BIN L800 H700MM WHI * \(binCount60x80 * 2)
+            17741 BOTTOM F BIN L600 W400MM WHI \(binCount40x60 * 1)
+            17744 BOTTOM F BIN L800 W600MM WHI \(binCount60x80 * 1)
             """
-        } else if qtyOfBin_40_by_60 > 0 && qtyOfBin_60_by_80 == 0 {
+        } else if binCount40x60 > 0 && binCount60x80 == 0 {
             outputTextView.text =
             """
-            12483 CORNER POST F BIN H850MM WHI * \(qtyOfBin_40_by_60 * 4)
-            17740 SIDE F BIN L400 H700MM WHI * \(qtyOfBin_40_by_60 * 2)
-            17739 SIDE F BIN L600 H700MM WHI * \(qtyOfBin_40_by_60 * 2)
-            缺少底的貨號
+            12483 CORNER POST F BIN H850MM WHI * \(binCount40x60 * 4)
+            17740 SIDE F BIN L400 H700MM WHI * \(binCount40x60 * 2)
+            17739 SIDE F BIN L600 H700MM WHI * \(binCount40x60 * 2)
+            17741 BOTTOM F BIN L600 W400MM WHI \(binCount40x60 * 1)
             """
-        } else if qtyOfBin_40_by_60 == 0 && qtyOfBin_60_by_80 > 0 {
+        } else if binCount40x60 == 0 && binCount60x80 > 0 {
             outputTextView.text =
             """
-            12483 CORNER POST F BIN H850MM WHI * \(qtyOfBin_60_by_80 * 4)
-            17739 SIDE F BIN L600 H700MM WHI * \(qtyOfBin_60_by_80 * 2)
-            17743 SIDE F BIN L800 H700MM WHI * \(qtyOfBin_60_by_80 * 2)
+            12483 CORNER POST F BIN H850MM WHI * \(binCount60x80 * 4)
+            17739 SIDE F BIN L600 H700MM WHI * \(binCount60x80 * 2)
+            17743 SIDE F BIN L800 H700MM WHI * \(binCount60x80 * 2)
             缺少底的貨號
             """
         }
     }
     
     // Function for calculating pallet bins
-    public func calculatePalletBins(qtyOfPalletBin_sixty_By_Eighty: Int, qtyOfPalletBin_Eighty_By_OneHundredTwenty: Int) {
-        if qtyOfPalletBin_sixty_By_Eighty > 0 && qtyOfPalletBin_Eighty_By_OneHundredTwenty > 0 {
-            outputTextView.text = "12482 BIN F HALF PALLET L600 W800 H760MM WHI *  \(qtyOfPalletBin_sixty_By_Eighty)\n12484 BIN F PALLET L1200 W800 H760MMWHI *  \(qtyOfPalletBin_Eighty_By_OneHundredTwenty)"
-        } else if qtyOfPalletBin_sixty_By_Eighty > 0 && qtyOfPalletBin_Eighty_By_OneHundredTwenty == 0 {
-            outputTextView.text = "12482 BIN F HALF PALLET L600 W800 H760MM WHI * \(qtyOfPalletBin_sixty_By_Eighty)"
-        } else if qtyOfPalletBin_sixty_By_Eighty == 0 && qtyOfPalletBin_Eighty_By_OneHundredTwenty > 0 {
-            outputTextView.text = "12484 BIN F PALLET L1200 W800 H760MMWHI * \(qtyOfPalletBin_Eighty_By_OneHundredTwenty)"
+    public func calculatePalletBins(palletCount60x80: Int, palletCount80x120: Int) {
+        if palletCount60x80 > 0 && palletCount80x120 > 0 {
+            outputTextView.text = "12482 BIN F HALF PALLET L600 W800 H760MM WHI *  \(palletCount60x80)\n12484 BIN F PALLET L1200 W800 H760MMWHI *  \(palletCount80x120)"
+        } else if palletCount60x80 > 0 && palletCount80x120 == 0 {
+            outputTextView.text = "12482 BIN F HALF PALLET L600 W800 H760MM WHI * \(palletCount60x80)"
+        } else if palletCount60x80 == 0 && palletCount80x120 > 0 {
+            outputTextView.text = "12484 BIN F PALLET L1200 W800 H760MMWHI * \(palletCount80x120)"
         }
     }
 }
