@@ -55,7 +55,7 @@
 		D3E2B6A52AFB7E9F00C932E7 /* IMS_InventoryUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E2B6A42AFB7E9F00C932E7 /* IMS_InventoryUITestsLaunchTests.swift */; };
 		D3E2EF152CFDDF7E009A2E03 /* CartTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E2EF142CFDDF7E009A2E03 /* CartTableViewCell.swift */; };
 		D3E2EF172CFE07E6009A2E03 /* DateTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E2EF162CFE07E6009A2E03 /* DateTableViewCell.swift */; };
-		D3E2EF192CFF4515009A2E03 /* StatusTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E2EF182CFF4515009A2E03 /* StatusTableViewCell.swift */; };
+		D3E2EF192CFF4515009A2E03 /* StatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E2EF182CFF4515009A2E03 /* StatusCell.swift */; };
 		D3E2EF1B2D020095009A2E03 /* Cart.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E2EF1A2D020095009A2E03 /* Cart.swift */; };
 		D3EDD7402CFC016D000999E8 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3EDD73F2CFC016D000999E8 /* Constants.swift */; };
 		D3EDD7492CFCC5B1000999E8 /* CustomNavigationTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3EDD7482CFCC5B1000999E8 /* CustomNavigationTitleView.swift */; };
@@ -128,7 +128,7 @@
 		D3E2EF122CFDDCEC009A2E03 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		D3E2EF142CFDDF7E009A2E03 /* CartTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartTableViewCell.swift; sourceTree = "<group>"; };
 		D3E2EF162CFE07E6009A2E03 /* DateTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTableViewCell.swift; sourceTree = "<group>"; };
-		D3E2EF182CFF4515009A2E03 /* StatusTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusTableViewCell.swift; sourceTree = "<group>"; };
+		D3E2EF182CFF4515009A2E03 /* StatusCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusCell.swift; sourceTree = "<group>"; };
 		D3E2EF1A2D020095009A2E03 /* Cart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cart.swift; sourceTree = "<group>"; };
 		D3EDD73F2CFC016D000999E8 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		D3EDD7472CFCA46B000999E8 /* IMS-Inventory.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "IMS-Inventory.entitlements"; sourceTree = "<group>"; };
@@ -242,7 +242,7 @@
 				D3A1F8342CD7D8DB0035AF93 /* ProductQuantityCell.swift */,
 				D3E2EF142CFDDF7E009A2E03 /* CartTableViewCell.swift */,
 				D3E2EF162CFE07E6009A2E03 /* DateTableViewCell.swift */,
-				D3E2EF182CFF4515009A2E03 /* StatusTableViewCell.swift */,
+				D3E2EF182CFF4515009A2E03 /* StatusCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -538,7 +538,7 @@
 				D3EDD7492CFCC5B1000999E8 /* CustomNavigationTitleView.swift in Sources */,
 				D3E2B6842AFB7E9D00C932E7 /* SceneDelegate.swift in Sources */,
 				D3FADE2D2BF85D5D00185477 /* Product.swift in Sources */,
-				D3E2EF192CFF4515009A2E03 /* StatusTableViewCell.swift in Sources */,
+				D3E2EF192CFF4515009A2E03 /* StatusCell.swift in Sources */,
 				D3D6CB9A2CF8B8470019CBA5 /* ViewModel.swift in Sources */,
 				D3E2EF152CFDDF7E009A2E03 /* CartTableViewCell.swift in Sources */,
 				D3A1F8332CD7D3660035AF93 /* ProductImageCell.swift in Sources */,

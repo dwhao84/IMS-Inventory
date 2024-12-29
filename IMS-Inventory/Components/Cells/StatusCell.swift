@@ -1,6 +1,6 @@
 import UIKit
 
-class StatusTableViewCell: UITableViewCell {
+class StatusCell: UITableViewCell {
     static let identifier: String = "StatusTableViewCell"
     
     let statusOptions: [String] = ["Return", "Borrow"]
@@ -70,6 +70,6 @@ class StatusTableViewCell: UITableViewCell {
 }
 
 #Preview(traits: .fixedLayout(width: 420, height: 100), body: {
-    let statusTVC = StatusTableViewCell()
+    let statusTVC = StatusCell()
     return statusTVC
 })

@@ -76,7 +76,7 @@ class ProductDetailViewController: UIViewController {
         tableView.register(ProductInfoCell.self, forCellReuseIdentifier: ProductInfoCell.identifier)
         tableView.register(ProductQuantityCell.self, forCellReuseIdentifier: ProductQuantityCell.identifier)
         tableView.register(DateTableViewCell.self, forCellReuseIdentifier: DateTableViewCell.identifier)
-        tableView.register(StatusTableViewCell.self, forCellReuseIdentifier: StatusTableViewCell.identifier)
+        tableView.register(StatusCell.self, forCellReuseIdentifier: StatusCell.identifier)
         tableView.register(NameFillCell.self, forCellReuseIdentifier: NameFillCell.identifier)
     }
     
@@ -154,7 +154,7 @@ extension ProductDetailViewController: UITableViewDataSource {
             return cell
             
         case 4:
-            let cell = tableView.dequeueReusableCell(withIdentifier: StatusTableViewCell.identifier, for: indexPath) as! StatusTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: StatusCell.identifier, for: indexPath) as! StatusCell
             return cell
             
         case 5:
