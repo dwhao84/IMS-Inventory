@@ -7,7 +7,7 @@ class StatusTableViewCell: UITableViewCell {
     
     private let statusTitleLabel: UILabel = {
         let label: UILabel = UILabel()
-        label.text = Constants.status
+        label.text = String(localized: "Status")
         label.textColor = Colors.black
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 20, weight: .regular)
@@ -43,14 +43,14 @@ class StatusTableViewCell: UITableViewCell {
         contentView.addSubview(statusButton)
         
         NSLayoutConstraint.activate([
-            statusTitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            statusTitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             statusTitleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             
-            statusButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            statusButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             statusButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             statusButton.leadingAnchor.constraint(lessThanOrEqualTo: statusTitleLabel.trailingAnchor, constant: 200),
             statusButton.widthAnchor.constraint(equalToConstant: 150),
-            statusButton.heightAnchor.constraint(equalToConstant: 35)
+            statusButton.heightAnchor.constraint(equalToConstant: 40)
         ])
     }
     
