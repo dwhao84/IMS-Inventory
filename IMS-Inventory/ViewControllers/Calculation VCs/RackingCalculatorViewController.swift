@@ -418,8 +418,7 @@ extension RackingCalculatorViewController: UIPickerViewDelegate, UIPickerViewDat
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         singleSideTextField.text = options[row]
-        print(singleSideTextField.text ?? "No Content")// renamed from 'is' to selectedLabel and using selected row
-        singleSidePickerView.reloadAllComponents()
+        print(singleSideTextField.text ?? "No Content")
     }
 }
 
