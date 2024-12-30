@@ -7,7 +7,7 @@ class CartViewController: UIViewController {
     
     // MARK: - Types
     private enum Layout {
-        static let rowHeight: CGFloat = 180.0
+        static let rowHeight: CGFloat = 175.0
     }
     
     // MARK: - Properties
@@ -153,7 +153,9 @@ extension CartViewController: UITableViewDataSource {
         cell.orderNumberLabel.text = fields.orderNumber ?? String(localized: "N/A")
         cell.dateLabel.text = fields.createdDate ?? String(localized: "N/A")
         cell.statusLabel.text = fields.status ?? String(localized: "N/A")
-        cell.qtyLabel.text = String(fields.rackingQty ?? 0)
+        // 將 Int 轉換為 String
+        cell.qtyLabel.text = String(fields.rackingQty )
+        
         return cell
     }
     
@@ -217,7 +219,6 @@ extension UIViewController {
     func setupEmptyTableViewBackground(_ tableView: UITableView) {
         // 建立一個容器視圖
         let containerView = UIView()
-        
         // 建立圖片視圖
         let imageView = UIImageView()
         imageView.image = Images.folderBadgePlus
