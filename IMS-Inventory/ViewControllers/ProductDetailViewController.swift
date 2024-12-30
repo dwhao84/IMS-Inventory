@@ -48,6 +48,17 @@ class ProductDetailViewController: UIViewController {
         addTargets()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        tableView.reloadData()
+        
+        // Debug print to verify data is received
+        print("ViewDidAppear - Current Values:")
+        print("articleNumber: \(String(describing: articleNumber))")
+        print("productTitle: \(String(describing: productTitle))")
+        print("qty: \(String(describing: qty))")
+    }
+    
     // MARK: - Setup
     private func setupUI() {
         setNavigationView()
@@ -93,10 +104,22 @@ class ProductDetailViewController: UIViewController {
         self.navigationController?.navigationBar.titleTextAttributes = textAttributes
         
         // 使用客製化的標題視圖
-        let customTitleView = CustomNavigationTitleView(title: String(localized: "Product name"))
+        let customTitleView = CustomNavigationTitleView(title: productTitle!)
         navigationItem.titleView = customTitleView
         
         self.navigationController?.navigationBar.isTranslucent = true
+    }
+    
+    func configure(with record: Record) {
+        self.imageUrl = record.fields.image.last?.url
+        self.productTitle = record.fields.articleName
+        self.articleNumber = record.fields.articleNumber
+        self.qty = "Qty: \(record.fields.Qty) pcs"
+        
+        // If the view is already loaded, reload the table
+        if isViewLoaded {
+            tableView.reloadData()
+        }
     }
     
     // MARK: - Actions
@@ -104,16 +127,95 @@ class ProductDetailViewController: UIViewController {
         sendBtn.addTarget(self, action: #selector(confirmBtnTapped), for: .touchUpInside)
     }
     
-    @objc func confirmBtnTapped(_ sender: UIButton) {
-        guard let nameTextField = view.findSubview(ofType: NameFillCell.self)?.nameTextField else { return }
-        
-        if nameTextField.text?.isEmpty == true {
-            AlertManager.showButtonAlert(on: self, title: Constants.error, message: AlertConstants.emptyQty)
-        } else {
-            let shoppingCartVC = CartViewController()
-            shoppingCartVC.modalPresentationStyle = .overFullScreen
-            navigationController?.pushViewController(shoppingCartVC, animated: true)
+    private func validateInput() -> (isValid: Bool, errorMessage: String?) {
+        // 檢查用戶名
+        guard let nameTextField = view.findSubview(ofType: NameFillCell.self)?.nameTextField,
+              !nameTextField.text!.isEmpty else {
+            return (false, String(localized: "Missing User Name."))
         }
+        
+        // 檢查產品資訊
+        guard articleNumber != nil else {
+            return (false, String(localized: "Article number is missing."))
+        }
+        
+        guard productTitle != nil else {
+            return (false, String(localized: "Product title is missing."))
+        }
+        
+        return (true, nil)
+    }
+    
+    // MARK: - Loading Indicator
+    private func showLoading() -> UIAlertController {
+        let alert = UIAlertController(title: nil, message: "Processing...", preferredStyle: .alert)
+        let indicator = UIActivityIndicatorView(style: .medium)
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        alert.view.addSubview(indicator)
+        
+        NSLayoutConstraint.activate([
+            indicator.centerXAnchor.constraint(equalTo: alert.view.centerXAnchor),
+            indicator.centerYAnchor.constraint(equalTo: alert.view.centerYAnchor)
+        ])
+        
+        indicator.startAnimating()
+        return alert
+    }
+    
+    // MARK: - Actions
+    @objc func confirmBtnTapped(_ sender: UIButton) {
+            // 驗證輸入
+            let validation = validateInput()
+            guard validation.isValid else {
+                AlertManager.showButtonAlert(
+                    on: self,
+                    title: String(localized: "Error"),
+                    message: validation.errorMessage ?? ""
+                )
+                return
+            }
+            
+            // 獲取必要資料
+            let userName = view.findSubview(ofType: NameFillCell.self)?.nameTextField.text ?? ""
+            let status = selectedStatus ?? "Pending"
+            
+            // 顯示加載指示器
+            let loadingAlert = showLoading()
+            present(loadingAlert, animated: true)
+            
+            // 發送請求
+            NetworkManager.shared.createBorrowReturn(
+                articleNumber: articleNumber!,
+                rackingDescription: productTitle!,
+                orderNumber: UUID().uuidString,
+                status: status,
+                rackingQty: qtyValue,
+                userName: userName
+            ) { [weak self] result in
+                guard let self = self else { return }
+                
+                DispatchQueue.main.async {
+                    loadingAlert.dismiss(animated: true) {
+                        switch result {
+                        case .success:
+                            let cartVC = CartViewController()
+                            cartVC.modalPresentationStyle = .overFullScreen
+                            self.navigationController?.pushViewController(cartVC, animated: true)
+                            
+                        case .failure(let error):
+                            AlertManager.showButtonAlert(
+                                on: self,
+                                title: String(localized: "Error"),
+                                message: error.localizedDescription
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    
+    @objc private func datePickerValueChanged(_ sender: UIDatePicker) {
+        selectedDate = sender.date
     }
 }
 
@@ -136,12 +238,23 @@ extension ProductDetailViewController: UITableViewDataSource {
         switch indexPath.row {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: ProductImageCell.identifier, for: indexPath) as! ProductImageCell
-            cell.configure(with: Images.photoLibrary)
+            if let imageUrl = imageUrl,
+               let url = URL(string: imageUrl) {
+                cell.productImageView.kf.setImage(
+                    with: url,
+                    placeholder: Images.photoLibrary,
+                    options: [.transition(.fade(0.2)), .cacheOriginalImage]
+                )
+            }
             return cell
-                        
+            
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: ProductInfoCell.identifier, for: indexPath) as! ProductInfoCell
-            cell.configure(articleNumber: "15525", rackingText: "BASKET F MULTIUSE W300 D800MM GALV", qtyText: "Qty: 10 pcs")
+            cell.configure(
+                articleNumber: articleNumber ?? "",
+                rackingText: productTitle ?? "",
+                qtyText: qty ?? "Qty: 0 pcs"
+            )
             return cell
             
         case 2:
@@ -151,10 +264,20 @@ extension ProductDetailViewController: UITableViewDataSource {
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: DateTableViewCell.identifier, for: indexPath) as! DateTableViewCell
             cell.configure(title: String(localized: "Using Date"))
+            cell.datePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
+            if let selectedDate = selectedDate {
+                cell.datePicker.date = selectedDate
+            }
             return cell
             
         case 4:
             let cell = tableView.dequeueReusableCell(withIdentifier: StatusCell.identifier, for: indexPath) as! StatusCell
+            cell.statusChanged = { [weak self] status in
+                self?.selectedStatus = status
+            }
+            if let status = selectedStatus {
+                cell.updateSelectedStatus(status)
+            }
             return cell
             
         case 5:
@@ -164,7 +287,7 @@ extension ProductDetailViewController: UITableViewDataSource {
                 self?.tableView.reloadRows(at: [indexPath], with: .none)
             }
             return cell
-
+            
         default:
             return UITableViewCell()
         }
@@ -179,7 +302,7 @@ extension ProductDetailViewController: UITableViewDelegate {
         case 0:
             return 260
         case 1:
-            return 150
+            return UITableView.automaticDimension
         case 2:
             return 150
         case 3:
