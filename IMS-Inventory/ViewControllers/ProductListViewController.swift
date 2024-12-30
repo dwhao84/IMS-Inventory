@@ -248,9 +248,14 @@ extension ProductListViewController: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-//        let productDetail = records[indexPath.row].id
+        let selectedRecord = searchController.isActive ? filteredRecords[indexPath.row] : records[indexPath.row]
         
         let productDetailVC = ProductDetailViewController()
+        productDetailVC.imageUrl = selectedRecord.fields.image.last?.url
+        productDetailVC.productTitle = selectedRecord.fields.articleName
+        productDetailVC.articleNumber = selectedRecord.fields.articleNumber
+        productDetailVC.qty = "Qty: \(selectedRecord.fields.Qty) pcs"
+        
         self.navigationController?.pushViewController(productDetailVC, animated: true)
     }
 }
