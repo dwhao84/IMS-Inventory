@@ -140,6 +140,9 @@
         }
       }
     },
+    "Article number is missing." : {
+
+    },
     "Backwall" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -281,6 +284,12 @@
           }
         }
       }
+    },
+    "Choose 40 * 60 of Qty" : {
+
+    },
+    "Choose 60 * 80 of Qty" : {
+
     },
     "Choose your bins size" : {
       "extractionState" : "manual",
@@ -528,7 +537,14 @@
         }
       }
     },
+    "Enter 60 section qty" : {
+
+    },
+    "Enter 90 section qty" : {
+
+    },
     "Enter ninty section qty" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -563,6 +579,7 @@
       }
     },
     "Enter sixty section qty" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -942,6 +959,15 @@
         }
       }
     },
+    "Invalid Bin Size" : {
+
+    },
+    "Invalid Bin Type" : {
+
+    },
+    "Invalid Pallet Size" : {
+
+    },
     "Invalid size selection for Bins" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1257,6 +1283,12 @@
           }
         }
       }
+    },
+    "Missing Second Quantity" : {
+
+    },
+    "Missing User Name." : {
+
     },
     "N/A" : {
       "localizations" : {
@@ -1713,6 +1745,9 @@
           }
         }
       }
+    },
+    "Product title is missing." : {
+
     },
     "Quantity: High to Low" : {
       "extractionState" : "manual",
@@ -2325,6 +2360,7 @@
       }
     },
     "註冊失敗" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
