@@ -86,6 +86,16 @@ class CartTableViewCell: UITableViewCell {
         return label
     }()
     
+    let userNameLabel: UILabel = {
+        let label = UILabel()
+        label.text = "User"
+        label.textColor = Colors.darkGray
+        label.textAlignment = .left
+        label.font = UIFont.systemFont(ofSize: 13)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     let qtyLabel: UILabel = {
         let label = UILabel()
         label.text = "Qty: Loading..."
@@ -135,6 +145,7 @@ class CartTableViewCell: UITableViewCell {
     
     private func configLabelsStackView() {
         labelStackView.addArrangedSubview(orderNumberLabel)
+        labelStackView.addArrangedSubview(userNameLabel)
         labelStackView.addArrangedSubview(statusLabel)
         labelStackView.addArrangedSubview(articleNumberLabel)
         labelStackView.addArrangedSubview(productENNameLabel)
