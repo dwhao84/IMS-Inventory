@@ -11,7 +11,7 @@ class ProductImageCell: UITableViewCell {
     
     static let identifier: String = "ProductImageCell"
     
-    private let productImageView: UIImageView = {
+    let productImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = Images.photoLibrary
         imageView.contentMode = .scaleAspectFit

@@ -5,6 +5,8 @@ class StatusCell: UITableViewCell {
     
     let statusOptions: [String] = ["Return", "Borrow"]
     
+    var statusChanged: ((String) -> Void)?
+    
     private let statusTitleLabel: UILabel = {
         let label: UILabel = UILabel()
         label.text = String(localized: "Status")
@@ -66,6 +68,13 @@ class StatusCell: UITableViewCell {
         
         statusButton.menu = UIMenu(children: menuActions)
         statusButton.showsMenuAsPrimaryAction = true
+    }
+    
+    // 添加更新選中狀態的方法
+    func updateSelectedStatus(_ status: String) {
+        var config = statusButton.configuration
+        config?.title = status
+        statusButton.configuration = config
     }
 }
 

@@ -27,7 +27,7 @@ class ProductInfoCell: UITableViewCell {
     private let rackingLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
-        label.numberOfLines = 2
+        label.numberOfLines = 3
         label.lineBreakMode = .byTruncatingHead
         label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         label.textColor = Colors.black
@@ -46,18 +46,9 @@ class ProductInfoCell: UITableViewCell {
     
     private let stackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.alignment = .leading
-        stackView.spacing = 20
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-    
-    private let mainStackView: UIStackView = {
-        let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.alignment = .bottom
-        stackView.spacing = 10
+        stackView.spacing = 20
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -72,26 +63,24 @@ class ProductInfoCell: UITableViewCell {
     }
     
     private func setupUI() {
-        // Add labels to stack view
-        stackView.addArrangedSubview(rackingLabel)
+        contentView.addSubview(rackingLabel)
         stackView.addArrangedSubview(articleNumberLabel)
-
+        stackView.addArrangedSubview(qtyLabel)
+        contentView.addSubview(stackView)
         
-        // Add stack views to mainStackView
-        mainStackView.addArrangedSubview(stackView)
-        mainStackView.addArrangedSubview(qtyLabel)
-        
-        // Add mainStackView to contentView
-        contentView.addSubview(mainStackView)
-        
-        // Define constraints
         NSLayoutConstraint.activate([
-            // Main stack view constraints
-            mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            mainStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            // rackingLabel constraints
+            rackingLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
+            rackingLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            rackingLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
-            // Article number label width constraint
+            // stackView constraints - 與 rackingLabel 保持相同對齊
+            stackView.topAnchor.constraint(equalTo: rackingLabel.bottomAnchor, constant: 12),
+            stackView.leadingAnchor.constraint(equalTo: rackingLabel.leadingAnchor), // 與 rackingLabel 左對齊
+            stackView.trailingAnchor.constraint(equalTo: rackingLabel.trailingAnchor), // 與 rackingLabel 右對齊
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
+            
+            // articleNumberLabel 固定寬度
             articleNumberLabel.widthAnchor.constraint(equalToConstant: 80)
         ])
     }
@@ -105,6 +94,10 @@ class ProductInfoCell: UITableViewCell {
 
 #Preview(traits: .fixedLayout(width: 420, height: 120), body: {
     let productInfoCell = ProductInfoCell()
-    productInfoCell.configure(articleNumber: "12081", rackingText: "CLIP FOR DISPLAY PANEL", qtyText: "Qty：50")
+    productInfoCell.configure(
+        articleNumber: "10168",
+        rackingText: "SHELF WOOD W 50MM LEDGE W600 D800MM WHI",
+        qtyText: "Stock Qty: 1"
+    )
     return productInfoCell
 })

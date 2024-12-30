@@ -23,7 +23,7 @@ class DateTableViewCell: UITableViewCell {
         return label
     }()
 
-    private let datePicker: UIDatePicker = {
+    let datePicker: UIDatePicker = {
         let datePicker: UIDatePicker = UIDatePicker()
         datePicker.date = .now
         datePicker.locale = .current
