@@ -13,6 +13,9 @@ class CustomNavigationTitleView: UIView {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = Colors.black
+        label.textAlignment = .center
+        label.numberOfLines = 1
+        label.lineBreakMode = .byTruncatingTail
         label.font = .systemFont(ofSize: 20, weight: .semibold)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -37,6 +40,7 @@ class CustomNavigationTitleView: UIView {
             // 設置標題標籤的約束
             titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor), // 靠中對齊
             titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor), // 垂直置中
+            titleLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 250)
         ])
     }
     
