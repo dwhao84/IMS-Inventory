@@ -1,4 +1,5 @@
 import UIKit
+import Kingfisher
 
 // MARK: - CartViewController
 class CartViewController: UIViewController {
@@ -48,15 +49,25 @@ class CartViewController: UIViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("Into the CartViewController")
+        
         setupUI()
         fetchData()
     }
     
+    // MARK: - view Will Appear
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tabBarController?.viewControllers?[1].tabBarItem.badgeValue = nil
+    }
+    
     // MARK: - Private Methods
     private func setupUI() {
+        view.overrideUserInterfaceStyle = .light
+        view.backgroundColor = Colors.white
+        
         configureTableView()
         configureNavigationBar()
-        
         refreshButton.addTarget(self, action: #selector(refreshButtonTapped), for: .touchUpInside)
     }
     
@@ -71,7 +82,6 @@ class CartViewController: UIViewController {
                 
             case .failure(let error):
                 DispatchQueue.main.async {
-                    // 處理錯誤情況
                     print("Error fetching data: \(error)")
                 }
             }
@@ -80,7 +90,6 @@ class CartViewController: UIViewController {
     
     private func configureTableView() {
         view.addSubview(tableView)
-        
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -128,7 +137,7 @@ class CartViewController: UIViewController {
 // MARK: - UITableViewDelegate
 extension CartViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return Layout.rowHeight
+        return 225
     }
 }
 
@@ -153,9 +162,16 @@ extension CartViewController: UITableViewDataSource {
         cell.orderNumberLabel.text = fields.orderNumber ?? String(localized: "N/A")
         cell.dateLabel.text = fields.createdDate ?? String(localized: "N/A")
         cell.statusLabel.text = fields.status ?? String(localized: "N/A")
-        // 將 Int 轉換為 String
-        cell.qtyLabel.text = String(fields.rackingQty )
+        cell.userNameLabel.text = fields.user_name ?? String(localized: "N/A")  // 添加預設值
+        cell.dateLabel.text = fields.createdDate
+        cell.qtyLabel.text = "Qty: \(fields.rackingQty ?? 0)"
         
+        if let imageUrl = fields.imageUrl,
+           let url = URL(string: imageUrl) {
+            cell.productImageView.kf.setImage(with: url)
+        } else {
+            cell.productImageView.image = nil
+        }
         return cell
     }
     
