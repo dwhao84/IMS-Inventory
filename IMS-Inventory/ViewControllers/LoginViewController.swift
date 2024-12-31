@@ -28,7 +28,6 @@ class LoginViewController: UIViewController {
         tf.borderStyle = .roundedRect
         tf.placeholder = String(localized: "Enter your email")
         tf.font = UIFont.systemFont(ofSize: 16)
-        tf.rightViewMode = .whileEditing
         tf.clearButtonMode = .whileEditing
         tf.textColor = Colors.black
         tf.translatesAutoresizingMaskIntoConstraints = false
@@ -40,7 +39,6 @@ class LoginViewController: UIViewController {
         tf.borderStyle = .roundedRect
         tf.placeholder = String(localized: "Enter your password")
         tf.font = UIFont.systemFont(ofSize: 16)
-        tf.rightViewMode = .whileEditing
         tf.textColor = Colors.black
         tf.clearButtonMode = .whileEditing
         tf.isSecureTextEntry = true
@@ -98,15 +96,10 @@ class LoginViewController: UIViewController {
         return stackView
     }()
     
-    // MARK: - Life Cycle
+    // MARK: - Life Cycle:
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        addTargets()
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        tapGesture.cancelsTouchesInView = false
-        view.addGestureRecognizer(tapGesture)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -153,6 +146,18 @@ class LoginViewController: UIViewController {
         }
     }
     
+    // MARK: - add Constraints
+    fileprivate func addConstraints() {
+        view.addSubview(stackView)
+        NSLayoutConstraint.activate([
+            stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            stackView.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: 20),
+            stackView.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -20)
+        ])
+    }
+    
+    // MARK: - Set up UI
     private func setupUI() {
         view.backgroundColor = Colors.white
         view.overrideUserInterfaceStyle = .light
@@ -162,30 +167,34 @@ class LoginViewController: UIViewController {
         }
         
         setupStackView()
-        view.addSubview(stackView)
-        
-        NSLayoutConstraint.activate([
-            stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            stackView.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: 20),
-            stackView.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -20)
-        ])
+        addConstraints()
+        addTargets()
+        addTapGesture()
+    }
+
+    // MARK: - Add Tap Gesture
+    fileprivate func addTapGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGesture)
     }
     
+    // MARK: - Add Targets
     private func addTargets() {
         loginBtn.addTarget(self, action: #selector(loginBtnTapped), for: .touchUpInside)
         registerBtn.addTarget(self, action: #selector(registerBtnTapped), for: .touchUpInside)
     }
     
     // MARK: - Actions
-    @objc private func dismissKeyboard() {
-        view.endEditing(true)
+    // MARK: dismissKeyboard
+    @objc private func dismissKeyboard(_ sender: UITapGestureRecognizer) {
+        self.view.endEditing(true)
     }
     
+    // MARK: loginBtnTapped
     @objc private func loginBtnTapped(_ sender: UIButton) {
         let email = acccoutTf.text ?? ""
         let password = passwordTf.text ?? ""
-        
         loginBtn.configuration?.showsActivityIndicator = true
         
         Auth.auth().signIn(withEmail: email, password: password) { [weak self] result, error in
@@ -224,10 +233,11 @@ class LoginViewController: UIViewController {
         }
     }
     
+    // MARK: - Register Button Tapped
     @objc private func registerBtnTapped(_ sender: UIButton) {
         let registerVC = RegisterViewController()
         let navController = UINavigationController(rootViewController: registerVC)
-        present(navController, animated: true)
+        self.present(navController, animated: true)
     }
 }
 
@@ -241,6 +251,18 @@ extension LoginViewController: UITextFieldDelegate {
             loginBtnTapped(loginBtn)
         }
         return true
+    }
+    
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        switch textField {
+        case acccoutTf:
+            return print(acccoutTf.text ?? "=== AccountTextField is empty ===")
+        case passwordTf:
+            return print(passwordTf.text ?? "=== PasswordTextField is empty ===")
+        default:
+            print("=== Default ===")
+        }
+        
     }
 }
 
