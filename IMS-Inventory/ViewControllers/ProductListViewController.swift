@@ -67,6 +67,7 @@ class ProductListViewController: UIViewController {
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("Into the ProductListViewController")
         view.overrideUserInterfaceStyle = .light
         
         activityIndicator = UIActivityIndicatorView(style: .large)
