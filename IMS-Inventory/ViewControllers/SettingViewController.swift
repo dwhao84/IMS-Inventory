@@ -1,6 +1,7 @@
 import UIKit
 import MessageUI
-
+import FirebaseAuth
+import SafariServices
 
 class SettingViewController: UIViewController {
     
@@ -25,6 +26,17 @@ class SettingViewController: UIViewController {
         return label
     }()
     
+    private let logOutBtn: UIButton = {
+        let btn = UIButton(type: .system)
+        var config = UIButton.Configuration.plain()
+        config.image = Images.logout
+        config.baseForegroundColor = Colors.black
+        config.imagePlacement = .all
+        btn.configuration = config
+        return btn
+    } ()
+    
+    // MARK: Create Setting Section
     private let sections: [SettingsSection] = [
         SettingsSection(items: [
             Service(
@@ -45,21 +57,25 @@ class SettingViewController: UIViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.overrideUserInterfaceStyle = .light
         setupUI()
     }
     
     // MARK: - Setup
     private func setupUI() {
+        print("Into the SettingViewController")
         view.backgroundColor = UIColor.systemGray6
         setupTableView()
         setNavigationView()
+        addTargets()
+        addRightBarButtonItem()
     }
     
     private func setupTableView() {
         // 確保 Auto Layout 正確運作
         tableView.translatesAutoresizingMaskIntoConstraints = false
         versionLabel.translatesAutoresizingMaskIntoConstraints = false
-
+        
         // 添加 subviews
         self.view.addSubview(versionLabel)
         self.view.addSubview(tableView)
@@ -71,12 +87,12 @@ class SettingViewController: UIViewController {
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.heightAnchor.constraint(equalToConstant: 180),
+            
             // VersionLabel constraints
-            versionLabel.topAnchor.constraint(equalTo: tableView.bottomAnchor), // 直接連接到 tableView 的底部
             versionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             versionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             versionLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            versionLabel.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 10) // 添加 8 點的間距
+            versionLabel.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 10) // Keep only this one
         ])
         
         // 設定 TableView 相關配置
@@ -99,6 +115,11 @@ class SettingViewController: UIViewController {
         self.navigationController?.navigationBar.isTranslucent = true
     }
     
+    func addRightBarButtonItem () {
+        let rightBarButton = UIBarButtonItem(customView: logOutBtn)
+        self.navigationItem.rightBarButtonItem = rightBarButton
+    }
+    
     private func sendEmail() {
         if MFMailComposeViewController.canSendMail() {
             let mail = MFMailComposeViewController()
@@ -110,6 +131,53 @@ class SettingViewController: UIViewController {
             // show failure alert
             print("=== Unable to send e-mail. ===")
         }
+    }
+    
+    func addTargets() {
+        logOutBtn.addTarget(self, action: #selector(logOut), for: .touchUpInside)
+    }
+    
+    @objc func logOut(_ sender: UIButton) {
+        // 確認目前是否有使用者登入
+        guard let _ = Auth.auth().currentUser else {
+            print("No user sign-in")
+            return
+        }
+        
+        do {
+            // 執行登出
+            try Auth.auth().signOut()
+            
+            // 登出成功的處理
+            DispatchQueue.main.async {
+                AlertManager.showButtonAlert(
+                    on: self,
+                    title: String(localized: "Log Out Success"),
+                    message: String(localized: "Successful!")
+                )
+            }
+            
+            print("=== Log Out Success ===")
+            
+            // 導向登入頁面
+            navigateToLoginVC()
+            
+        } catch let logoutError {
+            print("=== Sign Out error: \(logoutError) ===") // 修正錯字：SignIn -> Sign Out
+            AlertManager.showButtonAlert(
+                on: self,
+                title: String(localized: "Error"),
+                message: String(localized: "Please try again")
+            )
+        }
+    }
+    
+    // 將導航邏輯分離出來
+    private func navigateToLoginVC() {
+        let loginVC = LoginViewController()
+        let nav = UINavigationController(rootViewController: loginVC)
+        nav.modalPresentationStyle = .fullScreen
+        present(nav, animated: true)
     }
 }
 
@@ -145,18 +213,29 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource, MFM
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
         let service = sections[indexPath.section].items[indexPath.row]
-        if service.title == Constants.report {
+        
+        switch service.title {
+        case Constants.report:
             sendEmail()
-        } else if !service.url.isEmpty, let url = URL(string: service.url) {
-            UIApplication.shared.open(url)
+        default:
+            guard let url = URL(string: service.url) else { return }
+            print("=== \(service.url) ===")
+            let safari = SFSafariViewController(url: url)
+            safari.delegate = self
+            present(safari, animated: true)
         }
     }
     
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-            controller.dismiss(animated: true)
-            // Handle the mail composition result if needed
-        }
+        controller.dismiss(animated: true)
+        // Handle the mail composition result if needed
+    }
+}
+
+extension SettingViewController: SFSafariViewControllerDelegate {
+    
 }
 
 // MARK: - Models
