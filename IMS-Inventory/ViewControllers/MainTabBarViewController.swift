@@ -7,6 +7,26 @@ class MainTabBarViewController: ESTabBarController {
         super.viewDidLoad()
         setupTabBar()
         setupViewControllers()
+        setupNotifications()
+    }
+    
+    private func setupNotifications() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleNewItem),
+            name: .didAddNewItem,
+            object: nil
+        )
+    }
+    
+    @objc private func handleNewItem() {
+        if let cartVC = viewControllers?[1],
+           let currentValue = cartVC.tabBarItem.badgeValue {
+            let newValue = (Int(currentValue) ?? 0) + 1
+            cartVC.tabBarItem.badgeValue = String(newValue)
+        } else {
+            viewControllers?[1].tabBarItem.badgeValue = "1"
+        }
     }
     
     private func setupTabBar() {
@@ -124,6 +144,10 @@ class CustomAnimatedTabBarContentView: ESTabBarItemContentView {
             }
         }
     }
+}
+// 在適當的文件中定義通知名稱
+extension Notification.Name {
+    static let didAddNewItem = Notification.Name("didAddNewItem")
 }
 
 #Preview {
