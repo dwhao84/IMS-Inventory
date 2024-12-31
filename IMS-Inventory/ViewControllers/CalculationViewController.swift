@@ -60,6 +60,8 @@ class CalculationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("Into the CalculationViewController")
+        
         setupUI()
         switchToViewController(binVC) // 初始顯示 BinViewController
     }
