@@ -107,6 +107,7 @@ class NetworkManager {
         status: String,
         rackingQty: Int,
         userName: String,
+        imageUrl: String,
         completion: @escaping (Result<BorrowReturn.Response, NetworkError>) -> Void
     ) {
         // 日期格式設定
@@ -124,7 +125,7 @@ class NetworkManager {
             created_date: createdDate,
             status: status,
             racking_qty: rackingQty,
-            user_name: userName
+            imageUrl: imageUrl, user_name: userName
         )
         
         let postRecord = BorrowReturn.PostRecord(fields: postFields)
