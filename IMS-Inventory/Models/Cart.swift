@@ -18,8 +18,9 @@ enum BorrowReturn {
         let orderNumber: String?
         let createdDate: String?
         let status: String?
-        let rackingQty: Int
-        let user_name: String
+        let rackingQty: Int?
+        let user_name: String?  // 改為可選型別
+        let imageUrl: String?
         
         enum CodingKeys: String, CodingKey {
             case articleNumber = "article_number"
@@ -29,6 +30,7 @@ enum BorrowReturn {
             case status
             case rackingQty = "racking qty"
             case user_name = "user name"
+            case imageUrl = "imageUrl"
         }
     }
     
@@ -48,7 +50,7 @@ enum BorrowReturn {
         let created_date: String
         let status: String
         let racking_qty: Int
-//        let imageUrl: String
+        let imageUrl: String
         let user_name: String
         
         enum CodingKeys: String, CodingKey {
@@ -58,7 +60,7 @@ enum BorrowReturn {
             case created_date = "created date"
             case status
             case racking_qty = "racking qty"
-//            case imageUrl = "imageUrl"
+            case imageUrl = "imageUrl"
             case user_name = "user name"
         }
     }
