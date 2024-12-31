@@ -641,7 +641,7 @@
         },
         "zh-Hant" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "輸入你的 40 * 60數量"
           }
         }
@@ -1066,7 +1066,7 @@
         },
         "zh-Hant" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "是否為單面？"
           }
         }
@@ -1177,6 +1177,9 @@
           }
         }
       }
+    },
+    "Log Out Success" : {
+
     },
     "Login" : {
       "comment" : "MARK: - Login VC**",
@@ -1674,6 +1677,9 @@
           }
         }
       }
+    },
+    "Please try again" : {
+
     },
     "Problem Report" : {
       "extractionState" : "manual",
@@ -2185,6 +2191,9 @@
           }
         }
       }
+    },
+    "Successful!" : {
+
     },
     "This email has already been registered" : {
       "extractionState" : "manual",

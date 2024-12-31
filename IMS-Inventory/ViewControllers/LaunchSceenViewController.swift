@@ -13,7 +13,6 @@ class LaunchSceenViewController: UITabBarController {
         super.viewDidLoad()
 
     }
-    
 }
 
 #Preview {
