@@ -56,12 +56,15 @@ class StatusCell: UITableViewCell {
         ])
     }
     
+    // 在 StatusCell 中修改 configureMenu 方法
     private func configureMenu() {
         var menuActions: [UIAction] = []
         
         for option in statusOptions {
             let action = UIAction(title: option) { [weak self] action in
                 self?.statusButton.setTitle(option, for: .normal)
+                // 調用回調函數
+                self?.statusChanged?(option)
             }
             menuActions.append(action)
         }
