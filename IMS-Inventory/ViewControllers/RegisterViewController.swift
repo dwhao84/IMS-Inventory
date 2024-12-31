@@ -22,7 +22,7 @@ class RegisterViewController: UIViewController {
         tf.font = .systemFont(ofSize: 16)
         tf.autocapitalizationType = .none
         tf.keyboardType = .emailAddress
-        tf.rightViewMode = .whileEditing
+        tf.clearButtonMode = .whileEditing
         tf.textColor = .customBlack
         tf.translatesAutoresizingMaskIntoConstraints = false
         return tf
@@ -33,7 +33,7 @@ class RegisterViewController: UIViewController {
         tf.borderStyle = .roundedRect
         tf.placeholder = String(localized: "Password")
         tf.font = .systemFont(ofSize: 16)
-        tf.rightViewMode = .whileEditing
+        tf.clearButtonMode = .whileEditing
         tf.textColor = .customBlack
         tf.isSecureTextEntry = true
         tf.translatesAutoresizingMaskIntoConstraints = false
@@ -76,6 +76,8 @@ class RegisterViewController: UIViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("Into the RegisterViewController")
+        
         setupUI()
         setupGestures()
         IQKeyboardManager.shared.isEnabled = true
