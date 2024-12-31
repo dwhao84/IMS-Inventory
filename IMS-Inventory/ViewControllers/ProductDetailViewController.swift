@@ -1,11 +1,12 @@
 import UIKit
 
+
 class ProductDetailViewController: UIViewController {
     private var nameCell: NameFillCell?
     
     var qtyValue: Int = 1
     private var selectedDate: Date?
-    private var selectedStatus: String?
+    private var selectedStatus: String = "Return" // 設置一個初始值
     private var quantity: Int = 1
     
     var imageUrl: String?
@@ -43,17 +44,20 @@ class ProductDetailViewController: UIViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("Into the ProductDetailViewController")
+        
         setupUI()
         setupTableView()
         addTargets()
     }
     
+    // MARK: - viewDidAppear
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         tableView.reloadData()
-        
         // Debug print to verify data is received
         print("ViewDidAppear - Current Values:")
+        print("imageUrl: \(String(describing: imageUrl))")
         print("articleNumber: \(String(describing: articleNumber))")
         print("productTitle: \(String(describing: productTitle))")
         print("qty: \(String(describing: qty))")
@@ -79,6 +83,7 @@ class ProductDetailViewController: UIViewController {
         ])
     }
     
+    // MARK: - Set up TableView
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
@@ -91,6 +96,7 @@ class ProductDetailViewController: UIViewController {
         tableView.register(NameFillCell.self, forCellReuseIdentifier: NameFillCell.identifier)
     }
     
+    // MARK: - Set up NavigationView
     private func setNavigationView() {
         let standardAppearance = UINavigationBarAppearance()
         standardAppearance.configureWithDefaultBackground()
@@ -110,6 +116,7 @@ class ProductDetailViewController: UIViewController {
         self.navigationController?.navigationBar.isTranslucent = true
     }
     
+    // MARK: - Testing for make sure the data is passing or not.
     func configure(with record: Record) {
         self.imageUrl = record.fields.image.last?.url
         self.productTitle = record.fields.articleName
@@ -164,55 +171,58 @@ class ProductDetailViewController: UIViewController {
     
     // MARK: - Actions
     @objc func confirmBtnTapped(_ sender: UIButton) {
-            // 驗證輸入
-            let validation = validateInput()
-            guard validation.isValid else {
-                AlertManager.showButtonAlert(
-                    on: self,
-                    title: String(localized: "Error"),
-                    message: validation.errorMessage ?? ""
-                )
-                return
-            }
+        // 驗證輸入
+        let validation = validateInput()
+        guard validation.isValid else {
+            AlertManager.showButtonAlert(
+                on: self,
+                title: String(localized: "Error"),
+                message: validation.errorMessage ?? ""
+            )
+            return
+        }
+        
+        // 獲取必要資料
+        let userName = view.findSubview(ofType: NameFillCell.self)?.nameTextField.text ?? ""
+        let status = selectedStatus 
+        
+        // 顯示加載指示器
+        let loadingAlert = showLoading()
+        present(loadingAlert, animated: true)
+        
+        // 發送請求
+        NetworkManager.shared.createBorrowReturn(
+            articleNumber: articleNumber!,
+            rackingDescription: productTitle!,
+            orderNumber: UUID().uuidString,
+            status: status,
+            rackingQty: qtyValue,
+            userName: userName,
+            imageUrl: imageUrl!
+        ) { [weak self] result in
+            guard let self = self else { return }
             
-            // 獲取必要資料
-            let userName = view.findSubview(ofType: NameFillCell.self)?.nameTextField.text ?? ""
-            let status = selectedStatus ?? "Pending"
-            
-            // 顯示加載指示器
-            let loadingAlert = showLoading()
-            present(loadingAlert, animated: true)
-            
-            // 發送請求
-            NetworkManager.shared.createBorrowReturn(
-                articleNumber: articleNumber!,
-                rackingDescription: productTitle!,
-                orderNumber: UUID().uuidString,
-                status: status,
-                rackingQty: qtyValue,
-                userName: userName
-            ) { [weak self] result in
-                guard let self = self else { return }
-                
-                DispatchQueue.main.async {
-                    loadingAlert.dismiss(animated: true) {
-                        switch result {
-                        case .success:
-                            let cartVC = CartViewController()
-                            cartVC.modalPresentationStyle = .overFullScreen
-                            self.navigationController?.pushViewController(cartVC, animated: true)
-                            
-                        case .failure(let error):
-                            AlertManager.showButtonAlert(
-                                on: self,
-                                title: String(localized: "Error"),
-                                message: error.localizedDescription
-                            )
-                        }
+            DispatchQueue.main.async {
+                loadingAlert.dismiss(animated: true) {
+                    switch result {
+                    case .success:
+                        
+                        print("=== Sending notification ===")
+                        NotificationCenter.default.post(name: .didAddNewItem, object: nil)
+                        
+                        print("=== Add ITEM Success ===")
+                        
+                    case .failure(let error):
+                        AlertManager.showButtonAlert(
+                            on: self,
+                            title: String(localized: "Error"),
+                            message: error.localizedDescription
+                        )
                     }
                 }
             }
         }
+    }
     
     @objc private func datePickerValueChanged(_ sender: UIDatePicker) {
         selectedDate = sender.date
@@ -272,11 +282,11 @@ extension ProductDetailViewController: UITableViewDataSource {
             
         case 4:
             let cell = tableView.dequeueReusableCell(withIdentifier: StatusCell.identifier, for: indexPath) as! StatusCell
-            cell.statusChanged = { [weak self] status in
-                self?.selectedStatus = status
-            }
-            if let status = selectedStatus {
-                cell.updateSelectedStatus(status)
+            cell.updateSelectedStatus(selectedStatus)
+            
+            // 添加狀態改變的監聽
+            cell.statusChanged = { [weak self] newStatus in
+                self?.selectedStatus = newStatus
             }
             return cell
             
