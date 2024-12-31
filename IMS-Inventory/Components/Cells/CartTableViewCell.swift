@@ -89,9 +89,9 @@ class CartTableViewCell: UITableViewCell {
     let userNameLabel: UILabel = {
         let label = UILabel()
         label.text = "User"
-        label.textColor = Colors.darkGray
+        label.textColor = Colors.black
         label.textAlignment = .left
-        label.font = UIFont.systemFont(ofSize: 13)
+        label.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -156,22 +156,18 @@ class CartTableViewCell: UITableViewCell {
     private func addConstraints() {
         NSLayoutConstraint.activate([
             productImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            productImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            productImageView.widthAnchor.constraint(equalToConstant: 150),
-            productImageView.heightAnchor.constraint(equalToConstant: 110),
+            productImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            productImageView.widthAnchor.constraint(equalToConstant: 120),
+            productImageView.heightAnchor.constraint(equalToConstant: 108),
             
-            labelStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             labelStackView.leadingAnchor.constraint(equalTo: productImageView.trailingAnchor, constant: 16),
-            labelStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            
+            labelStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            labelStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             labelStackView.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor, constant: 16),
             labelStackView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -16),
             
             articleNumberLabel.widthAnchor.constraint(lessThanOrEqualTo: labelStackView.widthAnchor, multiplier: 0.8),
             productENNameLabel.widthAnchor.constraint(equalTo: labelStackView.widthAnchor),
-            
-            productImageView.topAnchor.constraint(greaterThanOrEqualTo: contentView.topAnchor, constant: 16),
-            productImageView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -16)
         ])
     }
 }
