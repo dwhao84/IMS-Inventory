@@ -46,6 +46,12 @@ class CartViewController: UIViewController {
         return btn
     }()
     
+    let searchController: UISearchController = {
+        let searchController = UISearchController()
+        
+        return searchController
+    } ()
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,6 +65,12 @@ class CartViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.tabBarController?.viewControllers?[1].tabBarItem.badgeValue = nil
+    }
+    
+    // MARK: - did Receive Memory Warning
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        print("didReceiveMemoryWarning")
     }
     
     // MARK: - Private Methods
@@ -108,6 +120,7 @@ class CartViewController: UIViewController {
             .foregroundColor: Colors.darkGray
         ]
         navigationController?.navigationBar.isTranslucent = true
+        self.navigationItem.searchController = searchController
         navigationItem.titleView = CustomNavigationTitleView(title: (String(localized: "Cart")))
         let rightBarButtonItem = UIBarButtonItem(customView: refreshButton)
         navigationItem.rightBarButtonItem = rightBarButtonItem
