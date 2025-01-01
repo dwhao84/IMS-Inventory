@@ -63,6 +63,12 @@ class ProductDetailViewController: UIViewController {
         print("qty: \(String(describing: qty))")
     }
     
+    // MARK: - did Receive Memory Warning
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        print("didReceiveMemoryWarning")
+    }
+    
     // MARK: - Setup
     private func setupUI() {
         setNavigationView()

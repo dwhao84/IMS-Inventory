@@ -79,6 +79,7 @@ class ProductListViewController: UIViewController {
         fetchData()
     }
     
+    // MARK: - did Receive Memory Warning
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         print("didReceiveMemoryWarning")
