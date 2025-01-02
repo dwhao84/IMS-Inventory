@@ -2,7 +2,12 @@ import UIKit
 import Kingfisher
 import UIView_Shimmer
 
-class ProductListViewController: UIViewController {
+class ProductListViewController: UIViewController, UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let searchText = searchController.searchBar.text else { return }
+        performSearch(with: searchText)
+    }
+    
     private var records: [Record] = [] {
         didSet {
             DispatchQueue.main.async {
@@ -87,8 +92,8 @@ class ProductListViewController: UIViewController {
     
     func setupUI() {
         setNavigationView()
-        addSearchControllerDelegates()
         addTargets()
+        setupSearchController()
         addDelegateAndDataSource()
         addConstraints()
     }
@@ -139,8 +144,12 @@ class ProductListViewController: UIViewController {
         ])
     }
     
-    func addSearchControllerDelegates() {
+    func setupSearchController() {
+        searchController.searchResultsUpdater = self // 如果要即時搜尋的話
+        searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.delegate = self
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
     }
     
     @objc func refreshControlValueChanged(_ sender: Any) {
@@ -206,12 +215,17 @@ class ProductListViewController: UIViewController {
     private func performSearch(with searchText: String) {
         guard !searchText.isEmpty else {
             filteredRecords = records
+            tableView.reloadData()
             return
         }
         
+        // 增加更多搜尋條件，讓搜尋更全面
         filteredRecords = records.filter { record in
-            record.fields.articleName.lowercased().contains(searchText.lowercased()) ||
-            record.fields.articleNumber.lowercased().contains(searchText.lowercased())
+            let articleNameMatch = record.fields.articleName.lowercased().contains(searchText.lowercased())
+            let articleNumberMatch = record.fields.articleNumber.lowercased().contains(searchText.lowercased())
+            // 如果有其他要搜尋的欄位也可以加在這裡
+            
+            return articleNameMatch || articleNumberMatch
         }
         tableView.reloadData()
     }
@@ -250,7 +264,19 @@ extension ProductListViewController: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
+        // 加入檢查
+        print("searchController.isActive: \(searchController.isActive)")
+        print("indexPath.row: \(indexPath.row)")
+        print("filteredRecords.count: \(filteredRecords.count)")
+        print("records.count: \(records.count)")
+        
         let selectedRecord = searchController.isActive ? filteredRecords[indexPath.row] : records[indexPath.row]
+        
+        // 印出完整的選中記錄
+        print("選中的記錄:")
+        print("Article Number: \(selectedRecord.fields.articleNumber)")
+        print("Article Name: \(selectedRecord.fields.articleName)")
+        print("Quantity: \(selectedRecord.fields.Qty)")
         
         let productDetailVC = ProductDetailViewController()
         productDetailVC.imageUrl = selectedRecord.fields.image.last?.url
@@ -269,10 +295,10 @@ extension ProductListViewController: UISearchBarDelegate {
         print("searchBar textDidChange")
     }
     
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        filteredRecords = records
-        tableView.reloadData()
-        print("searchBar Cancel Button Clicked")
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let searchText = searchBar.text else { return }
+        performSearch(with: searchText)
+        searchBar.resignFirstResponder() // 收起鍵盤
     }
 }
 
