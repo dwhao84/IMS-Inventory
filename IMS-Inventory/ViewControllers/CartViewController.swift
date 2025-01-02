@@ -3,8 +3,21 @@ import Kingfisher
 
 // MARK: - CartViewController
 class CartViewController: UIViewController {
+    var borrowReturnRecords: [BorrowReturn.Record] = [] {
+        didSet {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
     
-    var borrowReturnRecords: [BorrowReturn.Record] = []
+    private var filteredRecords: [BorrowReturn.Record] = [] {
+        didSet {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
     
     // MARK: - Types
     private enum Layout {
@@ -47,10 +60,16 @@ class CartViewController: UIViewController {
     }()
     
     let searchController: UISearchController = {
-        let searchController = UISearchController()
-        
-        return searchController
-    } ()
+        let controller = UISearchController()
+        controller.searchBar.sizeToFit()
+        controller.automaticallyShowsCancelButton = true
+        controller.searchBar.placeholder = String(localized: "Item, Article No, Description")
+        controller.isActive = true
+        controller.searchBar.searchTextField.returnKeyType = .search
+        controller.hidesNavigationBarDuringPresentation = false
+        controller.obscuresBackgroundDuringPresentation = true
+        return controller
+    }()
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -59,6 +78,7 @@ class CartViewController: UIViewController {
         
         setupUI()
         fetchData()
+        setupSearchController()
     }
     
     // MARK: - view Will Appear
@@ -89,6 +109,7 @@ class CartViewController: UIViewController {
             case .success(let records):
                 DispatchQueue.main.async {
                     self?.borrowReturnRecords = records
+                    self?.filteredRecords = records
                     self?.tableView.reloadData()  // 需要加入這行
                 }
                 
@@ -98,6 +119,16 @@ class CartViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    func addSearchControllerDelegates() {
+        searchController.searchBar.delegate = self
+    }
+    
+    func setupSearchController() {
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.delegate = self
+        definesPresentationContext = true
     }
     
     private func configureTableView() {
@@ -144,7 +175,6 @@ class CartViewController: UIViewController {
         refreshControl.endRefreshing()
         fetchData()
     }
-    
 }
 
 // MARK: - UITableViewDelegate
@@ -158,24 +188,26 @@ extension CartViewController: UITableViewDelegate {
 extension CartViewController: UITableViewDataSource {
     // MARK: - numberOfRowsInSection
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        updateTableViewBackground(tableView, isEmpty: borrowReturnRecords.isEmpty)
-        return borrowReturnRecords.count
+        let records = searchController.isActive ? filteredRecords : borrowReturnRecords
+        updateTableViewBackground(tableView, isEmpty: records.isEmpty)
+        return records.count
     }
     
-    // MARK: - cellForRowAt
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(
             withIdentifier: CartTableViewCell.identifier,
             for: indexPath
         ) as! CartTableViewCell
         
-        let fields = borrowReturnRecords[indexPath.row].fields
+        let records = searchController.isActive ? filteredRecords : borrowReturnRecords
+        let fields = records[indexPath.row].fields
+        
         cell.articleNumberLabel.text = fields.articleNumber ?? String(localized: "N/A")
         cell.productENNameLabel.text = fields.rackingDescription ?? String(localized: "N/A")
         cell.orderNumberLabel.text = fields.orderNumber ?? String(localized: "N/A")
         cell.dateLabel.text = fields.createdDate ?? String(localized: "N/A")
         cell.statusLabel.text = fields.status ?? String(localized: "N/A")
-        cell.userNameLabel.text = fields.user_name ?? String(localized: "N/A")  // 添加預設值
+        cell.userNameLabel.text = fields.user_name ?? String(localized: "N/A")
         cell.dateLabel.text = fields.createdDate
         cell.qtyLabel.text = "Qty: \(fields.rackingQty ?? 0)"
         
@@ -188,58 +220,94 @@ extension CartViewController: UITableViewDataSource {
         return cell
     }
     
-    /// 設定 TableView 的滑動刪除動作
-    // MARK: - trailingSwipeActionsConfigurationForRowAt
+    // MARK: - 設定 TableView 的滑動刪除動作
+    // MARK: trailingSwipeActionsConfigurationForRowAt
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-       // 建立刪除動作按鈕
-       let deleteAction = UIContextualAction(style: .destructive, title: Constants.delete) { [weak self] (action, view, completionHandler) in
-           // 檢查 self 是否存在，避免記憶體洩漏
-           guard let self = self else {
-               completionHandler(false)
-               return
-           }
-           
-           // 從資料陣列中獲取要刪除記錄的 ID
-           let recordId = self.borrowReturnRecords[indexPath.row].id
-           // 建立包含特定記錄 ID 的完整 URL
-           let deleteUrl = API.baseUrl.appendingPathComponent(recordId)
-           
-           // 設定 HTTP 請求
-           var request = URLRequest(url: deleteUrl)
-           request.httpMethod = "DELETE"
-           request.setValue("Bearer \(API.apiKey)", forHTTPHeaderField: "Authorization")
-           
-           // 發送網路請求
-           URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
-               // 在主線程處理回應
-               DispatchQueue.main.async {
-                   // 檢查 HTTP 回應狀態碼
-                   if let httpResponse = response as? HTTPURLResponse,
-                      httpResponse.statusCode == 200 {
-                       
-                       // 刪除成功：更新本地資料和 UI
-                       self?.borrowReturnRecords.remove(at: indexPath.row)
-                       tableView.deleteRows(at: [IndexPath(row: indexPath.row, section: 0)], with: .automatic)
-                       completionHandler(true)
-                   } else {
-                       guard let self = self else {
-                           completionHandler(false)
-                           return
-                       }
-                       AlertManager.showButtonAlert(on: self,
-                                                 title: Constants.error,
-                                                 message: Constants.deleteFailed)
-                       completionHandler(false)
-                   }
-               }
-           }.resume()
-       }
-       // 設定刪除按鈕的背景顏色
-       deleteAction.backgroundColor = .red
-       
-       // 建立並返回滑動動作配置
-       let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
-       return configuration
+        // 建立刪除動作按鈕
+        let deleteAction = UIContextualAction(style: .destructive, title: Constants.delete) { [weak self] (action, view, completionHandler) in
+            // 檢查 self 是否存在，避免記憶體洩漏
+            guard let self = self else {
+                completionHandler(false)
+                return
+            }
+            
+            // 從資料陣列中獲取要刪除記錄的 ID
+            let recordId = self.borrowReturnRecords[indexPath.row].id
+            // 建立包含特定記錄 ID 的完整 URL
+            let deleteUrl = API.baseUrl.appendingPathComponent(recordId)
+            
+            // 設定 HTTP 請求
+            var request = URLRequest(url: deleteUrl)
+            request.httpMethod = "DELETE"
+            request.setValue("Bearer \(API.apiKey)", forHTTPHeaderField: "Authorization")
+            
+            // 發送網路請求
+            URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
+                // 在主線程處理回應
+                DispatchQueue.main.async {
+                    // 檢查 HTTP 回應狀態碼
+                    if let httpResponse = response as? HTTPURLResponse,
+                       httpResponse.statusCode == 200 {
+                        
+                        // 刪除成功：更新本地資料和 UI
+                        self?.borrowReturnRecords.remove(at: indexPath.row)
+                        tableView.deleteRows(at: [IndexPath(row: indexPath.row, section: 0)], with: .automatic)
+                        completionHandler(true)
+                    } else {
+                        guard let self = self else {
+                            completionHandler(false)
+                            return
+                        }
+                        AlertManager.showButtonAlert(on: self,
+                                                     title: Constants.error,
+                                                     message: Constants.deleteFailed)
+                        completionHandler(false)
+                    }
+                }
+            }.resume()
+        }
+        // 設定刪除按鈕的背景顏色
+        deleteAction.backgroundColor = .red
+        
+        // 建立並返回滑動動作配置
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        return configuration
+    }
+}
+
+extension CartViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        updateSearchResults(for: searchController)
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        filteredRecords = borrowReturnRecords
+        tableView.reloadData()
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
+}
+
+extension CartViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let searchText = searchController.searchBar.text?.lowercased(), !searchText.isEmpty else {
+            filteredRecords = borrowReturnRecords
+            tableView.reloadData()
+            return
+        }
+        
+        filteredRecords = borrowReturnRecords.filter { record in
+            let fields = record.fields
+            return fields.articleNumber?.lowercased().contains(searchText) ?? false ||
+                   fields.rackingDescription?.lowercased().contains(searchText) ?? false ||
+                   fields.orderNumber?.lowercased().contains(searchText) ?? false ||
+                   fields.status?.lowercased().contains(searchText) ?? false ||
+                   fields.user_name?.lowercased().contains(searchText) ?? false
+        }
+        
+        tableView.reloadData()
     }
 }
 
@@ -289,7 +357,7 @@ extension UIViewController {
         }
     }
 }
-        
+
 // MARK: - SwiftUI Preview
 #Preview {
     UINavigationController(rootViewController: CartViewController())
