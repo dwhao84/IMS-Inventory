@@ -245,7 +245,7 @@ extension CartViewController: UITableViewDataSource {
                     if let httpResponse = response as? HTTPURLResponse,
                        httpResponse.statusCode == 200 {
                         
-                        AlertManager.showButtonAlert(on: self!, title: String(localized: "Delete successful !"), message: String(localized: "Delete Record successful!"))
+                        AlertManager.showButtonAlert(on: self!, title: String(localized: "Delete successful!"), message: String(localized: "Delete Record successful!"))
                         
                         // 刪除成功：更新本地資料和 UI
                         self?.borrowReturnRecords.remove(at: indexPath.row)

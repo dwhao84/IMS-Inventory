@@ -6,7 +6,7 @@ class ProductDetailViewController: UIViewController {
     
     var qtyValue: Int = 1
     private var selectedDate: Date?
-    private var selectedStatus: String = "Return" // 設置一個初始值
+    private var selectedStatus: String = String(localized:"Return") // 設置一個初始值
     private var quantity: Int = 1
     
     var imageUrl: String?
@@ -127,7 +127,7 @@ class ProductDetailViewController: UIViewController {
         self.imageUrl = record.fields.image.last?.url
         self.productTitle = record.fields.articleName
         self.articleNumber = record.fields.articleNumber
-        self.qty = "Qty: \(record.fields.Qty) pcs"
+        self.qty = String(localized:"Qty: \(record.fields.Qty) pcs")
         
         // If the view is already loaded, reload the table
         if isViewLoaded {
@@ -161,7 +161,7 @@ class ProductDetailViewController: UIViewController {
     
     // MARK: - Loading Indicator
     private func showLoading() -> UIAlertController {
-        let alert = UIAlertController(title: nil, message: "Processing...", preferredStyle: .alert)
+        let alert = UIAlertController(title: nil, message: String(localized:"Processing..."), preferredStyle: .alert)
         let indicator = UIActivityIndicatorView(style: .medium)
         indicator.translatesAutoresizingMaskIntoConstraints = false
         alert.view.addSubview(indicator)
