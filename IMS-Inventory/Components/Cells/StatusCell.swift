@@ -3,7 +3,7 @@ import UIKit
 class StatusCell: UITableViewCell {
     static let identifier: String = "StatusTableViewCell"
     
-    let statusOptions: [String] = ["Return", "Borrow"]
+    let statusOptions: [String] = [String(localized:"Return"), String(localized: "Borrow")]
     
     var statusChanged: ((String) -> Void)?
     
