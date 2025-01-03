@@ -588,6 +588,7 @@
       }
     },
     "Delete Record Success!" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -620,6 +621,12 @@
           }
         }
       }
+    },
+    "Delete Record successful!" : {
+
+    },
+    "Delete successful!" : {
+
     },
     "Disclaimer" : {
       "comment" : "MARK: Services**",
@@ -2186,6 +2193,9 @@
         }
       }
     },
+    "Qty: %lld pcs" : {
+
+    },
     "Quantity: High to Low" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2677,6 +2687,7 @@
       }
     },
     "Success!" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
