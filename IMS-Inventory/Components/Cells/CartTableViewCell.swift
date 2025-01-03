@@ -137,6 +137,7 @@ class CartTableViewCell: UITableViewCell {
     }
     
     private func setupUI() {
+        contentView.backgroundColor = Colors.white
         contentView.addSubview(productImageView)
         contentView.addSubview(labelStackView)
         configLabelsStackView()
