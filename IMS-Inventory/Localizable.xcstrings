@@ -247,6 +247,12 @@
     "Borrow" : {
       "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Borrow"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
@@ -587,25 +593,24 @@
         }
       }
     },
-    "Delete Record Success!" : {
-      "extractionState" : "stale",
+    "Delete Record successful!" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Delete Record Success!"
+            "value" : "Delete Record successful!"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "記録の削除に成功しました！"
+            "value" : "記録の削除成功！"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "기록 삭제 성공！"
+            "value" : "기록 삭제 성공!"
           }
         },
         "zh-Hans" : {
@@ -622,11 +627,39 @@
         }
       }
     },
-    "Delete Record successful!" : {
-
-    },
     "Delete successful!" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete successful!"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "削除成功！"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "삭제 성공!"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "删除成功！"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "刪除成功！"
+          }
+        }
+      }
     },
     "Disclaimer" : {
       "comment" : "MARK: Services**",
@@ -2194,7 +2227,38 @@
       }
     },
     "Qty: %lld pcs" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Qty: %lld pcs"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "数量：%lld 個"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "수량: %lld 개"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "数量：%lld 件"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "數量：%lld 件"
+          }
+        }
+      }
     },
     "Quantity: High to Low" : {
       "extractionState" : "manual",
@@ -2682,35 +2746,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "庫存數：%lld"
-          }
-        }
-      }
-    },
-    "Success!" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "成功しました！"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "성공！"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "成功！"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "成功！"
           }
         }
       }
