@@ -180,7 +180,6 @@ class RackingCalculatorViewController: UIViewController {
     }
     
     func addConstraints() {
-       calculationBtn.widthAnchor.constraint(equalToConstant: 200).isActive = true
        
        // Add arranged subviews to stack views
        stackView.addArrangedSubview(nintySecQtyTextField)
@@ -228,7 +227,9 @@ class RackingCalculatorViewController: UIViewController {
            outputTextView.topAnchor.constraint(equalTo: buttonsStackView.bottomAnchor, constant: 20),
            outputTextView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor, constant: 16),
            outputTextView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor, constant: -16),
-           outputTextView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -20)
+           outputTextView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -20),
+           
+           calculationBtn.widthAnchor.constraint(equalTo: clearBtn.widthAnchor)
        ])
     }
     
