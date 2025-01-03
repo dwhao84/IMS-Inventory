@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared.isEnabled = true
         
         authStateHandle = Auth.auth().addStateDidChangeListener { auth, user in
-            if let user = user {
+            if user != nil {
                 print("=== User is signIn ===")
             } else {
                 print("=== User is signOut ===")
