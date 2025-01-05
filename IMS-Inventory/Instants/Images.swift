@@ -98,5 +98,5 @@ struct Images {
     static let folderBadgePlus = UIImage(systemName: "folder.badge.plus")!
     
     static let arrowClockwise = UIImage(systemName: "arrow.clockwise")!
-    static let logout = UIImage(systemName: "iphone.and.arrow.forward.outward")!
+//    static let logout = UIImage(systemName: "iphone.and.arrow.forward.outward")!
 }
