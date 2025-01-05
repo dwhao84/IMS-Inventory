@@ -16,7 +16,6 @@
 		D30A6BB62CD346F8003AC00A /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30A6BB52CD346F8003AC00A /* PaddingLabel.swift */; };
 		D30A6BB82CD34CC5003AC00A /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30A6BB72CD34CC5003AC00A /* MainTabBarViewController.swift */; };
 		D30A6BBB2CD34F95003AC00A /* ESTabBarController in Frameworks */ = {isa = PBXBuildFile; productRef = D30A6BBA2CD34F95003AC00A /* ESTabBarController */; };
-		D30A6BBD2CD36E12003AC00A /* LaunchSceenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30A6BBC2CD36E12003AC00A /* LaunchSceenViewController.swift */; };
 		D30A6BBF2CD36F13003AC00A /* SendButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30A6BBE2CD36F13003AC00A /* SendButton.swift */; };
 		D31D88312D05CEFD006392C9 /* NameFillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31D88302D05CEFD006392C9 /* NameFillCell.swift */; };
 		D31D885F2D0614C4006392C9 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = D31D885E2D0614C4006392C9 /* Localizable.xcstrings */; };
@@ -90,7 +89,6 @@
 		D30A6BB32CD32AAC003AC00A /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
 		D30A6BB52CD346F8003AC00A /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
 		D30A6BB72CD34CC5003AC00A /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
-		D30A6BBC2CD36E12003AC00A /* LaunchSceenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchSceenViewController.swift; sourceTree = "<group>"; };
 		D30A6BBE2CD36F13003AC00A /* SendButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendButton.swift; sourceTree = "<group>"; };
 		D31D88302D05CEFD006392C9 /* NameFillCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameFillCell.swift; sourceTree = "<group>"; };
 		D31D885E2D0614C4006392C9 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
@@ -327,7 +325,6 @@
 			isa = PBXGroup;
 			children = (
 				D30A6BB72CD34CC5003AC00A /* MainTabBarViewController.swift */,
-				D30A6BBC2CD36E12003AC00A /* LaunchSceenViewController.swift */,
 				D3D6CB932CF772130019CBA5 /* LoginViewController.swift */,
 				D3D6CBA02CFA25700019CBA5 /* RegisterViewController.swift */,
 				D3027AD42AFCB79B00A3BCE3 /* ProductListViewController.swift */,
@@ -511,7 +508,6 @@
 				D3D6CBC72CFB57F10019CBA5 /* ProductTableViewCell.swift in Sources */,
 				D30A6BB82CD34CC5003AC00A /* MainTabBarViewController.swift in Sources */,
 				D3A1F8312CD671E40035AF93 /* CartViewController.swift in Sources */,
-				D30A6BBD2CD36E12003AC00A /* LaunchSceenViewController.swift in Sources */,
 				D30A6BB02CD130EC003AC00A /* CalculationViewController.swift in Sources */,
 				D3E2EF1B2D020095009A2E03 /* Cart.swift in Sources */,
 				D3E2B6822AFB7E9D00C932E7 /* AppDelegate.swift in Sources */,
