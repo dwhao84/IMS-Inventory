@@ -4,7 +4,7 @@ import FirebaseAuth
 import SafariServices
 
 class SettingViewController: UIViewController {
-    
+
     let navigationItemTitle: String = String(localized: "Settings")
     
     // MARK: - Properties
@@ -29,7 +29,7 @@ class SettingViewController: UIViewController {
     private let logOutBtn: UIButton = {
         let btn = UIButton(type: .system)
         var config = UIButton.Configuration.plain()
-        config.image = Images.logout
+        config.image = UIImage(systemName: "iphone.and.arrow.right.outward")
         config.baseForegroundColor = Colors.black
         config.imagePlacement = .all
         btn.configuration = config
