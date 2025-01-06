@@ -14,7 +14,7 @@ class CalculationViewController: UIViewController {
         segmentControl.insertSegment(withTitle: "Bins", at: 0, animated: true)
         segmentControl.insertSegment(withTitle: "Shelving System", at: 1, animated: true)
         segmentControl.insertSegment(withTitle: "Backwall", at: 2, animated: true)
-
+        
         segmentControl.selectedSegmentIndex = 0
         // 設定正常狀態(未選中)的外觀
         segmentControl.setTitleTextAttributes([
@@ -58,12 +58,29 @@ class CalculationViewController: UIViewController {
         return vc
     }()
     
+    private lazy var shareButton: UIButton = {
+        let btn = UIButton(type: .system)
+        var config = UIButton.Configuration.plain()
+        config.baseForegroundColor = Colors.black
+        config.image = Images.shareBtn
+        config.cornerStyle = .capsule
+        btn.configuration = config
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.configurationUpdateHandler = { btn in
+            btn.alpha = btn.isHighlighted ? 0.5 : 1
+            btn.configuration = config
+        }
+        return btn
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         print("Into the CalculationViewController")
         
         setupUI()
         switchToViewController(binVC) // 初始顯示 BinViewController
+        
+        shareButton.addTarget(self, action: #selector(shareBtnTapped), for: .touchUpInside)
     }
     
     private func setupUI() {
@@ -94,6 +111,7 @@ class CalculationViewController: UIViewController {
         let customTitleView = CustomNavigationTitleView(title: String(localized: "Calculation"))
         navigationItem.titleView = customTitleView
         self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: shareButton)
     }
     
     private func addConstraints() {
@@ -118,11 +136,35 @@ class CalculationViewController: UIViewController {
             switchToViewController(binVC)
             print("=== Switch to Bin VC ===")
         case 1:
-            switchToViewController(shelvingVC)  
+            switchToViewController(shelvingVC)
             print("=== Switch to Shelving VC ===")
         case 2:
             switchToViewController(rackingVC)
             print("=== Switch to Racking VC ===")
+        default:
+            break
+        }
+    }
+    
+    @objc func shareBtnTapped(_ sender: UIButton) {
+        print("=== shareBtn Tapped ===")
+        
+        switch currentViewController {
+        case is RackingCalculatorViewController:
+            if let rackingVC = currentViewController as? RackingCalculatorViewController {
+                let activityController = UIActivityViewController(activityItems: [rackingVC.outputTextView.text ?? ""], applicationActivities: nil)
+                self.present(activityController, animated: true)
+            }
+        case is BinViewController:
+            if let binVC = currentViewController as? BinViewController {
+                let activityController = UIActivityViewController(activityItems: [binVC.outputTextView.text ?? ""], applicationActivities: nil)
+                self.present(activityController, animated: true)
+            }
+        case is ShelvingSystemViewController:
+            if let shelvingVC = currentViewController as? ShelvingSystemViewController {
+                let activityController = UIActivityViewController(activityItems: [shelvingVC.outputTextView.text ?? ""], applicationActivities: nil)
+                self.present(activityController, animated: true)
+            }
         default:
             break
         }
@@ -149,7 +191,7 @@ class CalculationViewController: UIViewController {
     }
     
     @objc func dismissPicker (_ sender: UITapGestureRecognizer) {
-        print("DEBUG PRIN: dismissPicker")
+        print("DEBUG PRINT: dismissPicker")
         view.endEditing(true)
     }
 }
