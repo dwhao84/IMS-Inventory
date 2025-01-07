@@ -130,6 +130,7 @@ class BinViewController: UIViewController {
         tv.font = UIFont.systemFont(ofSize: 18, weight: .regular)
         tv.textColor = Colors.darkGray
         tv.textAlignment = .left
+        tv.adjustsFontForContentSizeCategory = true
         tv.textContainerInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         tv.isEditable = false
         tv.translatesAutoresizingMaskIntoConstraints = false
@@ -469,28 +470,28 @@ extension BinViewController {
         if binCount40x60 > 0 && binCount60x80 > 0 {
             outputTextView.text =
             """
-            12483 CORNER POST F BIN H850MM WHI * \(binCount40x60 * 4 + binCount60x80 * 4)
-            17740 SIDE F BIN L400 H700MM WHI * \(binCount40x60 * 2)
-            17739 SIDE F BIN L60 H700MM WHI * \(binCount40x60 * 2 + binCount60x80 * 2)
-            17743 SIDE F BIN L800 H700MM WHI * \(binCount60x80 * 2)
-            17741 BOTTOM F BIN L600 W400MM WHI \(binCount40x60 * 1)
-            17744 BOTTOM F BIN L800 W600MM WHI \(binCount60x80 * 1)
+            12483 CORNER POST F BIN H850MM WHI * \(binCount40x60 * 4 + binCount60x80 * 4)\n
+            17740 SIDE F BIN L400 H700MM WHI * \(binCount40x60 * 2)\n
+            17739 SIDE F BIN L60 H700MM WHI * \(binCount40x60 * 2 + binCount60x80 * 2)\n
+            17743 SIDE F BIN L800 H700MM WHI * \(binCount60x80 * 2)\n
+            17741 BOTTOM F BIN L600 W400MM WHI \(binCount40x60 * 1)\n
+            17744 BOTTOM F BIN L800 W600MM WHI \(binCount60x80 * 1)\n
             """
         } else if binCount40x60 > 0 && binCount60x80 == 0 {
             outputTextView.text =
             """
-            12483 CORNER POST F BIN H850MM WHI * \(binCount40x60 * 4)
-            17740 SIDE F BIN L400 H700MM WHI * \(binCount40x60 * 2)
-            17739 SIDE F BIN L600 H700MM WHI * \(binCount40x60 * 2)
-            17741 BOTTOM F BIN L600 W400MM WHI \(binCount40x60 * 1)
+            12483 CORNER POST F BIN H850MM WHI * \(binCount40x60 * 4)\n
+            17740 SIDE F BIN L400 H700MM WHI * \(binCount40x60 * 2)\n
+            17739 SIDE F BIN L600 H700MM WHI * \(binCount40x60 * 2)\n
+            17741 BOTTOM F BIN L600 W400MM WHI \(binCount40x60 * 1)\n
             """
         } else if binCount40x60 == 0 && binCount60x80 > 0 {
             outputTextView.text =
             """
-            12483 CORNER POST F BIN H850MM WHI * \(binCount60x80 * 4)
-            17739 SIDE F BIN L600 H700MM WHI * \(binCount60x80 * 2)
-            17743 SIDE F BIN L800 H700MM WHI * \(binCount60x80 * 2)
-            缺少底的貨號
+            12483 CORNER POST F BIN H850MM WHI * \(binCount60x80 * 4)\n
+            17739 SIDE F BIN L600 H700MM WHI * \(binCount60x80 * 2)\n
+            17743 SIDE F BIN L800 H700MM WHI * \(binCount60x80 * 2)\n
+            17744 BOTTOM F BIN L800 W600MM WHI *\(binCount60x80 * 1)
             """
         }
     }
