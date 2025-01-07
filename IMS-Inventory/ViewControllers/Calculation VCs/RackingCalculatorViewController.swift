@@ -185,6 +185,7 @@ class RackingCalculatorViewController: UIViewController {
        stackView.addArrangedSubview(nintySecQtyTextField)
        stackView.addArrangedSubview(sixtySecQtyTextField)
        stackView.addArrangedSubview(singleSideTextField)
+        
        buttonsStackView.addArrangedSubview(calculationBtn)
        buttonsStackView.addArrangedSubview(clearBtn)
        
@@ -192,7 +193,6 @@ class RackingCalculatorViewController: UIViewController {
        [nintySecQtyTextField, sixtySecQtyTextField, singleSideTextField, calculationBtn, clearBtn].forEach {
            $0.heightAnchor.constraint(equalToConstant: 50).isActive = true
        }
-       outputTextView.heightAnchor.constraint(equalToConstant: 400).isActive = true
        
        // Add subviews
        view.addSubview(scrollView)
@@ -213,7 +213,7 @@ class RackingCalculatorViewController: UIViewController {
            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
            
            // StackView constraints
-           stackView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: 16),
+           stackView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: 10),
            stackView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor, constant: 16),
            stackView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor, constant: -16),
            stackView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor, constant: -32),
@@ -225,10 +225,10 @@ class RackingCalculatorViewController: UIViewController {
            
            // OutputTextView constraints
            outputTextView.topAnchor.constraint(equalTo: buttonsStackView.bottomAnchor, constant: 20),
-           outputTextView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor, constant: 16),
-           outputTextView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor, constant: -16),
+           outputTextView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor, constant: 10),
+           outputTextView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor, constant: -10),
            outputTextView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -20),
-           
+    
            calculationBtn.widthAnchor.constraint(equalTo: clearBtn.widthAnchor)
        ])
     }
