@@ -116,17 +116,17 @@ class CalculationViewController: UIViewController {
     
     private func addConstraints() {
         NSLayoutConstraint.activate([
-            // Segmented Control 約束
+            // Segmented Control constraints
             segmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
             segmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
             segmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
             segmentedControl.heightAnchor.constraint(equalToConstant: 40),
             
-            // Container View 約束
+            // Container View constraints - removed the conflicting top constraint
             containerView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 10),
             containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            containerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
     
