@@ -1,142 +1,209 @@
-//
-//  AppDelegate.swift
-//  IMS-Inventory
-//
-//  Created by Dawei Hao on 2023/11/8.
-//
-
-//
-//  AppDelegate.swift
-//  IMS-Inventory
-//
-//  Created by Dawei Hao on 2023/11/8.
-//
-
 import UIKit
-import Firebase
-import FirebaseAuth
+import FirebaseMessaging
 import UserNotifications
+import Firebase
+import FirebaseAppCheck
 import IQKeyboardManagerSwift
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // MARK: - Properties
-    
-    var authStateHandle: AuthStateDidChangeListenerHandle?
+    private var fcmToken: String?
+    private var deviceToken: String?
     
     // MARK: - Application Lifecycle
-    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
-        setupFirebase()
+        // Firebase 必須最先配置
+        if FirebaseApp.app() == nil {
+            setupFirebase()
+        }
+        setupNotifications(application)
         setupKeyboardManager()
-        setupAuthStateListener()
-        setupPushNotifications(application)
+        Messaging.messaging().delegate = self
+        // 延遲2秒後測試通知
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
+            self?.testNotifications()
+        }
+        
         return true
     }
     
     // MARK: - Setup Methods
-    
     private func setupFirebase() {
+        // 配置 App Check
+        #if DEBUG
+        let providerFactory = AppCheckDebugProviderFactory()
+        AppCheck.setAppCheckProviderFactory(providerFactory)
+        print("DEBUG: App Check configured with Debug Provider")
+        #else
+        let providerFactory = AppCheckProviderFactory()
+        AppCheck.setAppCheckProviderFactory(providerFactory)
+        print("RELEASE: App Check configured with Device Check Provider")
+        #endif
+        
+        // 配置 Firebase
         FirebaseApp.configure()
-        FirebaseConfiguration.shared.setLoggerLevel(.error)
+        print("Firebase configured successfully")
+    }
+    
+    private func setupNotifications(_ application: UIApplication) {
+        // Push notification setup
+        UNUserNotificationCenter.current().delegate = self
+        Messaging.messaging().delegate = self
+        
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
+            if let error = error {
+                print("Error requesting notification authorization: \(error.localizedDescription)")
+                return
+            }
+            print("Notification authorization granted: \(granted)")
+            
+            // 取得目前的通知設定
+            UNUserNotificationCenter.current().getNotificationSettings { settings in
+                print("通知設定狀態：")
+                print("授權狀態: \(settings.authorizationStatus.rawValue)")
+                print("警示設定: \(settings.alertSetting)")
+                print("聲音設定: \(settings.soundSetting)")
+                print("角標設定: \(settings.badgeSetting)")
+            }
+            
+            DispatchQueue.main.async {
+                application.registerForRemoteNotifications()
+            }
+        }
+        
+        Messaging.messaging().isAutoInitEnabled = true
     }
     
     private func setupKeyboardManager() {
         IQKeyboardManager.shared.isEnabled = true
-        IQKeyboardManager.shared.resignOnTouchOutside = true
+//        IQKeyboardManager.shared.enableAutoToolbar = true
+//        IQKeyboardManager.shared.shouldResignOnTouchOutside = true
+        print("Keyboard Manager configured successfully")
     }
     
-    private func setupAuthStateListener() {
-        authStateHandle = Auth.auth().addStateDidChangeListener { auth, user in
-            if let user = user {
-                print("=== User is signIn ===")
-                print("User ID: \(user.uid)")
-                // 可以在這裡處理用戶登入後的其他邏輯
+    // MARK: - Notification Test Methods
+    private func testNotifications() {
+        sendLocalNotification()
+        checkFCMToken()
+    }
+    
+    private func sendLocalNotification() {
+        let content = UNMutableNotificationContent()
+        content.title = "測試通知"
+        content.body = "這是一則本地測試通知"
+        content.sound = .default
+        content.badge = 1
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+        let request = UNNotificationRequest(identifier: "localTest", content: content, trigger: trigger)
+        
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error = error {
+                print("發送本地通知失敗: \(error.localizedDescription)")
             } else {
-                print("=== User is signOut ===")
-                // 可以在這裡處理用戶登出後的其他邏輯
+                print("本地通知已排程，將在5秒後發送")
             }
         }
     }
     
-    private func setupPushNotifications(_ application: UIApplication) {
-        UNUserNotificationCenter.current().delegate = self
+    private func checkFCMToken() {
+        if let token = Messaging.messaging().fcmToken {
+            print("目前的 FCM Token: \(token)")
+            UserDefaults.standard.set(token, forKey: "FCMToken")
+            self.fcmToken = token
+        } else {
+            print("FCM Token 尚未取得")
+        }
+    }
+    
+    // MARK: - Remote Notification Handling
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        Messaging.messaging().apnsToken = deviceToken
         
-        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-        UNUserNotificationCenter.current().requestAuthorization(
-            options: authOptions) { granted, error in
-                if let error = error {
-                    print("推播通知授權失敗: \(error.localizedDescription)")
-                    return
-                }
-                
-                if granted {
-                    print("使用者已允許推播通知")
-                    DispatchQueue.main.async {
-                        application.registerForRemoteNotifications()
-                    }
-                } else {
-                    print("使用者拒絕推播通知")
-                }
-            }
+        let tokenParts = deviceToken.map { data in String(format: "%02.2hhx", data) }
+        let token = tokenParts.joined()
+        self.deviceToken = token
+        print("成功獲得 APNs device token: \(token)")
+    }
+    
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("註冊推播失敗，錯誤：\(error.localizedDescription)")
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+                    fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        print("收到遠端通知：\(userInfo)")
+        
+        if let messageID = userInfo["gcm.message_id"] {
+            print("Message ID: \(messageID)")
+        }
+        
+        completionHandler(.newData)
     }
     
     // MARK: - UISceneSession Lifecycle
-    
-    func application(_ application: UIApplication,
-                     configurationForConnecting connectingSceneSession: UISceneSession,
-                     options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-        return UISceneConfiguration(name: "Default Configuration",
-                                    sessionRole: connectingSceneSession.role)
+    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+        return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
     }
     
-    func application(_ application: UIApplication,
-                     didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
-        // 當場景被丟棄時釋放相關資源
-    }
-    
-    // MARK: - Push Notification Registration
-    
-    func application(_ application: UIApplication,
-                     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        let tokenParts = deviceToken.map { data in String(format: "%02.2hhx", data) }
-        let token = tokenParts.joined()
-        print("Device Token: \(token)")
-    }
-    
-    func application(_ application: UIApplication,
-                     didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        print("註冊推播失敗: \(error.localizedDescription)")
-    }
-    
-    // MARK: - Memory Management
-    
-    deinit {
-        if let handle = authStateHandle {
-            Auth.auth().removeStateDidChangeListener(handle)
-        }
+    func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
     }
 }
 
-// MARK: - UNUserNotificationCenterDelegate
-
+// MARK: - UNUserNotificationCenter Delegate
 extension AppDelegate: UNUserNotificationCenterDelegate {
-    
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                willPresent notification: UNNotification,
-                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        // 當應用程式在前景時收到通知
-        completionHandler([.banner, .badge, .sound])
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
+    ) {
+        let userInfo = notification.request.content.userInfo
+        print("收到前台通知，內容：\(userInfo)")
+        completionHandler([.banner, .sound, .badge])
     }
     
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                didReceive response: UNNotificationResponse,
-                                withCompletionHandler completionHandler: @escaping () -> Void) {
-        // 處理使用者點擊通知的事件
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        didReceive response: UNNotificationResponse,
+        withCompletionHandler completionHandler: @escaping () -> Void
+    ) {
         let userInfo = response.notification.request.content.userInfo
-        print("使用者點擊通知: \(userInfo)")
+        print("收到通知回應，userInfo: \(userInfo)")
+        
+        // 處理通知點擊事件
+        switch response.actionIdentifier {
+        case UNNotificationDefaultActionIdentifier:
+            print("用戶點擊通知")
+        case UNNotificationDismissActionIdentifier:
+            print("用戶關閉通知")
+        default:
+            print("其他動作: \(response.actionIdentifier)")
+        }
+        
         completionHandler()
+    }
+}
+
+// MARK: - MessagingDelegate
+extension AppDelegate: MessagingDelegate {
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        guard let fcmToken = fcmToken else {
+            print("FCM Token 為空")
+            return
+        }
+        
+        self.fcmToken = fcmToken
+        print("收到新的 FCM Token: \(fcmToken)")
+        UserDefaults.standard.set(fcmToken, forKey: "FCMToken")
+        
+        // 儲存 token 到本地或發送到伺服器
+        let dataDict: [String: String] = ["token": fcmToken]
+        NotificationCenter.default.post(
+            name: Notification.Name("FCMToken"),
+            object: nil,
+            userInfo: dataDict
+        )
     }
 }
