@@ -149,7 +149,7 @@ class BinViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("Switching Bin VC")
-        
+        loadViewIfNeeded()
         setupUI()
     }
     
@@ -195,7 +195,7 @@ class BinViewController: UIViewController {
         // Add toolbar as input accessory view
         binSizeTextField.inputAccessoryView   = toolbar
         typeOfBinTextField.inputAccessoryView = toolbar
-        typeOfBinTextField.inputAccessoryView = toolbar
+
     }
     
     func addDelegates() {
@@ -257,7 +257,7 @@ class BinViewController: UIViewController {
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             
             // Content constraints
             stackView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: 10),
