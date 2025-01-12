@@ -66,7 +66,7 @@ class ProductDetailViewController: UIViewController {
     // MARK: - did Receive Memory Warning
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        print("didReceiveMemoryWarning")
+        print("=== didReceiveMemoryWarning ===")
     }
     
     // MARK: - Setup
@@ -180,6 +180,7 @@ class ProductDetailViewController: UIViewController {
         // Add Analytics
         Analytics.logEvent("ProductDetailVC SendBtn", parameters: nil)
         
+        shakeSendButton()
         // 驗證輸入
         let validation = validateInput()
         guard validation.isValid else {
@@ -347,5 +348,15 @@ extension ProductDetailViewController: UITableViewDelegate {
 extension UIView {
     func findSubview<T: UIView>(ofType type: T.Type) -> T? {
         return subviews.compactMap { $0 as? T ?? $0.findSubview(ofType: type) }.first
+    }
+}
+
+extension ProductDetailViewController {
+    func shakeSendButton() {
+        let animation = CAKeyframeAnimation(keyPath: "transform.translation.x")
+        animation.timingFunction = CAMediaTimingFunction(name: .linear)
+        animation.duration = 0.6
+        animation.values = [-20.0, 20.0, -20.0, 20.0, -10.0, 10.0, -5.0, 5.0, 0.0]
+        sendBtn.layer.add(animation, forKey: "shake")
     }
 }
