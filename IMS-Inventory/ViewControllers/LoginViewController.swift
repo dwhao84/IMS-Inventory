@@ -189,10 +189,17 @@ class LoginViewController: UIViewController {
     // MARK: dismissKeyboard
     @objc private func dismissKeyboard(_ sender: UITapGestureRecognizer) {
         self.view.endEditing(true)
+        print("=== dismissKeyboard ===")
+        Analytics.logEvent("LoginVC_Tapped", parameters: nil)
     }
     
     // MARK: loginBtnTapped
     @objc private func loginBtnTapped(_ sender: UIButton) {
+        // Add Analytics
+        Analytics.logEvent("LoginVC_Login_Tapped", parameters: nil)
+        
+        print("=== Login Btn Tapped ===")
+        
         let email = acccoutTf.text ?? ""
         let password = passwordTf.text ?? ""
         loginBtn.configuration?.showsActivityIndicator = true
@@ -235,6 +242,10 @@ class LoginViewController: UIViewController {
     
     // MARK: - Register Button Tapped
     @objc private func registerBtnTapped(_ sender: UIButton) {
+        // Add Analytics
+        Analytics.logEvent("LoginVC_Register_Tapped", parameters: nil)
+        
+        print("=== Register Btn Tapped ===")
         let registerVC = RegisterViewController()
         let navController = UINavigationController(rootViewController: registerVC)
         self.present(navController, animated: true)
