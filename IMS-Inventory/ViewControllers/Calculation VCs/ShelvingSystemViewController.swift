@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAnalytics
 
 class ShelvingSystemViewController: UIViewController {
     let shelvingHeight: [String] = ["854", "1304", "2480"]
@@ -279,7 +280,12 @@ class ShelvingSystemViewController: UIViewController {
     
     // MARK: - Actions
     @objc func calculationBtnTapped (_ sender: UIButton) {
-        print("calculation Btn Tapped")
+        // Add Analytics
+        Analytics.logEvent("ShelvingSystemVC CalculatioBtn", parameters: nil)
+        
+        print("=== ShelvingVC calculation Btn Tapped ===")
+        
+        shakeCalculationButton()
         
         guard let nintySectionQty = Int(nintySectionTextField.text!),
               let sixtySectionQty = Int(sixtySectionTextField.text!),
@@ -296,7 +302,10 @@ class ShelvingSystemViewController: UIViewController {
     }
     
     @objc func clearBtnTapped (_ sender: UIButton) {
-        print("clearButton Tapped")
+        // Add Analytics log
+        Analytics.logEvent("RackingVC ClearBtn", parameters: nil)
+        
+        print("=== ShelvingSystemVC ClearButton Tapped ===")
         [nintySectionTextField, sixtySectionTextField, qtyTextField, shelvingHeightTextField].forEach {
             $0.text = ""
         }
@@ -497,4 +506,22 @@ extension ShelvingSystemViewController {
 
 #Preview {
     UINavigationController(rootViewController: ShelvingSystemViewController())
+}
+
+extension ShelvingSystemViewController {
+    func shakeClearButton() {
+        let animation = CAKeyframeAnimation(keyPath: "transform.translation.x")
+        animation.timingFunction = CAMediaTimingFunction(name: .linear)
+        animation.duration = 0.6
+        animation.values = [-20.0, 20.0, -20.0, 20.0, -10.0, 10.0, -5.0, 5.0, 0.0]
+        clearBtn.layer.add(animation, forKey: "shake")
+    }
+    
+    func shakeCalculationButton() {
+        let animation = CAKeyframeAnimation(keyPath: "transform.translation.x")
+        animation.timingFunction = CAMediaTimingFunction(name: .linear)
+        animation.duration = 0.6
+        animation.values = [-20.0, 20.0, -20.0, 20.0, -10.0, 10.0, -5.0, 5.0, 0.0]
+        calculationBtn.layer.add(animation, forKey: "shake")
+    }
 }

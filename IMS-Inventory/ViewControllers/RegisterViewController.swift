@@ -145,6 +145,9 @@ class RegisterViewController: UIViewController {
     }
     
     @objc func registerButtonTapped() {
+        // Add Analytics
+        Analytics.logEvent("RegisterVC RegisterBtn", parameters: nil)
+        
         guard let email = accountTextField.text, !email.isEmpty,
               let password = passwordTextField.text, !password.isEmpty else {
             AlertManager.showButtonAlert(

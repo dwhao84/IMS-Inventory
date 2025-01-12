@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAnalytics
 
 class RackingCalculatorViewController: UIViewController {
     
@@ -235,7 +236,11 @@ class RackingCalculatorViewController: UIViewController {
     
     // MARK: - Actions:
     @objc func calculationBtnTapped(_ sender: UIButton) {
-        print("=== calculation Btn Tapped ===")
+        print("=== RackingVC calculation Btn Tapped ===")
+        
+        // Add Analytics log
+        Analytics.logEvent("RackingVC CalculatioBtn", parameters: nil)
+        shakeCalculationButton()
         
         guard let nintyText = nintySecQtyTextField.text,
               let sixtyText = sixtySecQtyTextField.text,
@@ -253,7 +258,13 @@ class RackingCalculatorViewController: UIViewController {
     }
     
     @objc func clearnBtnTapped(_ sender: UIButton) {
-        print("=== clearn Btn Tapped ===")
+        
+        // Add Analytics log
+        Analytics.logEvent("RackingVC ClearBtn", parameters: nil)
+        print("=== RackingVC clearn Btn Tapped ===")
+        
+        shakeClearButton()
+        
         [nintySecQtyTextField, sixtySecQtyTextField, singleSideTextField,].forEach {
             $0.text = ""
         }
@@ -423,6 +434,26 @@ extension RackingCalculatorViewController: UIPickerViewDelegate, UIPickerViewDat
     }
 }
 
+extension RackingCalculatorViewController {
+    func shakeClearButton() {
+        let animation = CAKeyframeAnimation(keyPath: "transform.translation.x")
+        animation.timingFunction = CAMediaTimingFunction(name: .linear)
+        animation.duration = 0.6
+        animation.values = [-20.0, 20.0, -20.0, 20.0, -10.0, 10.0, -5.0, 5.0, 0.0]
+        clearBtn.layer.add(animation, forKey: "shake")
+    }
+    
+    func shakeCalculationButton() {
+        let animation = CAKeyframeAnimation(keyPath: "transform.translation.x")
+        animation.timingFunction = CAMediaTimingFunction(name: .linear)
+        animation.duration = 0.6
+        animation.values = [-20.0, 20.0, -20.0, 20.0, -10.0, 10.0, -5.0, 5.0, 0.0]
+        calculationBtn.layer.add(animation, forKey: "shake")
+    }
+}
+
 #Preview {
     UINavigationController(rootViewController: RackingCalculatorViewController())
 }
+
+

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAnalytics
 
 class BinViewController: UIViewController {
     
@@ -278,8 +279,10 @@ class BinViewController: UIViewController {
     
     // **MARK: - Actions**
     @objc func calculationBtnTapped(_ sender: UIButton) {
-        print("calculation Btn Tapped")
-        
+        // Add Analytics
+        Analytics.logEvent("BinVC CalculatioBtn", parameters: nil)
+        print("=== BinVC calculation Btn Tapped ===")
+        shakeCalculationButton()
         // 先驗證輸入
         guard let typeOfBin = typeOfBinTextField.text,
               let binSize = binSizeTextField.text,
@@ -347,13 +350,21 @@ class BinViewController: UIViewController {
     }
     
     @objc func clearButtonTapped(_ sender: UIButton) {
-        print("DEBUG PRINT: clearButtonTapped")
+        // Add Analytics
+        Analytics.logEvent("BinVC ClearBtn", parameters: nil)
+        
+        print("=== BinVC ClearButtonTapped ===")
+        
+        shakeClearButton()
+        
         [binSizeTextField, typeOfBinTextField, qtyTextField, secQtyTextField].forEach {
             $0.text = ""
         }
         outputTextView.text = ""
         secQtyTextField.isHidden = true
         qtyTextField.placeholder = String(localized: "Enter your Qty")
+        
+
     }
     
     @objc func dismissPicker(_ sender: UITapGestureRecognizer) {
@@ -505,5 +516,23 @@ extension BinViewController {
         } else if palletCount60x80 == 0 && palletCount80x120 > 0 {
             outputTextView.text = "12484 BIN F PALLET L1200 W800 H760MMWHI * \(palletCount80x120)"
         }
+    }
+}
+
+extension BinViewController {
+    func shakeClearButton() {
+        let animation = CAKeyframeAnimation(keyPath: "transform.translation.x")
+        animation.timingFunction = CAMediaTimingFunction(name: .linear)
+        animation.duration = 0.6
+        animation.values = [-20.0, 20.0, -20.0, 20.0, -10.0, 10.0, -5.0, 5.0, 0.0]
+        clearBtn.layer.add(animation, forKey: "shake")
+    }
+    
+    func shakeCalculationButton() {
+        let animation = CAKeyframeAnimation(keyPath: "transform.translation.x")
+        animation.timingFunction = CAMediaTimingFunction(name: .linear)
+        animation.duration = 0.6
+        animation.values = [-20.0, 20.0, -20.0, 20.0, -10.0, 10.0, -5.0, 5.0, 0.0]
+        calculationBtn.layer.add(animation, forKey: "shake")
     }
 }
