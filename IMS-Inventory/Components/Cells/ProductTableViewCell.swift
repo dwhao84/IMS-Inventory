@@ -84,6 +84,16 @@ class ProductTableViewCell: UITableViewCell, ShimmeringViewProtocol {
         qtyLabel.text = "Qty: "
     }
     
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        contentView.backgroundColor = selected ? Colors.alphaLightGrey : Colors.white
+    }
+    
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
+        super.setHighlighted(highlighted, animated: animated)
+        contentView.backgroundColor = highlighted ? Colors.alphaLightGrey : Colors.white
+    }
+    
     private func setupUI() {
         contentView.addSubview(productImageView)
         contentView.addSubview(labelStackView)
