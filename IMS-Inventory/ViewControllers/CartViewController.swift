@@ -90,7 +90,7 @@ class CartViewController: UIViewController {
     // MARK: - did Receive Memory Warning
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        print("didReceiveMemoryWarning")
+        print("=== didReceiveMemoryWarning ===")
     }
     
     // MARK: - Private Methods
