@@ -1,5 +1,5 @@
 import UIKit
-
+import FirebaseAnalytics
 
 class ProductDetailViewController: UIViewController {
     private var nameCell: NameFillCell?
@@ -137,7 +137,7 @@ class ProductDetailViewController: UIViewController {
     
     // MARK: - Actions
     func addTargets() {
-        sendBtn.addTarget(self, action: #selector(confirmBtnTapped), for: .touchUpInside)
+        sendBtn.addTarget(self, action: #selector(sendBtnTapped), for: .touchUpInside)
     }
     
     private func validateInput() -> (isValid: Bool, errorMessage: String?) {
@@ -176,7 +176,10 @@ class ProductDetailViewController: UIViewController {
     }
     
     // MARK: - Actions
-    @objc func confirmBtnTapped(_ sender: UIButton) {
+    @objc func sendBtnTapped(_ sender: UIButton) {
+        // Add Analytics
+        Analytics.logEvent("ProductDetailVC SendBtn", parameters: nil)
+        
         // 驗證輸入
         let validation = validateInput()
         guard validation.isValid else {

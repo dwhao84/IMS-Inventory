@@ -19,8 +19,34 @@ class NetworkManager {
     }
     
     // MARK: - GET Product Data
-    func getProductData(completion: @escaping(Result<[Record], NetworkError>) -> Void) {
-        let url = API.baseUrl
+    /**
+     * MARK: - GET Product Data
+     * Fetches product data from Airtable with pagination support
+     * @param offset: Optional offset token for pagination
+     * @param pageSize: Number of records per page (default: 20)
+     */
+    func getProductData(offset: String? = nil,
+                       pageSize: Int = 20,
+                       completion: @escaping(Result<([Record], String?), NetworkError>) -> Void) {
+        // Construct URL with pagination parameters
+        var components = URLComponents(string: API.baseUrl.absoluteString)
+        var queryItems = [URLQueryItem]()
+        
+        // Add pageSize parameter
+        queryItems.append(URLQueryItem(name: "pageSize", value: "\(pageSize)"))
+        
+        // Add offset if provided
+        if let offset = offset {
+            queryItems.append(URLQueryItem(name: "offset", value: offset))
+        }
+        
+        components?.queryItems = queryItems
+        
+        guard let url = components?.url else {
+            completion(.failure(.invalidResponse))
+            return
+        }
+        
         var request = URLRequest(url: url)
         request.setValue("Bearer \(API.apiKey)", forHTTPHeaderField: "Authorization")
         
@@ -50,7 +76,8 @@ class NetworkManager {
                     print("JSON Response:", jsonString)
                 }
                 let rackingData = try decoder.decode(RackingData.self, from: data)
-                completion(.success(rackingData.records))
+                // Return both records and offset for next page
+                completion(.success((rackingData.records, rackingData.offset)))
             } catch {
                 completion(.failure(.decodingError(error)))
             }

@@ -2,27 +2,9 @@ import UIKit
 import Kingfisher
 import UIView_Shimmer
 
-class ProductListViewController: UIViewController, UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-        guard let searchText = searchController.searchBar.text else { return }
-        performSearch(with: searchText)
-    }
+class ProductListViewController: UIViewController {
     
-    private var records: [Record] = [] {
-        didSet {
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        }
-    }
-    
-    private var filteredRecords: [Record] = [] {
-        didSet {
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        }
-    }
+    private let viewModel = ProductListViewModel()
     var activityIndicator: UIActivityIndicatorView!
     
     // MARK: - TableView
@@ -68,18 +50,15 @@ class ProductListViewController: UIViewController, UISearchResultsUpdating {
         }
         return btn
     } ()
-    
+        
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         print("Into the ProductListViewController")
         view.overrideUserInterfaceStyle = .light
-        
-        activityIndicator = UIActivityIndicatorView(style: .large)
-        activityIndicator.center = self.view.center
-        self.view.addSubview(activityIndicator)
-        
+        setupBindings()
         setupUI()
+        setupActivityIndicator()
         tableView.refreshControl = refreshControl
         fetchData()
     }
@@ -88,6 +67,32 @@ class ProductListViewController: UIViewController, UISearchResultsUpdating {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         print("didReceiveMemoryWarning")
+    }
+    
+    // MARK: - setup Bindings
+    private func setupBindings() {
+        viewModel.onLoadingStateChanged = { [weak self] isLoading in
+            DispatchQueue.main.async {
+                if isLoading {
+                    self?.activityIndicator.startAnimating()
+                } else {
+                    self?.activityIndicator.stopAnimating()
+                }
+            }
+        }
+        
+        viewModel.onDataUpdated = { [weak self] in
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
+        }
+        
+        viewModel.onError = { error in
+            DispatchQueue.main.async {
+                // 這裡可以添加錯誤提示UI
+                print("Error: \(error.localizedDescription)")
+            }
+        }
     }
     
     func setupUI() {
@@ -123,6 +128,12 @@ class ProductListViewController: UIViewController, UISearchResultsUpdating {
         navigationItem.rightBarButtonItem = rightBarButton
     }
     
+    fileprivate func setupActivityIndicator() {
+        activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator.center = self.view.center
+        self.view.addSubview(activityIndicator)
+    }
+    
     func addTargets() {
         refreshControl.addTarget(self, action: #selector(refreshControlValueChanged), for: .valueChanged)
     }
@@ -153,107 +164,95 @@ class ProductListViewController: UIViewController, UISearchResultsUpdating {
     }
     
     @objc func refreshControlValueChanged(_ sender: Any) {
-        print("refresh Control Value Changed")
-        fetchData()
-        refreshControl.endRefreshing()
+        viewModel.refreshData { [weak self] error in
+            DispatchQueue.main.async {
+                self?.refreshControl.endRefreshing()
+            }
+        }
     }
     
     @objc func filterBtnTapped(_ sender: UIButton) {
         filterBtn.showsMenuAsPrimaryAction = true
         filterBtn.menu = UIMenu(children: [
-            // 貨號排序
-            UIAction(title: String(localized: "Article No: Ascending"), image: Images.arrowUp, handler: { [weak self] _ in
-                guard let self = self else { return }
-                // 直接設定 records
-                self.records = self.records.sorted { (record1: Record, record2: Record) in
-                    return record1.fields.articleNumber.compare(record2.fields.articleNumber,
-                                                                options: .numeric) == .orderedAscending
+            UIAction(
+                title: String(localized: "Article No: Ascending"),
+                image: Images.arrowUp,
+                handler: { [weak self] _ in
+                    self?.viewModel.sortRecords(by: .articleNumberAscending)
                 }
-            }),
-            
-            UIAction(title: String(localized: "Article No: Descending"), image: Images.arrowDown, handler: { [weak self] _ in
-                guard let self = self else { return }
-                self.records = self.records.sorted { (record1: Record, record2: Record) in
-                    return record1.fields.articleNumber.compare(record2.fields.articleNumber,
-                                                                options: .numeric) == .orderedDescending
+            ),
+            UIAction(
+                title: String(localized: "Article No: Descending"),
+                image: Images.arrowDown,
+                handler: { [weak self] _ in
+                    self?.viewModel.sortRecords(by: .articleNumberDescending)
                 }
-            }),
-            
-            // 名稱排序
-            UIAction(title: String(localized: "Name: A to Z"), image: Images.textFormatAbc, handler: { [weak self] _ in
-                guard let self = self else { return }
-                self.records = self.records.sorted { $0.fields.articleName < $1.fields.articleName }
-            }),
-            
-            // 數量排序
-            UIAction(title: String(localized: "Quantity: High to Low"), image: Images.number, handler: { [weak self] _ in
-                guard let self = self else { return }
-                self.records = self.records.sorted { $0.fields.Qty > $1.fields.Qty }
-            })
+            ),
+            UIAction(
+                title: String(localized: "Name: A to Z"),
+                image: Images.textFormatAbc,
+                handler: { [weak self] _ in
+                    self?.viewModel.sortRecords(by: .nameAToZ)
+                }
+            ),
+            UIAction(
+                title: String(localized: "Quantity: High to Low"),
+                image: Images.number,
+                handler: { [weak self] _ in
+                    self?.viewModel.sortRecords(by: .quantityHighToLow)
+                }
+            )
         ])
     }
     
-    private func fetchData() {
-        activityIndicator.startAnimating()
-        NetworkManager.shared.getProductData { [weak self] result in
-            guard let self = self else { return }
-            
-            DispatchQueue.main.async {
-                self.activityIndicator.stopAnimating()
-                
-                switch result {
-                case .success(let records):
-                    self.records = records
-                    self.filteredRecords = records
-                case .failure(let error):
-                    print("Error fetching data: \(error)")
-                }
+    private func fetchData(isInitialLoad: Bool = true) {
+        viewModel.fetchData(isInitialLoad: isInitialLoad) { error in
+            if let error = error {
+                print("Error fetching data: \(error)")
             }
         }
-    }
-    
-    private func performSearch(with searchText: String) {
-        guard !searchText.isEmpty else {
-            filteredRecords = records
-            tableView.reloadData()
-            return
-        }
-        
-        // 增加更多搜尋條件，讓搜尋更全面
-        filteredRecords = records.filter { record in
-            let articleNameMatch = record.fields.articleName.lowercased().contains(searchText.lowercased())
-            let articleNumberMatch = record.fields.articleNumber.lowercased().contains(searchText.lowercased())
-            // 如果有其他要搜尋的欄位也可以加在這裡
-            
-            return articleNameMatch || articleNumberMatch
-        }
-        tableView.reloadData()
     }
 }
 
 // MARK: - UITableViewDelegate, UITableViewDataSource
 extension ProductListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return searchController.isActive ? filteredRecords.count : records.count
+        return viewModel.numberOfItems
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ProductTableViewCell.identifier, for: indexPath) as! ProductTableViewCell
+        let cellViewModel = viewModel.cellViewModel(at: indexPath.row)
         
-        let record = searchController.isActive ? filteredRecords[indexPath.row] : records[indexPath.row]
-        cell.articleNumberLabel.text = record.fields.articleNumber
-        cell.productENNameLabel.text = record.fields.articleName
-        cell.productENNameLabel.text = record.fields.articleName
-        cell.qtyLabel.text = String(localized:"Stock Qty: \(record.fields.Qty)")
+        cell.articleNumberLabel.text = cellViewModel.articleNumber
+        cell.productENNameLabel.text = cellViewModel.articleName
+        cell.qtyLabel.text = cellViewModel.stockQuantity
         
-        if let imageUrlString = record.fields.image.last?.url,
-           let url = URL(string: imageUrlString) {
+        if let imageUrl = cellViewModel.imageUrl {
             cell.productImageView.kf.setImage(
-                with: url,
-                placeholder: UIImage(systemName: "photo.fill"),
-                options: [.transition(.fade(0.2)), .cacheOriginalImage]
+                with: imageUrl,
+                placeholder: Images.photoLibrary,
+                options: [
+                    .transition(
+                        .fade(
+                            0.2
+                        )
+                    ),
+                    .cacheOriginalImage
+                ]
             )
         }
+        
+        viewModel.loadMoreIfNeeded(at: indexPath.row) { [weak self] error in
+              if let error = error {
+                  print("Error loading more data: \(error)")
+                  return
+              }
+              DispatchQueue.main.async {
+                  self?.tableView.reloadData()
+              }
+          }
+        
         return cell
     }
     
@@ -263,42 +262,42 @@ extension ProductListViewController: UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        tableView.backgroundColor = Colors.lightGray
         
-        // 加入檢查
-        print("searchController.isActive: \(searchController.isActive)")
-        print("indexPath.row: \(indexPath.row)")
-        print("filteredRecords.count: \(filteredRecords.count)")
-        print("records.count: \(records.count)")
+        print(viewModel.debugInfo(for: indexPath.row))
         
-        let selectedRecord = searchController.isActive ? filteredRecords[indexPath.row] : records[indexPath.row]
+        let detailViewModel = viewModel.detailViewModel(at: indexPath.row)
         
-        // 印出完整的選中記錄
-        print("選中的記錄:")
-        print("Article Number: \(selectedRecord.fields.articleNumber)")
-        print("Article Name: \(selectedRecord.fields.articleName)")
-        print("Quantity: \(selectedRecord.fields.Qty)")
+        let productDetalVC = ProductDetailViewController()
+        productDetalVC.imageUrl = detailViewModel.imageUrl
+        productDetalVC.productTitle = detailViewModel.productTitle
+        productDetalVC.articleNumber = detailViewModel.articleNumber
+        productDetalVC.qty = detailViewModel.quantityText
         
-        let productDetailVC = ProductDetailViewController()
-        productDetailVC.imageUrl = selectedRecord.fields.image.last?.url
-        productDetailVC.productTitle = selectedRecord.fields.articleName
-        productDetailVC.articleNumber = selectedRecord.fields.articleNumber
-        productDetailVC.qty = "Qty: \(selectedRecord.fields.Qty) pcs"
-        
-        self.navigationController?.pushViewController(productDetailVC, animated: true)
+        self.navigationController?.pushViewController(productDetalVC, animated: true)
     }
 }
 
 // MARK: - UISearchBarDelegate
 extension ProductListViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        performSearch(with: searchText)
-        print("searchBar textDidChange")
+        viewModel.isSearching = !searchText.isEmpty
+        viewModel.filterContent(with: searchText)
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchText = searchBar.text else { return }
-        performSearch(with: searchText)
+        viewModel.isSearching = !searchText.isEmpty
+        viewModel.filterContent(with: searchText)
         searchBar.resignFirstResponder() // 收起鍵盤
+    }
+}
+
+extension ProductListViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let searchText = searchController.searchBar.text else { return }
+        viewModel.isSearching = !searchText.isEmpty
+        viewModel.filterContent(with: searchText)
     }
 }
 
