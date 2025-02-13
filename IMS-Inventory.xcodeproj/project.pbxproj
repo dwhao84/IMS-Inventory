@@ -277,13 +277,6 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
-		D3D6CBBB2CFAB3AB0019CBA5 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		D3E2B6752AFB7E9D00C932E7 = {
 			isa = PBXGroup;
 			children = (
@@ -292,7 +285,6 @@
 				D3E2B6A12AFB7E9F00C932E7 /* IMS-InventoryUITests */,
 				D38026932D2ED51D00649782 /* Push Notifications */,
 				D3E2B67F2AFB7E9D00C932E7 /* Products */,
-				D3D6CBBB2CFAB3AB0019CBA5 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
